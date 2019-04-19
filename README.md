@@ -13,7 +13,7 @@ Device Info is a simple and powerful Android application which gives you the com
 - Android 5+ Device
 
 ### Changelog
-#### Device Info 1.7.2
+#### Device Info 1.7.4
 - Bug fixes
 
 #### Device Info 1.7.2
