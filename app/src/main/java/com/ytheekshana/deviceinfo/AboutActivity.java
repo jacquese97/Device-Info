@@ -1,5 +1,6 @@
 package com.ytheekshana.deviceinfo;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,19 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.preference.PreferenceManager;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
+
 import java.util.Objects;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AboutActivity extends AppCompatActivity {
     Context context;
@@ -62,6 +64,19 @@ public class AboutActivity extends AppCompatActivity {
             Snackbar snackAuthor = Snackbar.make(view, "Created by Ytheekshana", Snackbar.LENGTH_LONG);
             SnackbarHelper.configSnackbar(context, snackAuthor);
             snackAuthor.show();
+        });
+        Button btnExportData = findViewById(R.id.btnExport);
+        btnExportData.setOnClickListener(view -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Permissions.check(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, null, new PermissionHandler() {
+                    @Override
+                    public void onGranted() {
+                        ExportDetails.export(context,view);
+                    }
+                });
+            } else {
+                ExportDetails.export(context,view);
+            }
         });
     }
 }

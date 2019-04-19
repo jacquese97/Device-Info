@@ -13,39 +13,12 @@ Device Info is a simple and powerful Android application which gives you the com
 - Android 5+ Device
 
 ### Changelog
+#### Device Info 1.7.2
+- Export Information
+- Bug fixes in Fingerprint test
+
 #### Device Info 1.7.0
 - Camera Information
 - Thermal Information
 - Improved Code
 - Fixed bugs
-
-#### Device Info 1.6.5
-- Search apps in app list
-- Support development
-- Improved UI
-- Fixed bugs
-
-#### Device Info 1.5.7
-- Uninstall/disable apps directly from app list
-- Improved UI
-- Fixed bugs
-- Migrated to AndroidX
-
-#### Device Info 1.5.6
-- Added Light sensor, Bluetooth, Fingerprint & Wi-Fi tests
-- Fixed bugs in Flashlight test for Lollipop
-- Improved UI
-
-#### Device Info 1.5.0
-- Added Service Tests
-- Fixed bugs in dark mode
-- Improved UI
-
-#### Device Info 1.4.0
-- New Splash Screen
-- Fixed lag between tabs
-- Improved Icon
-- Bug fixes
-
-#### Device Info 1.0
-- Initial release

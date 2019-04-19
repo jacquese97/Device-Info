@@ -6,18 +6,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
-import android.telephony.TelephonyManager;
-
-import androidx.annotation.AttrRes;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,6 +33,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 public class GetDetails {
 
@@ -201,7 +202,7 @@ public class GetDetails {
                     e.printStackTrace();
                 }
 
-                String cpuinfo[] = sb.toString().split(":");
+                String[] cpuinfo = sb.toString().split(":");
                 for (int a = 0; a < cpuinfo.length; a++) {
                     if (cpuinfo[a].toLowerCase().contains("processor")) {
                         int getlastindex = cpuinfo[a + 1].indexOf("ndeviceinfo");
@@ -247,7 +248,7 @@ public class GetDetails {
                     e.printStackTrace();
                 }
 
-                String cpuinfo[] = sb.toString().split(":");
+                String[] cpuinfo = sb.toString().split(":");
                 for (int a = 0; a < cpuinfo.length; a++) {
                     if (cpuinfo[a].toLowerCase().contains("hardware")) {
                         int getlastindex = cpuinfo[a + 1].indexOf("ndeviceinfo");
@@ -366,6 +367,58 @@ public class GetDetails {
         return Type;
     }
 
+    static String getBatteryStatus(int batstatus) {
+        String batstatusdis;
+        if (batstatus == BatteryManager.BATTERY_STATUS_CHARGING) {
+            batstatusdis = "Charging";
+        } else if (batstatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
+            batstatusdis = "Discharging";
+        } else if (batstatus == BatteryManager.BATTERY_STATUS_FULL) {
+            batstatusdis = "Battery Full";
+        } else if (batstatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
+            batstatusdis = "Unknown";
+        } else if (batstatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+            batstatusdis = "Not Charging";
+        } else {
+            batstatusdis = "Not Available";
+        }
+        return batstatusdis;
+    }
+
+    static String getBatteryPowerSource(int batpowersource) {
+        String batpowersourcedis;
+        if (batpowersource == BatteryManager.BATTERY_PLUGGED_USB) {
+            batpowersourcedis = "USB Port";
+        } else if (batpowersource == BatteryManager.BATTERY_PLUGGED_AC) {
+            batpowersourcedis = "AC";
+        } else {
+            batpowersourcedis = "Battery";
+        }
+        return batpowersourcedis;
+    }
+
+    static String getBatteryHealth(int bathealth) {
+        String bathealthdis;
+        if (bathealth == BatteryManager.BATTERY_HEALTH_COLD) {
+            bathealthdis = "Cold";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_DEAD) {
+            bathealthdis = "Dead";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_GOOD) {
+            bathealthdis = "Good";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE) {
+            bathealthdis = "Over Voltage";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVERHEAT) {
+            bathealthdis = "Overheat";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNKNOWN) {
+            bathealthdis = "Unknown";
+        } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE) {
+            bathealthdis = "Failure";
+        } else {
+            bathealthdis = "Not Available";
+        }
+        return bathealthdis;
+    }
+
     static boolean isRooted() {
         String buildTags = android.os.Build.TAGS;
         return buildTags != null && buildTags.contains("test-keys") || canExecuteCommand("/system/xbin/which su") || canExecuteCommand("/system/bin/which su") || canExecuteCommand("which su");
@@ -439,8 +492,6 @@ public class GetDetails {
     static String[] getStorageDirectories(Context context) {
         String[] storageDirectories;
         String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
-
-
         List<String> results = new ArrayList<>();
         File[] externalDirs = context.getExternalFilesDirs(null);
         for (File file : externalDirs) {
@@ -451,7 +502,6 @@ public class GetDetails {
             }
         }
         storageDirectories = results.toArray(new String[0]);
-
         return storageDirectories;
     }
 
@@ -671,6 +721,14 @@ public class GetDetails {
         return Color.parseColor(colorThemeColor2.get(colorThemeColor.indexOf(getHex)));
     }
 
+    static int adjustAlpha(@ColorInt int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     static void copy(File src, File dst) {
         try (InputStream in = new FileInputStream(src)) {
             try (OutputStream out = new FileOutputStream(dst)) {
@@ -886,17 +944,16 @@ public class GetDetails {
     }
 
     static String getCameraMP(Size[] size) {
-        Size first = size[0];
-        if (size.length > 1) {
-            Size second = size[size.length - 1];
-            if (first.getWidth() > second.getWidth()) {
-                return getMP(first, 1);
-            } else {
-                return getMP(second, 1);
+        String finalCameraRes = getMP(size[0], 1);
+        int maxSize = size[0].getHeight() * size[0].getWidth();
+        for (Size camSize : size) {
+            int tempMax = camSize.getHeight() * camSize.getWidth();
+            if (tempMax > maxSize) {
+                maxSize = tempMax;
+                finalCameraRes = getMP(camSize, 1);
             }
-        } else {
-            return getMP(first, 1);
         }
+        return finalCameraRes;
     }
 
     static String getCameraResolution(Size[] size) {
@@ -924,7 +981,7 @@ public class GetDetails {
         }
     }
 
-    static String getFormattedTemp(String zoneValue) {
+    private static String getFormattedTemp(String zoneValue) {
         double finalTemp;
         int val = Integer.parseInt(zoneValue.trim());
         if (val >= 10000) {
@@ -938,5 +995,30 @@ public class GetDetails {
         }
         finalTemp = Math.abs(finalTemp);
         return new DecimalFormat("##.#").format(finalTemp) + " \u2103";
+    }
+
+    static ArrayList<ThermalInfo> loadThermal() {
+        ArrayList<ThermalInfo> thermalList = new ArrayList<>();
+        File dir = new File("/sys/devices/virtual/thermal/");
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                try {
+                    File tempFileValue = new File(file.getAbsolutePath() + "/temp");
+                    File tempFileName = new File(file.getAbsolutePath() + "/type");
+                    BufferedReader bufferedReaderValue = new BufferedReader(new FileReader(tempFileValue));
+                    BufferedReader bufferedReaderName = new BufferedReader(new FileReader(tempFileName));
+                    String lineName = bufferedReaderName.readLine();
+                    String lineValue = bufferedReaderValue.readLine();
+                    if (!lineValue.trim().equals("0")) {
+                        thermalList.add(new ThermalInfo(lineName, GetDetails.getFormattedTemp(lineValue)));
+                    }
+                    bufferedReaderName.close();
+                    bufferedReaderValue.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        return thermalList;
     }
 }

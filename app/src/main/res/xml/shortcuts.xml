@@ -1,8 +1,8 @@
-<shortcuts xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_action_about_dark"
+        android:icon="@drawable/shortcut_about"
         android:shortcutDisabledMessage="@string/about_disabled_message"
         android:shortcutId="shortcutAbout"
         android:shortcutLongLabel="@string/about_shortcut_long_label"
@@ -16,7 +16,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_action_donate_dark"
+        android:icon="@drawable/shortcut_donate"
         android:shortcutDisabledMessage="@string/donate_disabled_message"
         android:shortcutId="shortcutDonate"
         android:shortcutLongLabel="@string/donate_shortcut_long_label"

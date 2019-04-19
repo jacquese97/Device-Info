@@ -129,7 +129,6 @@ public class tabApps extends Fragment implements SearchView.OnQueryTextListener 
         }
 
         swipeapplist.setOnRefreshListener(() -> {
-            //new Thread(loadApps).start();
             if (appAdapter instanceof AppAdapter) {
                 reloadAppList();
             }
@@ -188,9 +187,8 @@ public class tabApps extends Fragment implements SearchView.OnQueryTextListener 
                     CharSequence name1 = arg1.applicationInfo.loadLabel(pm);
                     return name0.toString().compareTo(name1.toString());
                 });
-                for (int i = 0; i < packs.size(); i++) {
-                    PackageInfo p = packs.get(i);
-                    if ((!isSystemPackage(p))) {
+                for (PackageInfo p : packs) {
+                    if (!isSystemPackage(p)) {
                         String appName = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
                         String packageName = p.applicationInfo.packageName;
                         String appVersion = "Version : " + p.versionName;

@@ -53,7 +53,7 @@ public class LightSensorTestActivity extends AppCompatActivity implements Sensor
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_light_sensor);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             sharedPrefs = getSharedPreferences("tests", MODE_PRIVATE);
@@ -104,7 +104,7 @@ public class LightSensorTestActivity extends AppCompatActivity implements Sensor
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-            String value = String.valueOf(event.values[0]) + " lx";
+            String value = event.values[0] + " lx";
             txtLightValue.setText(value);
         }
     }

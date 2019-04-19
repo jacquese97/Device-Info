@@ -25,6 +25,14 @@
             android:summary="/emulated/0/DeviceInfo"
             android:title="Extract Location" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Export">
+
+        <Preference
+            android:key="pref_export_data"
+            android:icon="@drawable/ic_export"
+            android:summary="Save your device information to a text file"
+            android:title="Export Data" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="Support Us">
 
         <Preference

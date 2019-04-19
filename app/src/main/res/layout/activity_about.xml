@@ -122,5 +122,17 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btnExport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnDonate"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/google"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="Export Data" />
+
     </RelativeLayout>
 </ScrollView>

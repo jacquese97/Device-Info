@@ -48,7 +48,7 @@ public class VolumeDownTestActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_volume_down);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             sharedPrefs = getSharedPreferences("tests", MODE_PRIVATE);

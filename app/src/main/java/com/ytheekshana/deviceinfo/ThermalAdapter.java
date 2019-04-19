@@ -22,7 +22,7 @@ public class ThermalAdapter extends RecyclerView.Adapter<ThermalAdapter.ViewHold
         mDataSet = list;
     }
 
-    void updateEmployeeListItems(ArrayList<ThermalInfo> thermal) {
+    void updateThermalListItems(ArrayList<ThermalInfo> thermal) {
         final ThermalDiffCallback diffCallback = new ThermalDiffCallback(this.mDataSet, thermal);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.mDataSet.clear();

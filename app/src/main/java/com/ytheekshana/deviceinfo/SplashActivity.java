@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.jaredrummler.android.device.DeviceName;
 
 import java.io.RandomAccessFile;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -45,13 +46,13 @@ import javax.microedition.khronos.opengles.GL10;
 public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
     public static String deviceName, wifiMac, bluetoothMac, usbHost, glVersion, androidRuntime, kernelVersion,
             selinuxMode, processorName, cpuABIs, processorHardware, cpuGovernor, gpuRenderer, gpuVendor, gpuVersion,
-            batteryCapacity, displaySize, displayOrientation, displayPhysicalSize, romPath, internalStoragePath,
+            batteryCapacity, displayRefreshRate, displaySize, displayOrientation, displayPhysicalSize, romPath, internalStoragePath,
             externalStoragePath;
 
     public static boolean rootedStatus;
     public static double cpuMaxFreq, cpuMinFreq, displayDensity;
     public static int displayHeight, displayWidth, displayDensityDPI, numberOfInstalledApps, numberOfSensors;
-    public static float diplayRefreshRate, fontSize;
+    public static float fontSize;
 
     public static double totalRam, availableRam, usedRam, usedRamPercentage;
     public static double totalRom, availableRom, usedRom, usedRomPercentage;
@@ -87,7 +88,7 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
 
         RelativeLayout relativeLayout = findViewById(R.id.mainlayout_Splash);
         //relativeLayout.setBackgroundColor(themeColor);
-        int abc[] = {themeColorDark, themeColor};
+        int[] abc = {themeColorDark, themeColor};
         GradientDrawable splashGradient = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, abc);
         relativeLayout.setBackground(splashGradient);
 
@@ -213,12 +214,11 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 activity.getWindowManager().getDefaultDisplay().getMetrics(getDisplay);
                 WindowManager windowManager = activity.getWindowManager();
                 Display display1 = windowManager.getDefaultDisplay();
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                display1.getMetrics(displayMetrics);
                 Point realSize = new Point();
-                Display.class.getMethod("getRealSize", Point.class).invoke(display1, realSize);
+                display1.getRealSize(realSize);
                 displayHeight = realSize.y;
                 displayWidth = realSize.x;
+
                 displayDensityDPI = getDisplay.densityDpi;
                 displayDensity = (double) getDisplay.density;
                 displaySize = "";
@@ -236,7 +236,7 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                     displaySize = "LDPI";
                 }
                 Display display = ((WindowManager) Objects.requireNonNull(activity.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay();
-                diplayRefreshRate = display.getRefreshRate();
+                displayRefreshRate = String.format(Locale.US,"%.1f", display.getRefreshRate());
                 int orie = activity.getResources().getConfiguration().orientation;
                 if (orie == Configuration.ORIENTATION_PORTRAIT) {
                     displayOrientation = "Portrait";
@@ -259,7 +259,7 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 publishProgress(60 * 10);
 
                 //Memory
-                MemoryInfo memoryInfo = new MemoryInfo(activity, context);
+                MemoryInfo memoryInfo = new MemoryInfo(context);
                 memoryInfo.Ram();
                 memoryInfo.Rom();
                 memoryInfo.InternalStorage();
@@ -283,9 +283,8 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 romPath = memoryInfo.getRomPath();
                 internalStoragePath = memoryInfo.getInternalStoragePath();
                 externalStoragePath = memoryInfo.getExternalStoragePath();
-                Thread.sleep(threadSleepAmount);
                 publishProgress(70 * 10);
-
+                Thread.sleep(threadSleepAmount);
 
             } catch (Exception ex) {
                 ex.printStackTrace();

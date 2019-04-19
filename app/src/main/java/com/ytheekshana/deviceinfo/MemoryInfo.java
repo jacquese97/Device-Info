@@ -1,6 +1,5 @@
 package com.ytheekshana.deviceinfo;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Environment;
@@ -9,7 +8,6 @@ import android.os.StatFs;
 import androidx.core.content.ContextCompat;
 
 class MemoryInfo {
-    private Activity activity;
     private Context context;
     private double totalRam, availableRam, usedRam, usedRamPercentage;
     private double totalRom, availableRom, usedRom, usedRomPercentage;
@@ -17,15 +15,14 @@ class MemoryInfo {
     private double totalInternalStorage, availableInternalStorage, usedInternalStorage, usedInternalPercentage;
     private double totalExternalStorage, availableExternalStorage, usedExternalStorage, usedExternalPercentage;
 
-    MemoryInfo(Activity activity, Context context) {
-        this.activity = activity;
+    MemoryInfo(Context context) {
         this.context = context;
     }
 
     void Ram() {
         try {
             ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-            ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
             assert activityManager != null;
             activityManager.getMemoryInfo(mi);
             availableRam = (double) (mi.availMem / 1024 / 1024);

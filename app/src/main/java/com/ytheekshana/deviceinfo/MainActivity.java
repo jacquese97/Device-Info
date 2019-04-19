@@ -1,33 +1,37 @@
 package com.ytheekshana.deviceinfo;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
     NotificationCompat.Builder mBuilder;
@@ -36,16 +40,18 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPrefs;
     SharedPreferences.Editor editor;
     ViewPager mViewPager;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        context = this;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int themeId = sharedPrefs.getInt("ThemeNoBar", R.style.AppTheme_NoActionBar);
         requestReviewCount = sharedPrefs.getInt("requestReviewCount", 0);
         themeColor = sharedPrefs.getInt("accent_color_dialog", Color.parseColor("#2196f3"));
-        themeColorDark = GetDetails.getDarkColor(this, themeColor);
-        themeColor2 = GetDetails.getDarkColor2(this, themeColor);
+        themeColorDark = GetDetails.getDarkColor(context, themeColor);
+        themeColor2 = GetDetails.getDarkColor2(context, themeColor);
         setTheme(themeId);
 
         super.onCreate(savedInstanceState);
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(getString(R.string.app_name), icon, themeColor);
         setTaskDescription(taskDescription);
 
-        /*mBuilder = new NotificationCompat.Builder(this, "1")
+        /*mBuilder = new NotificationCompat.Builder(context, "1")
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.cpu)
                 .setContentTitle("Device Info")
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         editor = sharedPrefs.edit();
         boolean requestReview = sharedPrefs.getBoolean("RequestReview", false);
         if (!requestReview) {
@@ -125,12 +131,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about: {
-                Intent intent = new Intent(this, AboutActivity.class);
+                Intent intent = new Intent(context, AboutActivity.class);
                 startActivity(intent);
                 return true;
             }
             case R.id.action_donate: {
-                Intent intent = new Intent(this, DonateActivity.class);
+                Intent intent = new Intent(context, DonateActivity.class);
                 startActivity(intent);
                 return true;
             }
@@ -142,20 +148,33 @@ public class MainActivity extends AppCompatActivity {
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     } else {
-                        Toast.makeText(this, "Google Play Store not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Google Play Store not found", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 } catch (ActivityNotFoundException ex) {
                     ex.printStackTrace();
-                    Toast.makeText(this, "Intall Google Play Services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Intall Google Play Services", Toast.LENGTH_SHORT).show();
                 }
 
             }
             case R.id.action_settings: {
-                Intent intent = new Intent(this, SettingsActivity.class);
+                Intent intent = new Intent(context, SettingsActivity.class);
                 startActivity(intent);
-                this.finish();
+                finish();
                 return true;
+            }
+            case R.id.action_export: {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Permissions.check(context, Manifest.permission.WRITE_EXTERNAL_STORAGE, null, new PermissionHandler() {
+                        @Override
+                        public void onGranted() {
+                            ExportDetails.export(context, findViewById(R.id.cordmain));
+                        }
+                    });
+                } else {
+                    ExportDetails.export(context, findViewById(R.id.cordmain));
+                }
             }
         }
         return super.onOptionsItemSelected(item);

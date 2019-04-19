@@ -54,7 +54,7 @@ public class WifiTestActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_wifi);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             imgWifiImage = findViewById(R.id.imgWifiImage);

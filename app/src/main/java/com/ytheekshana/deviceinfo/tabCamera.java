@@ -1,14 +1,6 @@
 package com.ytheekshana.deviceinfo;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
@@ -22,18 +14,19 @@ import android.util.SizeF;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
-import com.nabinbhandari.android.permissions.PermissionHandler;
-import com.nabinbhandari.android.permissions.Permissions;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class tabCamera extends Fragment {
     Context context;
@@ -65,30 +58,9 @@ public class tabCamera extends Fragment {
             textDisColor = MainActivity.themeColor;
             lineColor = GetDetails.getThemeColor(Objects.requireNonNull(getContext()), R.attr.colorButtonNormal);
 
-            HorizontalScrollView scrollViewCamera = rootView.findViewById(R.id.scrollViewCamera);
             cameraButtonGroup = rootView.findViewById(R.id.cameraButtonGroup);
             recyclerCamera = rootView.findViewById(R.id.recyclerCamera);
-            Button btnCameraPermission = rootView.findViewById(R.id.btnCameraPermission);
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                btnCameraPermission.setVisibility(View.VISIBLE);
-                scrollViewCamera.setVisibility(View.GONE);
-                recyclerCamera.setVisibility(View.GONE);
-            } else {
-                btnCameraPermission.setVisibility(View.GONE);
-                scrollViewCamera.setVisibility(View.VISIBLE);
-                recyclerCamera.setVisibility(View.VISIBLE);
-                loadCameraAll();
-            }
-            btnCameraPermission.setOnClickListener(view -> Permissions.check(context, Manifest.permission.CAMERA, null, new PermissionHandler() {
-                @Override
-                public void onGranted() {
-                    Objects.requireNonNull(getFragmentManager()).beginTransaction().detach(tabCamera.this).attach(tabCamera.this).commit();
-                }
-
-                @Override
-                public void onDenied(Context context, ArrayList<String> deniedPermissions) {
-                }
-            }));
+            loadCameraAll();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -148,7 +120,7 @@ public class tabCamera extends Fragment {
                 CameraButton cameraButton = new CameraButton(context);
                 cameraButton.setMp(GetDetails.getCameraMP(sizes) + " - " + lens);
                 cameraButton.setResolution(GetDetails.getCameraResolution(sizes));
-                cameraButton.setFlength(String.valueOf(Objects.requireNonNull(flenths)[0]) + "mm");
+                cameraButton.setFlength(Objects.requireNonNull(flenths)[0] + "mm");
                 cameraButton.setCameraId(cameraId);
                 if (a == 0) {
                     cameraButton.setChecked(true);
@@ -404,7 +376,7 @@ public class tabCamera extends Fragment {
         } else if (key == CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES) {
             Size[] character = (Size[]) characteristics.get(key);
             for (Size size : character != null ? character : new Size[0]) {
-                values.add(String.valueOf(size.getWidth()) + " x " + String.valueOf(size.getHeight()));
+                values.add(size.getWidth() + " x " + size.getHeight());
             }
         } else if (key == CameraCharacteristics.LENS_FACING) {
             int character = (int) characteristics.get(key);
@@ -430,7 +402,7 @@ public class tabCamera extends Fragment {
         } else if (key == CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS) {
             float[] floatChar = (float[]) characteristics.get(key);
             for (float character : floatChar != null ? floatChar : new float[0]) {
-                values.add(String.valueOf(character) + "mm");
+                values.add(character + "mm");
             }
         } else if (key == CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION) {
             int[] intChar = (int[]) characteristics.get(key);
@@ -506,7 +478,7 @@ public class tabCamera extends Fragment {
             StreamConfigurationMap character = (StreamConfigurationMap) characteristics.get(key);
             Size[] intArray = Objects.requireNonNull(character).getOutputSizes(ImageFormat.JPEG);
             for (Size size : intArray) {
-                values.add(GetDetails.getMP(size, 2) + " - " + String.valueOf(size.getWidth()) + " x " + String.valueOf(size.getHeight()));
+                values.add(GetDetails.getMP(size, 2) + " - " + size.getWidth() + " x " + size.getHeight());
             }
         } else if (key == CameraCharacteristics.SCALER_CROPPING_TYPE) {
             int character = (int) characteristics.get(key);
@@ -557,10 +529,10 @@ public class tabCamera extends Fragment {
             values.add(String.format(Locale.US, "%.2f", Objects.requireNonNull(character).getWidth()) + " x " + String.format(Locale.US, "%.2f", character.getHeight()));
         } else if (key == CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE) {
             Size size = (Size) characteristics.get(key);
-            values.add(String.valueOf(Objects.requireNonNull(size).getWidth()) + " x " + String.valueOf(size.getHeight()));
+            values.add(Objects.requireNonNull(size).getWidth() + " x " + size.getHeight());
         } else if (key == CameraCharacteristics.SENSOR_ORIENTATION) {
             int character = (int) characteristics.get(key);
-            values.add(String.valueOf(character) + " deg");
+            values.add(character + " deg");
         } else if (key == CameraCharacteristics.STATISTICS_INFO_AVAILABLE_FACE_DETECT_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
@@ -574,11 +546,12 @@ public class tabCamera extends Fragment {
             }
         }
 
+        String substring = values.toString().substring(1, values.toString().length() - 1);
         if (key == CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP || key == CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES) {
-            return (values.toString().substring(1, values.toString().length() - 1)).replace(", ", "\n");
+            return substring.replace(", ", "\n");
 
         } else {
-            return values.toString().substring(1, values.toString().length() - 1);
+            return substring;
         }
     }
 

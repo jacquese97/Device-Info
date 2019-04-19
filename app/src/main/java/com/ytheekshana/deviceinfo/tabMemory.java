@@ -58,12 +58,12 @@ public class tabMemory extends Fragment {
             DrawableCompat.setTint(progressInStorage.getProgressDrawable(), getResources().getColor(R.color.progress_insto));
             DrawableCompat.setTint(progressExStorage.getProgressDrawable(), getResources().getColor(R.color.progress_exsto));
 
-            final MemoryInfo memoryInfo = new MemoryInfo(getActivity(), getContext());
+            final MemoryInfo memoryInfo = new MemoryInfo(getContext());
             final Handler updateRam = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
                     memoryInfo.Ram();
-                    String ramStatus = Double.toString(memoryInfo.getUsedRam()) + "MB used of " + Double.toString(memoryInfo.getTotalRam()) + "MB";
+                    String ramStatus = memoryInfo.getUsedRam() + "MB used of " + memoryInfo.getTotalRam() + "MB";
                     txtRAMStatus.setText(ramStatus);
                     progressRam.setProgress((int) memoryInfo.getUsedRamPercentage());
                     updateRam.postDelayed(this, 1000);

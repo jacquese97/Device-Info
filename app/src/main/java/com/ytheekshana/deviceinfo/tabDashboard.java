@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.mikephil.charting.charts.LineChart;
@@ -38,24 +41,38 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class tabDashboard extends Fragment {
-    private TextView txtUsedRam, txtFreeRam, txtBatteryPerce, txtBatteryStatus, txtCPUPerce;
-    private ProgressBar ProgressBarBattery, ProgressBarCPU;
-    private int startExStorage, usagecpu;
-    private CPUUsage cu2;
-    private String cUsage;
-    private Timer timercUsage;
+    private TextView txtUsedRam, txtFreeRam, txtBatteryPerce, txtBatteryStatus, txtSensorCount, txtAppCount, txtBatteryTitle;
+    private ProgressBar progressBarRom, progressBarInStorage, progressBarExStorage, progressBarBattery;
+    private int startRAM, startROM, startInStorage, startExStorage, batlevel;
     private ArcProgress arcProgressRam;
     private LineChart lineChartRam;
     private float usedRam = 0;
     private Handler handlerChart, handlerRam;
     private Runnable runnableChart;
+    private RecyclerView recyclerCPU;
+    private ArrayList<CPUCoreInfo> cpuCoreList, cpuCoreList2;
+    private CPUCoreAdapter cpuCoreAdapter;
+    private ScheduledExecutorService scheduledExecutorService;
+    private Context batteryContext;
+
+    @Override
+    public void onDestroyView() {
+        if (scheduledExecutorService != null) {
+            scheduledExecutorService.shutdownNow();
+        }
+        super.onDestroyView();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -67,7 +84,7 @@ public class tabDashboard extends Fragment {
             ImageView imgInStorage = rootView.findViewById(R.id.imageInStorage);
             ImageView imgExStorage = rootView.findViewById(R.id.imageExStorage);
             ImageView imgBattery = rootView.findViewById(R.id.imageBattery);
-            ImageView imgCPU = rootView.findViewById(R.id.imageCPU);
+
             ImageView imgSensor = rootView.findViewById(R.id.imageSensor);
             ImageView imgApps = rootView.findViewById(R.id.imageApps);
 
@@ -76,14 +93,8 @@ public class tabDashboard extends Fragment {
             imgInStorage.setColorFilter(accentFilter);
             imgExStorage.setColorFilter(accentFilter);
             imgBattery.setColorFilter(accentFilter);
-            imgCPU.setColorFilter(accentFilter);
             imgSensor.setColorFilter(accentFilter);
             imgApps.setColorFilter(accentFilter);
-
-            IntentFilter batteryIntentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Context batteryContext = Objects.requireNonNull(getActivity()).getApplicationContext();
-            batteryContext.registerReceiver(batteryBroadcastReceiver, batteryIntentFilter);
-            cu2 = new CPUUsage();
 
             CardView cardviewRam = rootView.findViewById(R.id.cardviewRam);
             cardviewRam.setCardBackgroundColor(MainActivity.themeColor);
@@ -92,7 +103,6 @@ public class tabDashboard extends Fragment {
             final CardView cardInternalStorage = rootView.findViewById(R.id.cardviewInStorage);
             final CardView cardExternalStorage = rootView.findViewById(R.id.cardviewExStorage);
             final CardView cardBattery = rootView.findViewById(R.id.cardviewBattery);
-            final CardView cardCpu = rootView.findViewById(R.id.cardviewCPU);
             final CardView cardSensor = rootView.findViewById(R.id.cardviewSensor);
             final CardView cardApps = rootView.findViewById(R.id.cardviewApp);
 
@@ -103,14 +113,13 @@ public class tabDashboard extends Fragment {
             TextView txtRomStatus = rootView.findViewById(R.id.txtROMStatus);
             txtBatteryPerce = rootView.findViewById(R.id.txtBatteryPerc);
             txtBatteryStatus = rootView.findViewById(R.id.txtBatteryStatus);
+            txtBatteryTitle = rootView.findViewById(R.id.txtBatteryTitle);
             TextView txtInStoragePerce = rootView.findViewById(R.id.txtInStoragePerc);
             TextView txtInStorageStatus = rootView.findViewById(R.id.txtInStorageStatus);
             TextView txtExStoragePerce = rootView.findViewById(R.id.txtExStoragePerc);
             TextView txtExStorageStatus = rootView.findViewById(R.id.txtExStorageStatus);
-            txtCPUPerce = rootView.findViewById(R.id.txtCPUPerc);
-            TextView txtCPUStatus = rootView.findViewById(R.id.txtCPUStatus);
-            TextView txtSensorCount = rootView.findViewById(R.id.txtSensorCount);
-            TextView txtAppCount = rootView.findViewById(R.id.txtAppCount);
+            txtSensorCount = rootView.findViewById(R.id.txtSensorCount);
+            txtAppCount = rootView.findViewById(R.id.txtAppCount);
 
             lineChartRam = rootView.findViewById(R.id.lineChartRam);
             lineChartRam.setDrawGridBackground(false);
@@ -137,27 +146,19 @@ public class tabDashboard extends Fragment {
             arcProgressRam = rootView.findViewById(R.id.arcProgressRam);
             arcProgressRam.setUnfinishedStrokeColor(MainActivity.themeColorDark);
 
-            ProgressBar progressBarRom = rootView.findViewById(R.id.progressRom);
+            progressBarRom = rootView.findViewById(R.id.progressRom);
             DrawableCompat.setTint(progressBarRom.getProgressDrawable(), MainActivity.themeColor);
 
-            ProgressBarBattery = rootView.findViewById(R.id.progressBattery);
-            DrawableCompat.setTint(ProgressBarBattery.getProgressDrawable(), MainActivity.themeColor);
+            progressBarBattery = rootView.findViewById(R.id.progressBattery);
+            DrawableCompat.setTint(progressBarBattery.getProgressDrawable(), MainActivity.themeColor);
 
-            ProgressBar progressBarInStorage = rootView.findViewById(R.id.progressInStorage);
+            progressBarInStorage = rootView.findViewById(R.id.progressInStorage);
             DrawableCompat.setTint(progressBarInStorage.getProgressDrawable(), MainActivity.themeColor);
 
-            ProgressBar progressBarExStorage = rootView.findViewById(R.id.progressExStorage);
+            progressBarExStorage = rootView.findViewById(R.id.progressExStorage);
             DrawableCompat.setTint(progressBarExStorage.getProgressDrawable(), MainActivity.themeColor);
 
-            ProgressBarCPU = rootView.findViewById(R.id.progressCPU);
-            DrawableCompat.setTint(ProgressBarCPU.getProgressDrawable(), MainActivity.themeColor);
-
-            int startCPU = cu2.getTotalCpuUsage();
-
-            animateTextView(SplashActivity.numberOfInstalledApps, txtAppCount);
-            animateTextView(SplashActivity.numberOfSensors, txtSensorCount);
-
-            int startRAM = (int) SplashActivity.usedRamPercentage;
+            startRAM = (int) SplashActivity.usedRamPercentage;
             txtUsedRam.setText(String.valueOf((int) SplashActivity.usedRam));
             txtFreeRam.setText(String.valueOf((int) SplashActivity.availableRam));
             usedRam = (float) SplashActivity.usedRam;
@@ -167,16 +168,16 @@ public class tabDashboard extends Fragment {
             ssTotalRam.setSpan(new RelativeSizeSpan(0.7f), totalRamSpan.length() - 8, totalRamSpan.length(), 0); // set size
             txtTotalRam.setText(ssTotalRam);
 
-            int startROM = (int) SplashActivity.usedRomPercentage;
+            startROM = (int) SplashActivity.usedRomPercentage;
             String setRom = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableRom) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalRom) + " GB";
             txtRomStatus.setText(setRom);
-            String storage_percentageRom = String.valueOf((int) SplashActivity.usedRomPercentage) + "%";
+            String storage_percentageRom = (int) SplashActivity.usedRomPercentage + "%";
             txtRomPerce.setText(storage_percentageRom);
 
-            int startInStorage = (int) SplashActivity.usedInternalPercentage;
+            startInStorage = (int) SplashActivity.usedInternalPercentage;
             String setInStorage = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableInternalStorage) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalInternalStorage) + " GB";
             txtInStorageStatus.setText(setInStorage);
-            String in_storage_percentage = String.valueOf((int) SplashActivity.usedInternalPercentage) + "%";
+            String in_storage_percentage = (int) SplashActivity.usedInternalPercentage + "%";
             txtInStoragePerce.setText(in_storage_percentage);
 
             if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) && ContextCompat.getExternalFilesDirs(Objects.requireNonNull(getContext()), null).length >= 2) {
@@ -184,13 +185,13 @@ public class tabDashboard extends Fragment {
                 startExStorage = (int) SplashActivity.usedExternalPercentage;
                 String setExStorage = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableExternalStorage) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalExternalStorage) + " GB";
                 txtExStorageStatus.setText(setExStorage);
-                String ex_storage_percentage = String.valueOf((int) SplashActivity.usedExternalPercentage) + "%";
+                String ex_storage_percentage = (int) SplashActivity.usedExternalPercentage + "%";
                 txtExStoragePerce.setText(ex_storage_percentage);
             } else {
                 cardExternalStorage.setVisibility(View.GONE);
             }
 
-            final MemoryInfo memoryInfo = new MemoryInfo(getActivity(), getContext());
+            final MemoryInfo memoryInfo = new MemoryInfo(getContext());
             handlerRam = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
@@ -214,40 +215,36 @@ public class tabDashboard extends Fragment {
             };
             handlerChart.postDelayed(runnableChart, 0);
 
-            timercUsage = new Timer();
-            timercUsage.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    usagecpu = cu2.getTotalCpuUsage();
-                    cUsage = String.valueOf(usagecpu) + " %";
-                    txtCPUPerce.post(() -> txtCPUPerce.setText(cUsage));
-                    ProgressBarCPU.post(() -> ProgressBarCPU.setProgress(usagecpu * 10));
+            recyclerCPU = rootView.findViewById(R.id.recyclerCPU);
+            recyclerCPU.setItemAnimator(null);
+            loadCPUCore();
+            int columns;
+            if (Runtime.getRuntime().availableProcessors() == 2) {
+                columns = 2;
+            } else {
+                columns = 4;
+            }
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), columns);
+            cpuCoreAdapter = new CPUCoreAdapter(getContext(), cpuCoreList);
+            recyclerCPU.setLayoutManager(layoutManager);
+            recyclerCPU.setAdapter(cpuCoreAdapter);
 
-                }
-            }, 1000, 1000);
-            String cpuStatus = "Cores: " + Runtime.getRuntime().availableProcessors() + ",  Max Frequency: " + (int) SplashActivity.cpuMaxFreq + " MHz";
-            txtCPUStatus.setText(cpuStatus);
+            if (cpuCoreList.isEmpty()) {
+                Snackbar snackbar = Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(R.id.cordmain), "No Thermal Data", Snackbar.LENGTH_INDEFINITE);
+                SnackbarHelper.configSnackbar(getContext(), snackbar);
+                snackbar.show();
+            } else {
+                cpuCoreList2 = new ArrayList<>();
+                scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+                scheduledExecutorService.scheduleAtFixedRate(() -> {
+                    loadCPUCore();
+                    cpuCoreList2 = cpuCoreList;
+                    recyclerCPU.post(() ->
+                            cpuCoreAdapter.updateCPUCoreListItems(cpuCoreList2)
+                    );
+                }, 1, 2, TimeUnit.SECONDS);
+            }
 
-            ObjectAnimator arcProgressAnimatorRAM = ObjectAnimator.ofInt(arcProgressRam, "progress", 0, startRAM);
-            arcProgressAnimatorRAM.setDuration(800);
-            arcProgressAnimatorRAM.setInterpolator(new DecelerateInterpolator());
-            arcProgressAnimatorRAM.start();
-
-            ObjectAnimator progressAnimatorROM = ObjectAnimator.ofInt(progressBarRom, "progress", 0, startROM * 10);
-            progressAnimatorROM.setDuration(800);
-            progressAnimatorROM.start();
-
-            ObjectAnimator progressAnimatorInStorage = ObjectAnimator.ofInt(progressBarInStorage, "progress", 0, startInStorage * 10);
-            progressAnimatorInStorage.setDuration(800);
-            progressAnimatorInStorage.start();
-
-            ObjectAnimator progressAnimatorExStorage = ObjectAnimator.ofInt(progressBarExStorage, "progress", 0, startExStorage * 10);
-            progressAnimatorExStorage.setDuration(800);
-            progressAnimatorExStorage.start();
-
-            ObjectAnimator progressAnimatorCPU = ObjectAnimator.ofInt(ProgressBarCPU, "progress", 0, startCPU * 10);
-            progressAnimatorCPU.setDuration(800);
-            progressAnimatorCPU.start();
 
             final com.ytheekshana.deviceinfo.BounceInterpolator bounceInterpolator = new com.ytheekshana.deviceinfo.BounceInterpolator(0.2, 20);
             cardRom.setOnClickListener(v -> {
@@ -270,11 +267,6 @@ public class tabDashboard extends Fragment {
                 animBattery.setInterpolator(bounceInterpolator);
                 cardBattery.startAnimation(animBattery);
             });
-            cardCpu.setOnClickListener(v -> {
-                Animation animCpu = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_dash);
-                animCpu.setInterpolator(bounceInterpolator);
-                cardCpu.startAnimation(animCpu);
-            });
             cardSensor.setOnClickListener(v -> {
                 Animation animSensor = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_dash);
                 animSensor.setInterpolator(bounceInterpolator);
@@ -286,44 +278,37 @@ public class tabDashboard extends Fragment {
                 cardApps.startAnimation(animApps);
             });
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception ignored) {
         }
 
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        try {
-            timercUsage.cancel();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     private BroadcastReceiver batteryBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final int batlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            batlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int batstatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             int voltage = intent.getIntExtra("voltage", 0);
             int temperature = (intent.getIntExtra("temperature", 0)) / 10;
             String setBattery = "Voltage: " + voltage + "mV,  Temperature: " + temperature + " \u2103";
             txtBatteryStatus.setText(setBattery);
-            String battery_percentage = Integer.toString(batlevel) + "%";
+            String battery_percentage = batlevel + "%";
             txtBatteryPerce.setText(battery_percentage);
+            if (batstatus == BatteryManager.BATTERY_STATUS_CHARGING) {
+                progressBarBattery.setIndeterminate(true);
+                DrawableCompat.setTint(progressBarBattery.getIndeterminateDrawable(), MainActivity.themeColor);
+                txtBatteryTitle.setText(R.string.DashBatteryCharging);
+            } else {
+                progressBarBattery.setIndeterminate(false);
+                txtBatteryTitle.setText(R.string.DashBattery);
+            }
+            progressBarBattery.setProgress(batlevel * 10);
 
-            ObjectAnimator progressAnimatorBattery = ObjectAnimator.ofInt(ProgressBarBattery, "progress", 0, batlevel * 10);
-            progressAnimatorBattery.setDuration(800);
-            progressAnimatorBattery.start();
-
-            ProgressBarBattery.setProgress(batlevel);
         }
     };
 
     private void animateTextView(int finalValue, final TextView textview) {
-
         ValueAnimator valueAnimator = ValueAnimator.ofInt(0, finalValue);
         valueAnimator.setDuration(800);
         valueAnimator.addUpdateListener(valueAnimator1 -> textview.setText(valueAnimator1.getAnimatedValue().toString()));
@@ -361,8 +346,57 @@ public class tabDashboard extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        IntentFilter batteryIntentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        batteryContext = Objects.requireNonNull(getActivity()).getApplicationContext();
+        batteryContext.registerReceiver(batteryBroadcastReceiver, batteryIntentFilter);
+
+        Intent batteryIntent = batteryContext.registerReceiver(null,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        if (batteryIntent != null) {
+            batlevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        }
+
         if (runnableChart != null) {
             handlerChart.postDelayed(runnableChart, 0);
+        }
+        if (recyclerCPU != null) {
+            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.recycler_layout_animation);
+            recyclerCPU.setLayoutAnimation(controller);
+            recyclerCPU.scheduleLayoutAnimation();
+        }
+        if (arcProgressRam != null) {
+            ObjectAnimator arcProgressAnimatorRAM = ObjectAnimator.ofInt(arcProgressRam, "progress", 0, startRAM);
+            arcProgressAnimatorRAM.setDuration(800);
+            arcProgressAnimatorRAM.setInterpolator(new DecelerateInterpolator());
+            arcProgressAnimatorRAM.start();
+        }
+        if (progressBarRom != null) {
+            ObjectAnimator progressAnimatorROM = ObjectAnimator.ofInt(progressBarRom, "progress", 0, startROM * 10);
+            progressAnimatorROM.setDuration(800);
+            progressAnimatorROM.start();
+        }
+
+        if (progressBarInStorage != null) {
+            ObjectAnimator progressAnimatorInStorage = ObjectAnimator.ofInt(progressBarInStorage, "progress", 0, startInStorage * 10);
+            progressAnimatorInStorage.setDuration(800);
+            progressAnimatorInStorage.start();
+        }
+        if (progressBarExStorage != null) {
+            ObjectAnimator progressAnimatorExStorage = ObjectAnimator.ofInt(progressBarExStorage, "progress", 0, startExStorage * 10);
+            progressAnimatorExStorage.setDuration(800);
+            progressAnimatorExStorage.start();
+        }
+        if (progressBarBattery != null) {
+            ObjectAnimator progressAnimatorBattery = ObjectAnimator.ofInt(progressBarBattery, "progress", 0, batlevel * 10);
+            progressAnimatorBattery.setDuration(800);
+            progressAnimatorBattery.start();
+        }
+        if (txtAppCount != null) {
+            animateTextView(SplashActivity.numberOfInstalledApps, txtAppCount);
+        }
+        if (txtSensorCount != null) {
+            animateTextView(SplashActivity.numberOfSensors, txtSensorCount);
         }
     }
 
@@ -371,6 +405,27 @@ public class tabDashboard extends Fragment {
         super.onPause();
         if (runnableChart != null) {
             handlerChart.removeCallbacks(runnableChart);
+        }
+        if (batteryBroadcastReceiver != null) {
+            batteryContext.unregisterReceiver(batteryBroadcastReceiver);
+        }
+    }
+
+    private void loadCPUCore() {
+        cpuCoreList = new ArrayList<>();
+        for (int corecount = 0; corecount < Runtime.getRuntime().availableProcessors(); corecount++) {
+            try {
+                double currentFreq;
+                RandomAccessFile readerCurFreq;
+                readerCurFreq = new RandomAccessFile("/sys/devices/system/cpu/cpu" + corecount + "/cpufreq/scaling_cur_freq", "r");
+                String curfreg = readerCurFreq.readLine();
+                currentFreq = Double.parseDouble(curfreg) / 1000;
+                readerCurFreq.close();
+                cpuCoreList.add(new CPUCoreInfo("Core " + corecount, (int) currentFreq + " Mhz"));
+
+            } catch (Exception ex) {
+                cpuCoreList.add(new CPUCoreInfo("Core " + corecount, "Idle"));
+            }
         }
     }
 }

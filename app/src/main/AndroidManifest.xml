@@ -110,9 +110,6 @@
             android:name=".BluetoothTestActivity"
             android:label="@string/bluetooth_test" />
         <activity
-            android:name=".FingerprintTestActivity"
-            android:label="@string/fingerprint_test" />
-        <activity
             android:name=".VolumeUpTestActivity"
             android:label="@string/volumeup_test" />
         <activity
@@ -133,6 +130,16 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ytheekshana.deviceinfo"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

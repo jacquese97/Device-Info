@@ -52,7 +52,7 @@ public class LoudSpeakerTestActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_loudspeaker);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             sharedPrefs = getSharedPreferences("tests", MODE_PRIVATE);

@@ -53,7 +53,7 @@ public class EarSpeakerTestActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_ear_speaker);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             sharedPrefs = getSharedPreferences("tests", MODE_PRIVATE);

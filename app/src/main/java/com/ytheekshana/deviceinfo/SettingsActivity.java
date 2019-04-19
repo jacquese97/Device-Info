@@ -1,5 +1,6 @@
 package com.ytheekshana.deviceinfo;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
@@ -23,6 +25,8 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
 import com.kizitonwose.colorpreference.ColorDialog;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.util.Objects;
@@ -65,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
         SwitchPreference dark_theme_Pref;
         SharedPreferences sharedPrefs;
         SharedPreferences.Editor shareEdit;
-        Preference app_version_pref, pref_rate_us, pref_donate, pref_extract_location;
+        Preference app_version_pref, pref_rate_us, pref_donate, pref_extract_location,pref_export_data;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -84,11 +88,11 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                     if (dark_theme_Pref.isChecked()) {
                         shareEdit.putInt("ThemeNoBar", R.style.AppThemeDark_NoActionBar);
                         shareEdit.putInt("ThemeBar", R.style.AppThemeDark);
-                        dark_theme_Pref.setSummary("Disable Dark Theme");
+                        dark_theme_Pref.setSummary("Dark Theme Enabled");
                     } else {
                         shareEdit.putInt("ThemeNoBar", R.style.AppTheme_NoActionBar);
                         shareEdit.putInt("ThemeBar", R.style.AppTheme);
-                        dark_theme_Pref.setSummary("Enable Dark Theme");
+                        dark_theme_Pref.setSummary("Dark Theme Disabled");
                     }
                     shareEdit.apply();
                     shareEdit.commit();
@@ -100,10 +104,10 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
 
                 if (sharedPrefs.getInt("ThemeBar", 0) == R.style.AppThemeDark) {
                     dark_theme_Pref.setChecked(true);
-                    dark_theme_Pref.setSummary("Disable Dark Theme");
+                    dark_theme_Pref.setSummary("Dark Theme Enabled");
                 } else {
                     dark_theme_Pref.setChecked(false);
-                    dark_theme_Pref.setSummary("Enable Dark Theme");
+                    dark_theme_Pref.setSummary("Dark Theme Disabled");
                 }
                 app_version_pref.setSummary(BuildConfig.VERSION_NAME);
                 pref_rate_us = findPreference("pref_rate_us");
@@ -130,7 +134,14 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                 pref_extract_location.setSummary(getExtractpath);
                 pref_extract_location.setOnPreferenceClickListener(preference -> {
 
-                    ChooserDialog chooseLocation = new ChooserDialog(getActivity());
+                    ChooserDialog chooseLocation;
+                    if (dark_theme_Pref.isChecked()) {
+                        chooseLocation = new ChooserDialog(getActivity(), R.style.FileChooserStyle_Dark);
+                    } else {
+                        chooseLocation = new ChooserDialog(getActivity());
+                    }
+                    chooseLocation.withDateFormat("dd MMMM yyyy");
+                    chooseLocation.displayPath(false);
                     chooseLocation.enableOptions(true);
                     chooseLocation.withResources(R.string.file_chooser_title, R.string.file_chooser_choose, R.string.file_chooser_cancel);
                     chooseLocation.withFilter(true, false);
@@ -141,13 +152,23 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                         shareEdit.commit();
                         pref_extract_location.setSummary(path);
                     });
-                    if (dark_theme_Pref.isChecked()) {
-                        chooseLocation.withRowLayoutView(R.layout.file_chooser_layout_dark);
-                    } else {
-                        chooseLocation.withRowLayoutView(R.layout.file_chooser_layout_light);
-                    }
                     chooseLocation.build();
                     chooseLocation.show();
+                    return true;
+                });
+
+                pref_export_data = findPreference("pref_export_data");
+                pref_export_data.setOnPreferenceClickListener(preference -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Permissions.check(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, null, new PermissionHandler() {
+                            @Override
+                            public void onGranted() {
+                                ExportDetails.export(getContext(),getView());
+                            }
+                        });
+                    } else {
+                        ExportDetails.export(getContext(),getView());
+                    }
                     return true;
                 });
             } catch (Exception ex) {
@@ -175,8 +196,6 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
     @Override
     public void onColorSelected(int newColor, String s) {
         try {
-
-
             theme_color.setValue(newColor);
             final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor sharedEdit = sharedPref.edit();

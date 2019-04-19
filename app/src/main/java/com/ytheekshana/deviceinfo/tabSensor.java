@@ -50,7 +50,7 @@ public class tabSensor extends Fragment {
         swipesensorlist.setColorSchemeColors(MainActivity.themeColor);
         swipesensorlist.setOnRefreshListener(() -> new Thread(loadSensors).start());
 
-        getcount = String.valueOf(SplashActivity.numberOfSensors) + " Sensors are available on your device";
+        getcount = SplashActivity.numberOfSensors + " Sensors are available on your device";
 
         loadSensors = new Thread() {
             @Override

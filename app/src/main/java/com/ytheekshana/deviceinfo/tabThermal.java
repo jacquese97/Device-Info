@@ -6,26 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class tabThermal extends Fragment {
     Context context;
-    private ArrayList<ThermalInfo> thermalList, thermalList2;
+    private ArrayList<ThermalInfo> thermalList2;
     private ThermalAdapter thermalAdapter;
     private ScheduledExecutorService scheduledExecutorService;
 
@@ -57,26 +51,25 @@ public class tabThermal extends Fragment {
         try {
             final RecyclerView recyclerThermal = rootView.findViewById(R.id.recyclerThermal);
             recyclerThermal.setItemAnimator(null);
-            loadThermal();
+            ArrayList<ThermalInfo> thermalList = GetDetails.loadThermal();
 
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
             thermalAdapter = new ThermalAdapter(context, thermalList);
             recyclerThermal.setLayoutManager(layoutManager);
             recyclerThermal.setAdapter(thermalAdapter);
 
+            CardView cardNoThermal = rootView.findViewById(R.id.cardNoThermal);
+
             if (thermalList.isEmpty()) {
-                Snackbar snackbar = Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(R.id.cordmain), "No Thermal Data", Snackbar.LENGTH_INDEFINITE);
-                SnackbarHelper.configSnackbar(context, snackbar);
-                snackbar.show();
+                cardNoThermal.setVisibility(View.VISIBLE);
             } else {
 
                 thermalList2 = new ArrayList<>();
                 scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
                 scheduledExecutorService.scheduleAtFixedRate(() -> {
-                    loadThermal();
-                    thermalList2 = thermalList;
+                    thermalList2 = GetDetails.loadThermal();
                     recyclerThermal.post(() ->
-                            thermalAdapter.updateEmployeeListItems(thermalList2)
+                            thermalAdapter.updateThermalListItems(thermalList2)
                     );
                 }, 1, 2, TimeUnit.SECONDS);
             }
@@ -85,28 +78,5 @@ public class tabThermal extends Fragment {
             ex.printStackTrace();
         }
         return rootView;
-    }
-
-    private void loadThermal() {
-        thermalList = new ArrayList<>();
-        File dir = new File("/sys/devices/virtual/thermal/");
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            try {
-                File tempFileValue = new File(file.getAbsolutePath() + "/temp");
-                File tempFileName = new File(file.getAbsolutePath() + "/type");
-                BufferedReader bufferedReaderValue = new BufferedReader(new FileReader(tempFileValue));
-                BufferedReader bufferedReaderName = new BufferedReader(new FileReader(tempFileName));
-                String lineName = bufferedReaderName.readLine();
-                String lineValue = bufferedReaderValue.readLine();
-                if (!lineValue.trim().equals("0")) {
-                    thermalList.add(new ThermalInfo(lineName, GetDetails.getFormattedTemp(lineValue)));
-                }
-                bufferedReaderName.close();
-                bufferedReaderValue.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 }

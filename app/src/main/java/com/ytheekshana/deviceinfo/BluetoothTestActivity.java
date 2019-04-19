@@ -56,7 +56,7 @@ public class BluetoothTestActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_bluetooth);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             imgBluetoothImage = findViewById(R.id.imgBluetoothImage);

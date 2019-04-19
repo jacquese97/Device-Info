@@ -52,7 +52,7 @@ public class EarProximityTestActivity extends AppCompatActivity implements Senso
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_test_ear_proximity);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
             context = this;
             sharedPrefs = getSharedPreferences("tests", MODE_PRIVATE);

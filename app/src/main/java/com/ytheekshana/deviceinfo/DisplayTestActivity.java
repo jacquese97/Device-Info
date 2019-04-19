@@ -46,7 +46,7 @@ public class DisplayTestActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_display);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         context = this;
 
         final TextView txtDisplayText = findViewById(R.id.txtDisplayText);

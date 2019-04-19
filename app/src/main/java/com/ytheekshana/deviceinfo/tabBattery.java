@@ -191,62 +191,26 @@ public class tabBattery extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                String batstatusdis = "", batpowersourcedis, bathealthdis = "";
-                int batlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                int batvoltage = intent.getIntExtra("voltage", 0);
-                int battemperature = (intent.getIntExtra("temperature", 0)) / 10;
-                int batstatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                int batpowersource = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-                int bathealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
-                String battechno = Objects.requireNonNull(intent.getExtras()).getString(BatteryManager.EXTRA_TECHNOLOGY);
 
-                if (batstatus == BatteryManager.BATTERY_STATUS_CHARGING) {
-                    batstatusdis = "Charging";
-                } else if (batstatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
-                    batstatusdis = "Discharging";
-                } else if (batstatus == BatteryManager.BATTERY_STATUS_FULL) {
-                    batstatusdis = "Battery Full";
-                } else if (batstatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
-                    batstatusdis = "Unknown";
-                } else if (batstatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-                    batstatusdis = "Not Charging";
-                }
+                int batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int batteryVoltage = intent.getIntExtra("voltage", 0);
+                int batteryTemperature = (intent.getIntExtra("temperature", 0)) / 10;
+                int batteryStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+                int batteryPowerSource = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+                int batteryHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
+                String batteryTechnology = Objects.requireNonNull(intent.getExtras()).getString(BatteryManager.EXTRA_TECHNOLOGY);
 
-                if (batpowersource == BatteryManager.BATTERY_PLUGGED_USB) {
-                    batpowersourcedis = "USB Port";
-                } else if (batpowersource == BatteryManager.BATTERY_PLUGGED_AC) {
-                    batpowersourcedis = "AC";
-                } else {
-                    batpowersourcedis = "Battery";
-                }
-
-                if (bathealth == BatteryManager.BATTERY_HEALTH_COLD) {
-                    bathealthdis = "Cold";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_DEAD) {
-                    bathealthdis = "Dead";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_GOOD) {
-                    bathealthdis = "Good";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE) {
-                    bathealthdis = "Over Voltage";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVERHEAT) {
-                    bathealthdis = "Overheat";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNKNOWN) {
-                    bathealthdis = "Unknown";
-                } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE) {
-                    bathealthdis = "Failure";
-                }
-
-                String battery_level = String.valueOf(batlevel) + "%";
+                String battery_level = batteryLevel + "%";
                 txtBatteryLeveldis.setText(battery_level);
-                txtBatteryStatusdis.setText(batstatusdis);
-                txtPowerSourcedis.setText(batpowersourcedis);
-                txtBatteryHealthdis.setText(bathealthdis);
-                txtTechnologydis.setText(battechno);
+                txtBatteryStatusdis.setText(GetDetails.getBatteryStatus(batteryStatus));
+                txtPowerSourcedis.setText(GetDetails.getBatteryPowerSource(batteryPowerSource));
+                txtBatteryHealthdis.setText(GetDetails.getBatteryHealth(batteryHealth));
+                txtTechnologydis.setText(batteryTechnology);
 
-                String batvol = String.valueOf(battemperature) + " \u2103";
-                String battemp = String.valueOf(batvoltage) + " mV";
-                txtTemperaturedis.setText(batvol);
-                txtBatteryVoltagedis.setText(battemp);
+                String battemp = batteryTemperature + " \u2103";
+                String batvol = batteryVoltage + " mV";
+                txtTemperaturedis.setText(battemp);
+                txtBatteryVoltagedis.setText(batvol);
 
             } catch (Exception ex) {
                 ex.printStackTrace();

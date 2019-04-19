@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
 
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -27,6 +30,9 @@ public class tabTests extends Fragment {
 
     private ImageView imgFlashlightTest, imgDisplayTest, imgLoudSpeakerTest, imgEarSpeakerTest, imgEarProximityTest, imgLightSensorTest, imgVibrationTest,
             imgWifiTest, imgBluetoothTest, imgFingerprintTest, imgVolumeUpTest, imgVolumeDownTest;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
+    private SharedPreferences.Editor editor;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -81,6 +87,53 @@ public class tabTests extends Fragment {
             }
         }
 
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences("tests", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        Executor executor = Executors.newSingleThreadExecutor();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                biometricPrompt = new BiometricPrompt(Objects.requireNonNull(getActivity()), executor, new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                            editor.putInt("fingerprint_test_status", 2);
+                        } else {
+                            editor.putInt("fingerprint_test_status", 0);
+                        }
+                        editor.apply();
+                        editor.commit();
+                        ((MainActivity) Objects.requireNonNull(getContext())).runOnUiThread(() -> updateTestData());
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        editor.putInt("fingerprint_test_status", 1);
+                        editor.apply();
+                        editor.commit();
+                        ((MainActivity) Objects.requireNonNull(getContext())).runOnUiThread(() -> updateTestData());
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        editor.putInt("fingerprint_test_status", 0);
+                        editor.apply();
+                        editor.commit();
+                        ((MainActivity) Objects.requireNonNull(getContext())).runOnUiThread(() -> updateTestData());
+                    }
+                });
+                promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("Fingerprint Test")
+                        .setSubtitle("Place your finger on the sensor")
+                        .setDescription("Place an enrolled finger on the fingerprint sensor to pass the test. Please enroll a finger if you haven't.")
+                        .setNegativeButtonText("Cancel")
+                        .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         cardviewFlashlight.setOnClickListener(v -> {
             Intent loadFlashlight = new Intent(getContext(), FlashlightTestActivity.class);
@@ -128,9 +181,9 @@ public class tabTests extends Fragment {
             Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_activity_enter, R.anim.slide_activity_exit);
         });
         cardviewFingerprint.setOnClickListener(v -> {
-            Intent loadFingerprint = new Intent(getContext(), FingerprintTestActivity.class);
-            startActivity(loadFingerprint);
-            Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_activity_enter, R.anim.slide_activity_exit);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                biometricPrompt.authenticate(promptInfo);
+            }
         });
         cardviewVolumeUp.setOnClickListener(v -> {
             Intent loadVolumeUp = new Intent(getContext(), VolumeUpTestActivity.class);
@@ -142,7 +195,6 @@ public class tabTests extends Fragment {
             startActivity(loadVolumeDown);
             Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_activity_enter, R.anim.slide_activity_exit);
         });
-
 
         return rootView;
     }

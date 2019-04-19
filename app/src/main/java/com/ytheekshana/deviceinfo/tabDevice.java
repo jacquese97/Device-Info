@@ -478,20 +478,18 @@ public class tabDevice extends Fragment {
 
     @SuppressLint("HardwareIds")
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         try {
-            switch (requestCode) {
-                case REQUEST_PHONE_STATE: {
-                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        txtDeviceTypedis.setText(GetDetails.PhoneType(tm.getPhoneType()));
-                        txtIMEIdis.setText(tm.getDeviceId());
-                        txtSIMSerialdis.setText(tm.getSimSerialNumber());
-                        txtSIMSubscriberdis.setText(tm.getSubscriberId());
-                        txtNetworkOperatordis.setText(tm.getNetworkOperatorName());
-                        txtNetworkTypedis.setText(GetDetails.NetworkType(tm.getNetworkType()));
-                    } else {
-                        Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-                    }
+            if (requestCode == REQUEST_PHONE_STATE) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    txtDeviceTypedis.setText(GetDetails.PhoneType(tm.getPhoneType()));
+                    txtIMEIdis.setText(tm.getDeviceId());
+                    txtSIMSerialdis.setText(tm.getSimSerialNumber());
+                    txtSIMSubscriberdis.setText(tm.getSubscriberId());
+                    txtNetworkOperatordis.setText(tm.getNetworkOperatorName());
+                    txtNetworkTypedis.setText(GetDetails.NetworkType(tm.getNetworkType()));
+                } else {
+                    Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (SecurityException ex) {

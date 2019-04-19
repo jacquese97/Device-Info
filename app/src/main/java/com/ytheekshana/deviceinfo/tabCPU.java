@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.TimerTask;
 public class tabCPU extends Fragment {
     private TextView txtCPUUsagedis;
     private CPUUsage cu;
-    private TextView txtCore[];
+    private TextView[] txtCore;
     private String cUsage;
     private Timer timer;
 
@@ -29,8 +30,9 @@ public class tabCPU extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabcpu, container, false);
         LinearLayout llayout = rootView.findViewById(R.id.llayout);
-        cu = new CPUUsage();
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            cu = new CPUUsage();
+        }
         try {
             int textDisColor = MainActivity.themeColor;
             int lineColor = GetDetails.getThemeColor(Objects.requireNonNull(getContext()), R.attr.colorButtonNormal);
@@ -172,24 +174,26 @@ public class tabCPU extends Fragment {
             }
             llayout.addView(v6);
 
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
 
-            TextView txtCPUUsage = new TextView(getContext());
-            txtCPUUsagedis = new TextView(getContext());
-            View v7 = new View(getContext());
-            v7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
-            v7.setBackgroundColor(lineColor);
-            txtCPUUsage.setText(R.string.CPUUsage);
-            txtCPUUsage.setTypeface(null, Typeface.BOLD);
-            txtCPUUsage.setTextSize(16);
-            txtCPUUsage.setPadding(0, 15, 0, 0);
-            txtCPUUsagedis.setPadding(0, 0, 0, 15);
-            txtCPUUsagedis.setTextColor(textDisColor);
-            txtCPUUsagedis.setTextSize(16);
-            txtCPUUsagedis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            txtCPUUsage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            llayout.addView(txtCPUUsage);
-            llayout.addView(txtCPUUsagedis);
-            llayout.addView(v7);
+                TextView txtCPUUsage = new TextView(getContext());
+                txtCPUUsagedis = new TextView(getContext());
+                View v7 = new View(getContext());
+                v7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
+                v7.setBackgroundColor(lineColor);
+                txtCPUUsage.setText(R.string.CPUUsage);
+                txtCPUUsage.setTypeface(null, Typeface.BOLD);
+                txtCPUUsage.setTextSize(16);
+                txtCPUUsage.setPadding(0, 15, 0, 0);
+                txtCPUUsagedis.setPadding(0, 0, 0, 15);
+                txtCPUUsagedis.setTextColor(textDisColor);
+                txtCPUUsagedis.setTextSize(16);
+                txtCPUUsagedis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                txtCPUUsage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                llayout.addView(txtCPUUsage);
+                llayout.addView(txtCPUUsagedis);
+                llayout.addView(v7);
+            }
 
             TextView txtGPURenderer = new TextView(getContext());
             TextView txtGPURendererdis = new TextView(getContext());
@@ -252,8 +256,6 @@ public class tabCPU extends Fragment {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    cUsage = String.valueOf(cu.getTotalCpuUsage()) + " %";
-
                     for (int corecount = 0; corecount < Runtime.getRuntime().availableProcessors(); corecount++) {
                         try {
                             double currentFreq;
@@ -272,7 +274,11 @@ public class tabCPU extends Fragment {
                             txtCore[corecount].post(() -> txtCore[finalCorecount].setText(settextcorecoresEX));
                         }
                     }
-                    txtCPUUsagedis.post(() -> txtCPUUsagedis.setText(cUsage));
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        cUsage = cu.getTotalCpuUsage() + " %";
+                        txtCPUUsagedis.post(() -> txtCPUUsagedis.setText(cUsage));
+                    }
+
 
                 }
             }, 0, 1000);

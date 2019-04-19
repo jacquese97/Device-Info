@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-    <!--ImageView
-        android:id="@+id/imageAppIconSplash"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/icon_transparent"
-        android:contentDescription="@string/app_name" /-->
-
     <ImageView
         android:id="@+id/imageLogoSplash1"
         android:layout_width="140dp"
