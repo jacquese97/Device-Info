@@ -8,11 +8,14 @@ Device Info is a simple and powerful Android application which gives you the com
 </p>
 
 #### Prerequisites
-- Android Studio 3.3
+- Android Studio 3.4
 - JDK 1.8
 - Android 5+ Device
 
 ### Changelog
+#### Device Info 1.7.2
+- Bug fixes
+
 #### Device Info 1.7.2
 - Export Information
 - Bug fixes in Fingerprint test
