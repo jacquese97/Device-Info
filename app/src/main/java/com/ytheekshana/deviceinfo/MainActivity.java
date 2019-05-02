@@ -22,6 +22,7 @@ import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         if (mNotifyMgr != null) {
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
         }*/
+
     }
 
     @Override

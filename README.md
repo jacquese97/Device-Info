@@ -2,9 +2,9 @@
 Device Info is a simple and powerful Android application which gives you the complete information about your Mobile device system software and hardware with advanced user interfaces
 
 <p align="center">
-    <img src="app/src/main/res/drawable/device_info1.jpg" />
-    <img src="app/src/main/res/drawable/device_info2.jpg" />
-    <img src="app/src/main/res/drawable/device_info3.jpg" />
+    <img src="screenshots/device_info1.jpg" />
+    <img src="screenshots/device_info2.jpg" />
+    <img src="screenshots/device_info3.jpg" />
 </p>
 
 #### Prerequisites
