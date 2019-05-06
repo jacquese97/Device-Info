@@ -202,9 +202,9 @@ public class tabBattery extends Fragment {
 
                 String battery_level = batteryLevel + "%";
                 txtBatteryLeveldis.setText(battery_level);
-                txtBatteryStatusdis.setText(GetDetails.getBatteryStatus(batteryStatus));
-                txtPowerSourcedis.setText(GetDetails.getBatteryPowerSource(batteryPowerSource));
-                txtBatteryHealthdis.setText(GetDetails.getBatteryHealth(batteryHealth));
+                txtBatteryStatusdis.setText(GetDetails.getBatteryStatus(batteryStatus,context));
+                txtPowerSourcedis.setText(GetDetails.getBatteryPowerSource(batteryPowerSource,context));
+                txtBatteryHealthdis.setText(GetDetails.getBatteryHealth(batteryHealth,context));
                 txtTechnologydis.setText(batteryTechnology);
 
                 String battemp = batteryTemperature + " \u2103";

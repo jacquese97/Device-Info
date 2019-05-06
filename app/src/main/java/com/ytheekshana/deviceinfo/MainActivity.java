@@ -22,20 +22,17 @@ import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
-    NotificationCompat.Builder mBuilder;
     public static int themeColor, themeColor2, themeColorDark, requestReviewCount;
     public static boolean isDarkmode;
     SharedPreferences sharedPrefs;
@@ -73,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        /*final TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);*/
         final SmartTabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setSelectedIndicatorColors(themeColorDark);
         tabLayout.setViewPager(mViewPager);
@@ -91,19 +86,6 @@ public class MainActivity extends AppCompatActivity {
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
         ActivityManager.TaskDescription taskDescription = new ActivityManager.TaskDescription(getString(R.string.app_name), icon, themeColor);
         setTaskDescription(taskDescription);
-
-        /*mBuilder = new NotificationCompat.Builder(context, "1")
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.cpu)
-                .setContentTitle("Device Info")
-                .setContentText("Gathering Data Completed");
-
-        int mNotificationId = 1;
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (mNotifyMgr != null) {
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
-        }*/
-
     }
 
     @Override
@@ -150,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     } else {
-                        Toast.makeText(context, "Google Play Store not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getString(R.string.play_store_not_found), Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 } catch (ActivityNotFoundException ex) {
                     ex.printStackTrace();
-                    Toast.makeText(context, "Intall Google Play Services", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.install_google_play_services), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -217,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 case 11:
                     return new tabTests();
                 default:
-                    return null;
+                    return new tabDashboard();
             }
         }
 
@@ -230,29 +212,29 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Dashboard";
+                    return getString(R.string.dashboard);
                 case 1:
-                    return "Device";
+                    return getString(R.string.device);
                 case 2:
-                    return "System";
+                    return getString(R.string.system);
                 case 3:
-                    return "CPU";
+                    return getString(R.string.cpu);
                 case 4:
-                    return "Battery";
+                    return getString(R.string.battery);
                 case 5:
-                    return "Display";
+                    return getString(R.string.display);
                 case 6:
-                    return "Memory";
+                    return getString(R.string.memory);
                 case 7:
-                    return "Camera";
+                    return getString(R.string.camera);
                 case 8:
-                    return "Thermal";
+                    return getString(R.string.thermal);
                 case 9:
-                    return "Sensors";
+                    return getString(R.string.sensors);
                 case 10:
-                    return "Apps";
+                    return getString(R.string.apps);
                 case 11:
-                    return "Tests";
+                    return getString(R.string.tests);
             }
             return null;
         }

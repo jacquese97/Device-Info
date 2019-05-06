@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
     private Context mContext;
     private ArrayList<CameraInfo> mDataSet;
     private int dividerColor, textColor;
+    private int lastPosition = -1;
 
     CameraAdapter(Context context, int dividerColor, int textColor, ArrayList<CameraInfo> list) {
         mContext = context;
@@ -71,6 +74,10 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
         param.addRule(RelativeLayout.BELOW, R.id.txtFeatureValue);
         holder.divider.setLayoutParams(param);
         holder.divider.setBackgroundColor(dividerColor);
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.recycler_up_from_bottom : R.anim.recycler_down_from_top);
+        holder.itemView.startAnimation(animation);
+        lastPosition = position;
     }
 
     @Override

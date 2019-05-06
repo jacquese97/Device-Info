@@ -27,9 +27,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +67,7 @@ public class GetDetails {
         return propvalue;
     }
 
-    static String GetOSNameAdvanced() {
+    static String GetOSNameAdvanced(Context context) {
         String OSName;
         switch (Build.VERSION.SDK_INT) {
             case 21:
@@ -89,59 +92,65 @@ public class GetDetails {
                 OSName = "Oreo MR1";
                 break;
             case 28:
-                OSName = "Android Pie";
+                OSName = "Pie";
                 break;
             default:
-                OSName = "Unknown";
+                OSName = context.getString(R.string.unknown);
         }
         return OSName;
     }
 
-    static String GetOSReleaseDate() {
-        String OSReleaseDate;
+    static String GetOSReleaseDate(Context context) {
+        String OSReleaseDate = "";
         switch (Build.VERSION.SDK_INT) {
             case 11:
             case 12:
             case 13:
-                OSReleaseDate = "February 22, 2011";
+                OSReleaseDate = "2011-02-22";
                 break;
             case 14:
             case 15:
-                OSReleaseDate = "October 18, 2011";
+                OSReleaseDate = "2011-10-18";
                 break;
             case 16:
             case 17:
             case 18:
-                OSReleaseDate = "July 9, 2012";
+                OSReleaseDate = "2012-07-09";
                 break;
             case 19:
-                OSReleaseDate = "October 31, 2013";
+                OSReleaseDate = "2013-10-31";
                 break;
             case 21:
             case 22:
-                OSReleaseDate = "November 12, 2014";
+                OSReleaseDate = "2014-11-12";
                 break;
             case 23:
-                OSReleaseDate = "October 5, 2015";
+                OSReleaseDate = "2015-10-05";
                 break;
             case 24:
             case 25:
-                OSReleaseDate = "August 22, 2016";
+                OSReleaseDate = "2016-08-22";
                 break;
             case 26:
             case 27:
-                OSReleaseDate = "August 21, 2017";
+                OSReleaseDate = "2017-08-21";
                 break;
             case 28:
-                OSReleaseDate = "August 09, 2018";
+                OSReleaseDate = "2018-08-09";
                 break;
-            default:
-                OSReleaseDate = "Unknown";
         }
-        return OSReleaseDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", getLocale(context));
+        SimpleDateFormat dateFormatInput = new SimpleDateFormat("yyyy-mm-dd", getLocale(context));
+        Date date = null;
+        try {
+            date = dateFormatInput.parse(OSReleaseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateFormat.format(date);
     }
 
-    static String GetOSName(int sdk) {
+    static String GetOSName(int sdk, Context context) {
         String OSName;
         switch (sdk) {
             case 11:
@@ -180,12 +189,12 @@ public class GetDetails {
                 OSName = "Pie";
                 break;
             default:
-                OSName = "Unknown";
+                OSName = context.getString(R.string.unknown);
         }
         return OSName;
     }
 
-    static String getProcessor() {
+    static String getProcessor(Context context) {
         String Final = "";
         try {
             StringBuilder sb = new StringBuilder();
@@ -220,10 +229,10 @@ public class GetDetails {
                     }
                 }
                 if (Final.equals("") || Final.equals("0")) {
-                    Final = "Unknown";
+                    Final = context.getString(R.string.unknown);
                 }
             } else {
-                Final = "Unknown";
+                Final = context.getString(R.string.unknown);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -231,7 +240,7 @@ public class GetDetails {
         return Final;
     }
 
-    static String getProcessorHardware() {
+    static String getProcessorHardware(Context context) {
         String Final = "";
         try {
             StringBuilder sb = new StringBuilder();
@@ -255,11 +264,11 @@ public class GetDetails {
                         Final = cpuinfo[a + 1].substring(1, getlastindex);
                         break;
                     } else {
-                        Final = "Unknown";
+                        Final = context.getString(R.string.unknown);
                     }
                 }
             } else {
-                Final = "Unknown";
+                Final = context.getString(R.string.unknown);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -367,54 +376,54 @@ public class GetDetails {
         return Type;
     }
 
-    static String getBatteryStatus(int batstatus) {
+    static String getBatteryStatus(int batstatus, Context context) {
         String batstatusdis;
         if (batstatus == BatteryManager.BATTERY_STATUS_CHARGING) {
-            batstatusdis = "Charging";
+            batstatusdis = context.getString(R.string.charging);
         } else if (batstatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
-            batstatusdis = "Discharging";
+            batstatusdis = context.getString(R.string.discharging);
         } else if (batstatus == BatteryManager.BATTERY_STATUS_FULL) {
-            batstatusdis = "Battery Full";
+            batstatusdis = context.getString(R.string.battery_full);
         } else if (batstatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
-            batstatusdis = "Unknown";
+            batstatusdis = context.getString(R.string.unknown);
         } else if (batstatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
-            batstatusdis = "Not Charging";
+            batstatusdis = context.getString(R.string.not_charging);
         } else {
-            batstatusdis = "Not Available";
+            batstatusdis = context.getString(R.string.not_available);
         }
         return batstatusdis;
     }
 
-    static String getBatteryPowerSource(int batpowersource) {
+    static String getBatteryPowerSource(int batpowersource, Context context) {
         String batpowersourcedis;
         if (batpowersource == BatteryManager.BATTERY_PLUGGED_USB) {
-            batpowersourcedis = "USB Port";
+            batpowersourcedis = context.getString(R.string.usb_port);
         } else if (batpowersource == BatteryManager.BATTERY_PLUGGED_AC) {
-            batpowersourcedis = "AC";
+            batpowersourcedis = context.getString(R.string.ac);
         } else {
-            batpowersourcedis = "Battery";
+            batpowersourcedis = context.getString(R.string.battery);
         }
         return batpowersourcedis;
     }
 
-    static String getBatteryHealth(int bathealth) {
+    static String getBatteryHealth(int bathealth, Context context) {
         String bathealthdis;
         if (bathealth == BatteryManager.BATTERY_HEALTH_COLD) {
-            bathealthdis = "Cold";
+            bathealthdis = context.getString(R.string.cold);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_DEAD) {
-            bathealthdis = "Dead";
+            bathealthdis = context.getString(R.string.dead);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_GOOD) {
-            bathealthdis = "Good";
+            bathealthdis = context.getString(R.string.good);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE) {
-            bathealthdis = "Over Voltage";
+            bathealthdis = context.getString(R.string.over_voltage);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_OVERHEAT) {
-            bathealthdis = "Overheat";
+            bathealthdis = context.getString(R.string.overheat);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNKNOWN) {
-            bathealthdis = "Unknown";
+            bathealthdis = context.getString(R.string.unknown);
         } else if (bathealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE) {
-            bathealthdis = "Failure";
+            bathealthdis = context.getString(R.string.failure);
         } else {
-            bathealthdis = "Not Available";
+            bathealthdis = context.getString(R.string.not_available);
         }
         return bathealthdis;
     }
@@ -567,7 +576,7 @@ public class GetDetails {
         return Version;
     }
 
-    static String GetSELinuxMode() {
+    static String GetSELinuxMode(Context context) {
         StringBuilder output = new StringBuilder();
         Process p;
         try {
@@ -580,128 +589,128 @@ public class GetDetails {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            return "Not Supported";
+            return context.getString(R.string.not_supported);
         }
         String response = output.toString();
         if ("Enforcing".equals(response)) {
-            return "Enforcing";
+            return context.getString(R.string.enforcing);
         } else if ("Permissive".equals(response)) {
-            return "Permissive";
+            return context.getString(R.string.permissive);
         } else {
-            return "Unable to determine";
+            return context.getString(R.string.unable_to_determine);
         }
     }
 
-    static String GetSensorType(int type) {
+    static String GetSensorType(int type, Context context) {
         String stype;
         switch (type) {
             case 1:
-                stype = "ACCELEROMETER";
+                stype = context.getString(R.string.sensor_accelerometer);
                 break;
             case 2:
-                stype = "MAGNETIC FIELD";
+                stype = context.getString(R.string.sensor_magnetic_field);
                 break;
             case 3:
-                stype = "ORIENTATION";
+                stype = context.getString(R.string.sensor_orientation);
                 break;
             case 4:
-                stype = "GYROSCOPE";
+                stype = context.getString(R.string.sensor_gyroscope);
                 break;
             case 5:
-                stype = "LIGHT";
+                stype = context.getString(R.string.sensor_light);
                 break;
             case 6:
-                stype = "PRESSURE";
+                stype = context.getString(R.string.sensor_pressure);
                 break;
             case 7:
-                stype = "TEMPERATURE";
+                stype = context.getString(R.string.sensor_temperature);
                 break;
             case 8:
-                stype = "PROXIMITY";
+                stype = context.getString(R.string.sensor_proximity);
                 break;
             case 9:
-                stype = "GRAVITY";
+                stype = context.getString(R.string.sensor_gravity);
                 break;
             case 10:
-                stype = "LINEAR ACCELERATION";
+                stype = context.getString(R.string.sensor_linear_acceleration);
                 break;
             case 11:
-                stype = "ROTATION VECTOR";
+                stype = context.getString(R.string.sensor_rotation_vector);
                 break;
             case 12:
-                stype = "RELATIVE HUMIDITY";
+                stype = context.getString(R.string.sensor_relative_humidity);
                 break;
             case 13:
-                stype = "AMBIENT TEMPERATURE";
+                stype = context.getString(R.string.sensor_ambient_temperature);
                 break;
             case 14:
-                stype = "MAGNETIC FIELD UNCALIBRATED";
+                stype = context.getString(R.string.sensor_magnetic_field_uncalibrated);
                 break;
             case 15:
-                stype = "GAME ROTATION VECTOR";
+                stype = context.getString(R.string.sensor_game_rotation_vector);
                 break;
             case 16:
-                stype = "GYROSCOPE UNCALIBRATED";
+                stype = context.getString(R.string.sensor_gyroscope_uncalibrated);
                 break;
             case 17:
-                stype = "SIGNIFICANT MOTION";
+                stype = context.getString(R.string.sensor_significant_motion);
                 break;
             case 18:
-                stype = "STEP DETECTOR";
+                stype = context.getString(R.string.sensor_step_detector);
                 break;
             case 19:
-                stype = "STEP COUNTER";
+                stype = context.getString(R.string.sensor_step_counter);
                 break;
             case 20:
-                stype = "GEOMAGNETIC ROTATION VECTOR";
+                stype = context.getString(R.string.sensor_geomagnetic_rotation_vector);
                 break;
             case 21:
-                stype = "HEART_RATE";
+                stype = context.getString(R.string.sensor_heart_rate);
                 break;
             case 22:
-                stype = "TILT DETECTOR";
+                stype = context.getString(R.string.sensor_tilt_detector);
                 break;
             case 23:
-                stype = "WAKE GESTURE";
+                stype = context.getString(R.string.sensor_wake_gesture);
                 break;
             case 24:
-                stype = "GLANCE_GESTURE";
+                stype = context.getString(R.string.sensor_glance_gesture);
                 break;
             case 25:
-                stype = "PICK_UP_GESTURE";
+                stype = context.getString(R.string.sensor_pickup_gesture);
                 break;
             case 26:
-                stype = "WRIST_TILT_GESTURE";
+                stype = context.getString(R.string.sensor_wrist_tilt_detector);
                 break;
             case 27:
-                stype = "DEVICE_ORIENTATION ";
+                stype = context.getString(R.string.sensor_device_orientation);
                 break;
             case 28:
-                stype = "POSE 6DOF";
+                stype = context.getString(R.string.sensor_pose_6dof);
                 break;
             case 29:
-                stype = "STATIONARY DETECT";
+                stype = context.getString(R.string.sensor_stationary_detect);
                 break;
             case 30:
-                stype = "MOTION DETECT";
+                stype = context.getString(R.string.sensor_motion_detect);
                 break;
             case 31:
-                stype = "HEART BEAT";
+                stype = context.getString(R.string.sensor_heart_beat);
                 break;
             case 32:
-                stype = "DYNAMIC_SENSOR_META";
+                stype = context.getString(R.string.sensor_dynamic_sensor_meta);
                 break;
             case 33:
-                stype = "ADDITIONAL_INFO";
+                stype = context.getString(R.string.sensor_additional_info);
                 break;
             case 34:
-                stype = "LOW LATENCY OFFBODY DETECT";
+                stype = context.getString(R.string.sensor_low_latency_offbody_detect);
                 break;
             case 35:
-                stype = "ACCELEROMETER UNCALIBRATED";
+                stype = context.getString(R.string.sensor_accelerometer_uncalibrated);
                 break;
             default:
-                stype = "Unknown";
+                stype = context.getString(R.string.unknown);
                 break;
         }
         return stype;
@@ -744,197 +753,197 @@ public class GetDetails {
         }
     }
 
-    static String getKeyName(String name) {
+    static String getKeyName(String name, Context context) {
         String keyName;
         switch (name) {
             case "android.colorCorrection.availableAberrationModes":
-                keyName = "Aberration Modes";
+                keyName = context.getString(R.string.camera_aberration_modes);
                 break;
             case "android.control.aeAvailableAntibandingModes":
-                keyName = "Antibanding Modes";
+                keyName = context.getString(R.string.camera_antibanding_modes);
                 break;
             case "android.control.aeAvailableModes":
-                keyName = "Auto Exposure Modes";
+                keyName = context.getString(R.string.camera_auto_exposure_modes);
                 break;
             case "android.control.aeAvailableTargetFpsRanges":
-                keyName = "Target FPS Ranges";
+                keyName = context.getString(R.string.camera_target_fps_ranges);
                 break;
             case "android.control.aeCompensationRange":
-                keyName = "Compensation Range";
+                keyName = context.getString(R.string.camera_compensation_range);
                 break;
             case "android.control.aeCompensationStep":
-                keyName = "Compensation Step";
+                keyName = context.getString(R.string.camera_compensation_step);
                 break;
             case "android.control.aeLockAvailable":
-                keyName = "Auto Exposure Lock";
+                keyName = context.getString(R.string.camera_auto_exposure_lock);
                 break;
             case "android.control.afAvailableModes":
-                keyName = "AutoFocus Modes";
+                keyName = context.getString(R.string.camera_autofocus_modes);
                 break;
             case "android.control.availableEffects":
-                keyName = "Effects";
+                keyName = context.getString(R.string.camera_effects);
                 break;
             case "android.control.availableModes":
-                keyName = "Available Modes";
+                keyName = context.getString(R.string.camera_available_modes);
                 break;
             case "android.control.availableSceneModes":
-                keyName = "Scene Modes";
+                keyName = context.getString(R.string.camera_scene_modes);
                 break;
             case "android.control.availableVideoStabilizationModes":
-                keyName = "Video Stabilization Modes";
+                keyName = context.getString(R.string.camera_video_stabilization_modes);
                 break;
             case "android.control.awbAvailableModes":
-                keyName = "Auto White Balance Modes";
+                keyName = context.getString(R.string.camera_auto_white_balance_modes);
                 break;
             case "android.control.awbLockAvailable":
-                keyName = "Auto White Balance Lock";
+                keyName = context.getString(R.string.camera_auto_white_balance_lock);
                 break;
             case "android.control.maxRegionsAe":
-                keyName = "Max Auto Exposure Regions";
+                keyName = context.getString(R.string.camera_maximum_auto_exposure_regions);
                 break;
             case "android.control.maxRegionsAf":
-                keyName = "Max Auto Focus Regions";
+                keyName = context.getString(R.string.camera_maximum_auto_focus_regions);
                 break;
             case "android.control.maxRegionsAwb":
-                keyName = "Max Auto White Balance Regions";
+                keyName = context.getString(R.string.camera_maximum_auto_white_balance_regions);
                 break;
             case "android.edge.availableEdgeModes":
-                keyName = "Edge Modes";
+                keyName = context.getString(R.string.camera_edge_modes);
                 break;
             case "android.flash.info.available":
-                keyName = "Flash Available";
+                keyName = context.getString(R.string.camera_flash_available);
                 break;
             case "android.hotPixel.availableHotPixelModes":
-                keyName = "Hot Pixel Modes";
+                keyName = context.getString(R.string.camera_hot_pixel_modes);
                 break;
             case "android.info.supportedHardwareLevel":
-                keyName = "Hardware Level";
+                keyName = context.getString(R.string.camera_hardware_level);
                 break;
             case "android.jpeg.availableThumbnailSizes":
-                keyName = "Thumbnail Sizes";
+                keyName = context.getString(R.string.camera_thumbnail_sizes);
                 break;
             case "android.lens.facing":
-                keyName = "Lens Placement";
+                keyName = context.getString(R.string.camera_lens_placement);
                 break;
             case "android.lens.info.availableApertures":
-                keyName = "Apertures";
+                keyName = context.getString(R.string.camera_apertures);
                 break;
             case "android.lens.info.availableFilterDensities":
-                keyName = "Filter Densities";
+                keyName = context.getString(R.string.camera_filter_densities);
                 break;
             case "android.lens.info.availableFocalLengths":
-                keyName = "Focal Lengths";
+                keyName = context.getString(R.string.camera_focal_lengths);
                 break;
             case "android.lens.info.availableOpticalStabilization":
-                keyName = "Optical Stabilization";
+                keyName = context.getString(R.string.camera_optical_stabilization);
                 break;
             case "android.lens.info.focusDistanceCalibration":
-                keyName = "Focus Distance Calibration";
+                keyName = context.getString(R.string.camera_focus_distance_calibration);
                 break;
             case "android.lens.info.hyperfocalDistance":
-                keyName = "Hyperfocal Distance";
+                keyName = context.getString(R.string.camera_hyperfocal_distance);
                 break;
             case "android.lens.info.minimumFocusDistance":
-                keyName = "Minimum Focus Distance";
+                keyName = context.getString(R.string.camera_minimum_focus_distance);
                 break;
             case "android.noiseReduction.availableNoiseReductionModes":
-                keyName = "Noise Reduction Modes";
+                keyName = context.getString(R.string.camera_noise_reduction_modes);
                 break;
             case "android.request.availableCapabilities":
-                keyName = "Camera Capabilities";
+                keyName = context.getString(R.string.camera_capabilities);
                 break;
             case "android.request.maxNumInputStreams":
-                keyName = "Maximum Input Streams";
+                keyName = context.getString(R.string.camera_maximum_input_streams);
                 break;
             case "android.request.maxNumOutputProc":
-                keyName = "Maximum Output Streams";
+                keyName = context.getString(R.string.camera_maximum_output_streams);
                 break;
             case "android.request.maxNumOutputProcStalling":
-                keyName = "Maximum Output Streams Stalling";
+                keyName = context.getString(R.string.camera_maximum_output_streams_stalling);
                 break;
             case "android.request.maxNumOutputRaw":
-                keyName = "Maximum RAW Output Streams";
+                keyName = context.getString(R.string.camera_maximum_raw_output_streams);
                 break;
             case "android.request.partialResultCount":
-                keyName = "Partial Results";
+                keyName = context.getString(R.string.camera_partial_results);
                 break;
             case "android.request.pipelineMaxDepth":
-                keyName = "Maximum Pipeline Depth";
+                keyName = context.getString(R.string.camera_maximum_pipeline_depth);
                 break;
             case "android.scaler.availableMaxDigitalZoom":
-                keyName = "Maximum Digital Zoom";
+                keyName = context.getString(R.string.camera_maximum_digital_zoom);
                 break;
             case "android.scaler.croppingType":
-                keyName = "Cropping Type";
+                keyName = context.getString(R.string.camera_cropping_type);
                 break;
             case "android.scaler.streamConfigurationMap":
-                keyName = "Supported Resolutions";
+                keyName = context.getString(R.string.camera_supported_resolutions);
                 break;
             case "android.sensor.availableTestPatternModes":
-                keyName = "Test Pattern Modes";
+                keyName = context.getString(R.string.camera_test_pattern_modes);
                 break;
             case "android.sensor.blackLevelPattern":
-                keyName = "Black Level Pattern";
+                keyName = context.getString(R.string.camera_black_level_pattern);
                 break;
             case "android.sensor.info.activeArraySize":
-                keyName = "Active Array Size";
+                keyName = context.getString(R.string.camera_active_array_size);
                 break;
             case "android.sensor.info.colorFilterArrangement":
-                keyName = "Color Filter Arrangement";
+                keyName = context.getString(R.string.camera_color_filter_arrangement);
                 break;
             case "android.sensor.info.exposureTimeRange":
-                keyName = "Exposure Time Range";
+                keyName = context.getString(R.string.camera_exposure_time_range);
                 break;
             case "android.sensor.info.maxFrameDuration":
-                keyName = "Maximum Frame Duration";
+                keyName = context.getString(R.string.camera_maximum_frame_duration);
                 break;
             case "android.sensor.info.physicalSize":
-                keyName = "Sensor Size";
+                keyName = context.getString(R.string.camera_sensor_size);
                 break;
             case "android.sensor.info.pixelArraySize":
-                keyName = "Pixel Array Size";
+                keyName = context.getString(R.string.camera_pixel_array_size);
                 break;
             case "android.sensor.info.preCorrectionActiveArraySize":
-                keyName = "Pre Correction Active Array Size";
+                keyName = context.getString(R.string.camera_pre_correction_active_array_size);
                 break;
             case "android.sensor.info.sensitivityRange":
-                keyName = "Sensitivity Range";
+                keyName = context.getString(R.string.camera_sensitivity_range);
                 break;
             case "android.sensor.info.timestampSource":
-                keyName = "Timestamp Source";
+                keyName = context.getString(R.string.camera_timestamp_source);
                 break;
             case "android.sensor.info.whiteLevel":
-                keyName = "White Level";
+                keyName = context.getString(R.string.camera_white_level);
                 break;
             case "android.sensor.maxAnalogSensitivity":
-                keyName = "Maximum Analog Sensitivity";
+                keyName = context.getString(R.string.camera_maximum_analog_sensitivity);
                 break;
             case "android.sensor.orientation":
-                keyName = "Orientation";
+                keyName = context.getString(R.string.camera_orientation);
                 break;
             case "android.shading.availableModes":
-                keyName = "Shading Modes";
+                keyName = context.getString(R.string.camera_shading_modes);
                 break;
             case "android.statistics.info.availableFaceDetectModes":
-                keyName = "Face Detection Modes";
+                keyName = context.getString(R.string.camera_face_detection_modes);
                 break;
             case "android.statistics.info.availableHotPixelMapModes":
-                keyName = "Hot Pixel Map Modes";
+                keyName = context.getString(R.string.camera_hot_pixel_map_modes);
                 break;
             case "android.statistics.info.availableLensShadingMapModes":
-                keyName = "Lens Shading Map Modes";
+                keyName = context.getString(R.string.camera_lens_shading_map_modes);
                 break;
             case "android.statistics.info.maxFaceCount":
-                keyName = "Maximum Faces Detectable";
+                keyName = context.getString(R.string.camera_maximum_face_detectable);
                 break;
             case "android.sync.maxLatency":
-                keyName = "Maximum Latency";
+                keyName = context.getString(R.string.camera_maximum_latency);
                 break;
             case "android.tonemap.availableToneMapModes":
-                keyName = "Tone Map Modes";
+                keyName = context.getString(R.string.camera_tone_map_modes);
                 break;
             case "android.tonemap.maxCurvePoints":
-                keyName = "Maximum Curve Points";
+                keyName = context.getString(R.string.camera_maximum_curve_points);
                 break;
             default:
                 keyName = name;
@@ -1021,4 +1030,15 @@ public class GetDetails {
         }
         return thermalList;
     }
+
+    static Locale getLocale(Context context) {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = context.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = context.getResources().getConfiguration().locale;
+        }
+        return locale;
+    }
+
 }

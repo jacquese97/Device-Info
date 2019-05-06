@@ -30,7 +30,8 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/nougat" />
+                app:srcCompat="@drawable/nougat"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/txtAndroidVersionNumber"

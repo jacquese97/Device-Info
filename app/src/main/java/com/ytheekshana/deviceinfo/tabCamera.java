@@ -14,6 +14,8 @@ import android.util.SizeF;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
@@ -45,8 +47,8 @@ public class tabCamera extends Fragment {
 
     @Override
     public void onDetach() {
-        context = null;
         super.onDetach();
+        context = null;
     }
 
     @Override
@@ -103,16 +105,16 @@ public class tabCamera extends Fragment {
                 if (lensFacing != null) {
                     switch (lensFacing) {
                         case CameraCharacteristics.LENS_FACING_BACK:
-                            lens = "Back";
+                            lens = getString(R.string.back);
                             break;
                         case CameraCharacteristics.LENS_FACING_FRONT:
-                            lens = "Front";
+                            lens = getString(R.string.front);
                             break;
                         case CameraCharacteristics.LENS_FACING_EXTERNAL:
-                            lens = "External";
+                            lens = getString(R.string.external);
                             break;
                         default:
-                            lens = "Unknown";
+                            lens = getString(R.string.unknown);
                             break;
                     }
                 }
@@ -145,7 +147,7 @@ public class tabCamera extends Fragment {
 
                 String featureValue = getCameraFeatureValue(key, camchar);
                 if (!featureValue.trim().equals("")) {
-                    list.add(new CameraInfo(GetDetails.getKeyName(key.getName()), featureValue));
+                    list.add(new CameraInfo(GetDetails.getKeyName(key.getName(), context), featureValue));
                 }
             }
         } catch (CameraAccessException e) {
@@ -161,11 +163,11 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.COLOR_CORRECTION_ABERRATION_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.COLOR_CORRECTION_ABERRATION_MODE_FAST) {
-                    values.add("Fast");
+                    values.add(getString(R.string.feature_fast));
                 } else if (character == CameraCharacteristics.COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY) {
-                    values.add("High Quality");
+                    values.add(getString(R.string.feature_high_quality));
                 }
             }
 
@@ -173,9 +175,9 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_AE_ANTIBANDING_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.CONTROL_AE_ANTIBANDING_MODE_AUTO) {
-                    values.add("Auto");
+                    values.add(getString(R.string.auto));
                 } else if (character == CameraCharacteristics.CONTROL_AE_ANTIBANDING_MODE_50HZ) {
                     values.add("50Hz");
                 } else if (character == CameraCharacteristics.CONTROL_AE_ANTIBANDING_MODE_60HZ) {
@@ -186,15 +188,15 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_AE_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.CONTROL_AE_MODE_ON) {
-                    values.add("On");
+                    values.add(getString(R.string.on));
                 } else if (character == CameraCharacteristics.CONTROL_AE_MODE_ON_ALWAYS_FLASH) {
-                    values.add("Always Flash");
+                    values.add(getString(R.string.feature_always_flash));
                 } else if (character == CameraCharacteristics.CONTROL_AE_MODE_ON_AUTO_FLASH) {
-                    values.add("Auto Flash");
+                    values.add(getString(R.string.feature_auto_flash));
                 } else if (character == CameraCharacteristics.CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE) {
-                    values.add("Auto Flash Redeye");
+                    values.add(getString(R.string.feature_auto_flash_redeye));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES) {
@@ -213,115 +215,115 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_AF_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.CONTROL_AF_MODE_AUTO) {
-                    values.add("Auto");
+                    values.add(getString(R.string.auto));
                 } else if (character == CameraCharacteristics.CONTROL_AF_MODE_EDOF) {
-                    values.add("EDOF");
+                    values.add(getString(R.string.feature_edof));
                 } else if (character == CameraCharacteristics.CONTROL_AF_MODE_MACRO) {
-                    values.add("Macro");
+                    values.add(getString(R.string.feature_macro));
                 } else if (character == CameraCharacteristics.CONTROL_AF_MODE_CONTINUOUS_PICTURE) {
-                    values.add("Continuous Picture");
+                    values.add(getString(R.string.feature_continuous_picture));
                 } else if (character == CameraCharacteristics.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
-                    values.add("Continuous Video");
+                    values.add(getString(R.string.feature_continuous_video));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_AQUA) {
-                    values.add("Aqua");
+                    values.add(getString(R.string.feature_aqua));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_BLACKBOARD) {
-                    values.add("Blackboard");
+                    values.add(getString(R.string.feature_blackboard));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_MONO) {
-                    values.add("Mono");
+                    values.add(getString(R.string.feature_mono));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_NEGATIVE) {
-                    values.add("Negative");
+                    values.add(getString(R.string.feature_negative));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_POSTERIZE) {
-                    values.add("Posterize");
+                    values.add(getString(R.string.feature_posterize));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_SEPIA) {
-                    values.add("Sepia");
+                    values.add(getString(R.string.feature_sepia));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_SOLARIZE) {
-                    values.add("Solarize");
+                    values.add(getString(R.string.feature_solarize));
                 } else if (character == CameraCharacteristics.CONTROL_EFFECT_MODE_WHITEBOARD) {
-                    values.add("Whiteboard");
+                    values.add(getString(R.string.feature_whiteboard));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_SCENE_MODE_DISABLED) {
-                    values.add("Disabled");
+                    values.add(getString(R.string.disabled));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_ACTION) {
-                    values.add("Action");
+                    values.add(getString(R.string.feature_action));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_BARCODE) {
-                    values.add("Barcode");
+                    values.add(getString(R.string.feature_barcode));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_BEACH) {
-                    values.add("Beach");
+                    values.add(getString(R.string.feature_beach));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_CANDLELIGHT) {
-                    values.add("Candlelight");
+                    values.add(getString(R.string.feature_candlelight));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_FACE_PRIORITY) {
-                    values.add("Face Priority");
+                    values.add(getString(R.string.feature_face_priority));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_FIREWORKS) {
-                    values.add("Fireworks");
+                    values.add(getString(R.string.feature_fireworks));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_HDR) {
-                    values.add("HDR");
+                    values.add(getString(R.string.feature_hdr));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_LANDSCAPE) {
-                    values.add("Landscape");
+                    values.add(getString(R.string.feature_landscape));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT) {
-                    values.add("Night");
+                    values.add(getString(R.string.feature_night));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT_PORTRAIT) {
-                    values.add("Night Portrait");
+                    values.add(getString(R.string.feature_night_portrait));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_PARTY) {
-                    values.add("Party");
+                    values.add(getString(R.string.feature_party));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_PORTRAIT) {
-                    values.add("Portrait");
+                    values.add(getString(R.string.feature_portrait));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_SNOW) {
-                    values.add("Snow");
+                    values.add(getString(R.string.feature_snow));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_SPORTS) {
-                    values.add("Sports");
+                    values.add(getString(R.string.feature_sports));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_STEADYPHOTO) {
-                    values.add("Steady Photo");
+                    values.add(getString(R.string.feature_steady_photo));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_SUNSET) {
-                    values.add("Sunset");
+                    values.add(getString(R.string.feature_sunset));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_THEATRE) {
-                    values.add("Theatre");
+                    values.add(getString(R.string.feature_theatre));
                 } else if (character == CameraCharacteristics.CONTROL_SCENE_MODE_HIGH_SPEED_VIDEO) {
-                    values.add("High Speed Video");
+                    values.add(getString(R.string.feature_high_speed_video));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_VIDEO_STABILIZATION_MODE_ON) {
-                    values.add("On");
+                    values.add(getString(R.string.on));
                 } else if (character == CameraCharacteristics.CONTROL_VIDEO_STABILIZATION_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.CONTROL_AWB_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_AUTO) {
-                    values.add("Auto");
+                    values.add(getString(R.string.auto));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_CLOUDY_DAYLIGHT) {
-                    values.add("Cloudy Daylight");
+                    values.add(getString(R.string.feature_cloudy_daylight));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_DAYLIGHT) {
-                    values.add("Daylight");
+                    values.add(getString(R.string.feature_daylight));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_FLUORESCENT) {
-                    values.add("Fluorescent");
+                    values.add(getString(R.string.feature_fluorescent));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_INCANDESCENT) {
-                    values.add("Incandescent");
+                    values.add(getString(R.string.feature_incandescent));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_SHADE) {
-                    values.add("Shade");
+                    values.add(getString(R.string.feature_shade));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_TWILIGHT) {
-                    values.add("Twilight");
+                    values.add(getString(R.string.feature_twilight));
                 } else if (character == CameraCharacteristics.CONTROL_AWB_MODE_WARM_FLUORESCENT) {
-                    values.add("Warm Fluorescent");
+                    values.add(getString(R.string.feature_warm_fluorescent));
                 }
             }
         } else if (key == CameraCharacteristics.CONTROL_MAX_REGIONS_AE) {
@@ -337,41 +339,41 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.EDGE_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.EDGE_MODE_FAST) {
-                    values.add("Fast");
+                    values.add(getString(R.string.feature_fast));
                 } else if (character == CameraCharacteristics.EDGE_MODE_HIGH_QUALITY) {
-                    values.add("High Quality");
+                    values.add(getString(R.string.feature_high_quality));
                 } else if (character == CameraCharacteristics.EDGE_MODE_ZERO_SHUTTER_LAG) {
-                    values.add("Zero Shutter Lag");
+                    values.add(getString(R.string.feature_zero_shutter_lag));
                 }
             }
         } else if (key == CameraCharacteristics.FLASH_INFO_AVAILABLE) {
             boolean character = (boolean) characteristics.get(key);
-            values.add(character ? "Yes" : "No");
+            values.add(character ? getString(R.string.yes) : getString(R.string.no));
         } else if (key == CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.HOT_PIXEL_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.HOT_PIXEL_MODE_FAST) {
-                    values.add("Fast");
+                    values.add(getString(R.string.feature_fast));
                 } else if (character == CameraCharacteristics.HOT_PIXEL_MODE_HIGH_QUALITY) {
-                    values.add("High Quality");
+                    values.add(getString(R.string.feature_high_quality));
                 }
             }
         } else if (key == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) {
             int character = (int) characteristics.get(key);
             if (character == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3) {
-                values.add("Level 3");
+                values.add(getString(R.string.feature_level_3));
             } else if (character == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_EXTERNAL) {
-                values.add("External");
+                values.add(getString(R.string.external));
             } else if (character == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
-                values.add("Full");
+                values.add(getString(R.string.feature_full));
             } else if (character == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-                values.add("Legacy");
+                values.add(getString(R.string.feature_legacy));
             } else if (character == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
-                values.add("Limited");
+                values.add(getString(R.string.feature_limited));
             }
         } else if (key == CameraCharacteristics.JPEG_AVAILABLE_THUMBNAIL_SIZES) {
             Size[] character = (Size[]) characteristics.get(key);
@@ -381,13 +383,13 @@ public class tabCamera extends Fragment {
         } else if (key == CameraCharacteristics.LENS_FACING) {
             int character = (int) characteristics.get(key);
             if (character == CameraCharacteristics.LENS_FACING_BACK) {
-                values.add("Back");
+                values.add(getString(R.string.back));
             } else if (character == CameraCharacteristics.LENS_FACING_EXTERNAL) {
-                values.add("External");
+                values.add(getString(R.string.external));
             } else if (character == CameraCharacteristics.LENS_FACING_FRONT) {
-                values.add("Front");
+                values.add(getString(R.string.front));
             } else {
-                values.add("Unknown");
+                values.add(getString(R.string.unknown));
             }
         } else if (key == CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES) {
             float[] floatChar = (float[]) characteristics.get(key);
@@ -408,19 +410,19 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.LENS_OPTICAL_STABILIZATION_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.LENS_OPTICAL_STABILIZATION_MODE_ON) {
-                    values.add("On");
+                    values.add(getString(R.string.on));
                 }
             }
         } else if (key == CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION) {
             int character = (int) characteristics.get(key);
             if (character == CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_APPROXIMATE) {
-                values.add("Approximate");
+                values.add(getString(R.string.feature_approximate));
             } else if (character == CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_CALIBRATED) {
-                values.add("Calibrated");
+                values.add(getString(R.string.feature_calibrated));
             } else if (character == CameraCharacteristics.LENS_INFO_FOCUS_DISTANCE_CALIBRATION_UNCALIBRATED) {
-                values.add("Uncalibrated");
+                values.add(getString(R.string.feature_uncalibrated));
             }
         } else if (key == CameraCharacteristics.LENS_INFO_HYPERFOCAL_DISTANCE) {
             float character = (float) characteristics.get(key);
@@ -432,31 +434,31 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE) {
-                    values.add("Backward Compatible");
+                    values.add(getString(R.string.feature_backward_compatible));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_BURST_CAPTURE) {
-                    values.add("Burst Capture");
+                    values.add(getString(R.string.feature_burst_capture));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_CONSTRAINED_HIGH_SPEED_VIDEO) {
-                    values.add("Constrained High Speed Video");
+                    values.add(getString(R.string.feature_constrained_high_speed_video));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_DEPTH_OUTPUT) {
-                    values.add("Depth Output");
+                    values.add(getString(R.string.feature_depth_output));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA) {
-                    values.add("Logical Multi Camera");
+                    values.add(getString(R.string.feature_logical_multi_camera));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_MANUAL_POST_PROCESSING) {
-                    values.add("Manual Post Processing");
+                    values.add(getString(R.string.feature_manual_post_processing));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_MANUAL_SENSOR) {
-                    values.add("Manual Sensor");
+                    values.add(getString(R.string.feature_manual_sensor));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_MONOCHROME) {
-                    values.add("Monochrome");
+                    values.add(getString(R.string.feature_monochrome));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_MOTION_TRACKING) {
-                    values.add("Motion Tracking");
+                    values.add(getString(R.string.feature_motion_tracking));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_PRIVATE_REPROCESSING) {
-                    values.add("Private Reprocessing");
+                    values.add(getString(R.string.feature_private_reprocessing));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_RAW) {
-                    values.add("Raw");
+                    values.add(getString(R.string.feature_raw));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_READ_SENSOR_SETTINGS) {
-                    values.add("Read Sensor Settings");
+                    values.add(getString(R.string.feature_read_sensor_settings));
                 } else if (character == CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_YUV_REPROCESSING) {
-                    values.add("YUV Reprocessing");
+                    values.add(getString(R.string.feature_yuv_reprocessing));
                 }
             }
         } else if (key == CameraCharacteristics.REQUEST_MAX_NUM_OUTPUT_PROC) {
@@ -483,25 +485,25 @@ public class tabCamera extends Fragment {
         } else if (key == CameraCharacteristics.SCALER_CROPPING_TYPE) {
             int character = (int) characteristics.get(key);
             if (character == CameraCharacteristics.SCALER_CROPPING_TYPE_CENTER_ONLY) {
-                values.add("Center Only");
+                values.add(getString(R.string.feature_center_only));
             } else if (character == CameraCharacteristics.SCALER_CROPPING_TYPE_FREEFORM) {
-                values.add("Freeform");
+                values.add(getString(R.string.feature_freeform));
             }
         } else if (key == CameraCharacteristics.SENSOR_AVAILABLE_TEST_PATTERN_MODES) {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_COLOR_BARS) {
-                    values.add("Color Bars");
+                    values.add(getString(R.string.feature_color_bars));
                 } else if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_COLOR_BARS_FADE_TO_GRAY) {
-                    values.add("Color Bars Fade to Gray");
+                    values.add(getString(R.string.feature_color_bars_fade_to_gray));
                 } else if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_CUSTOM1) {
-                    values.add("Custom 1");
+                    values.add(getString(R.string.feature_custom_1));
                 } else if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_PN9) {
-                    values.add("PN9");
+                    values.add(getString(R.string.feature_pn9));
                 } else if (character == CameraCharacteristics.SENSOR_TEST_PATTERN_MODE_SOLID_COLOR) {
-                    values.add("Solid Color");
+                    values.add(getString(R.string.feature_solid_color));
                 }
             }
         } else if (key == CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT) {
@@ -520,9 +522,9 @@ public class tabCamera extends Fragment {
         } else if (key == CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE) {
             int character = (int) characteristics.get(key);
             if (character == CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE_REALTIME) {
-                values.add("Realtime");
+                values.add(getString(R.string.feature_realtime));
             } else if (character == CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE_UNKNOWN) {
-                values.add("Unknown");
+                values.add(getString(R.string.unknown));
             }
         } else if (key == CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE) {
             SizeF character = (SizeF) characteristics.get(key);
@@ -537,11 +539,11 @@ public class tabCamera extends Fragment {
             int[] intChar = (int[]) characteristics.get(key);
             for (int character : intChar != null ? intChar : new int[0]) {
                 if (character == CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_OFF) {
-                    values.add("Off");
+                    values.add(getString(R.string.off));
                 } else if (character == CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_FULL) {
-                    values.add("Full");
+                    values.add(getString(R.string.feature_full));
                 } else if (character == CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_SIMPLE) {
-                    values.add("Simple");
+                    values.add(getString(R.string.feature_simple));
                 }
             }
         }

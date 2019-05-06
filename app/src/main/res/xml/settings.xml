@@ -1,60 +1,60 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="Theme">
+    <PreferenceCategory android:title="@string/theme">
 
         <SwitchPreference
-            android:key="dark_theme_switch"
             android:icon="@drawable/ic_dark_mode"
-            android:summary="Enable Dark Theme"
-            android:title="Dark Theme" />
+            android:key="dark_theme_switch"
+            android:summary="@string/dark_theme_disabled"
+            android:title="@string/dark_theme" />
         <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
             android:id="@+id/theme_color"
-            android:icon="@drawable/ic_theme_color"
             android:defaultValue="@color/colorPrimary"
+            android:icon="@drawable/ic_theme_color"
             android:key="accent_color_dialog"
-            android:summary="Select an Accent Color"
-            android:title="Accent Color"
+            android:summary="@string/select_an_accent_color"
+            android:title="@string/accent_color"
             app:colorChoices="@array/accent_colors"
             app:colorShape="circle" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="App Backup">
+    <PreferenceCategory android:title="@string/app_backup">
 
         <Preference
-            android:key="pref_extract_location"
             android:icon="@drawable/ic_extract_location"
-            android:summary="/emulated/0/DeviceInfo"
-            android:title="Extract Location" />
+            android:key="pref_extract_location"
+            android:summary="@string/default_extract_path"
+            android:title="@string/extract_location" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Export">
 
         <Preference
-            android:key="pref_export_data"
             android:icon="@drawable/ic_export"
-            android:summary="Save your device information to a text file"
-            android:title="Export Data" />
+            android:key="pref_export_data"
+            android:summary="@string/save_to_text_file"
+            android:title="@string/export_data" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Support Us">
+    <PreferenceCategory android:title="@string/support_us">
 
         <Preference
-            android:key="pref_rate_us"
             android:icon="@drawable/ic_rate_us"
-            android:summary="Enjoying Device Info? Would you mind giving us some feedback on Google Play Store"
-            android:title="Rate Us" />
+            android:key="pref_rate_us"
+            android:summary="@string/enjoying_device_info"
+            android:title="@string/rate_us" />
 
         <Preference
-            android:key="pref_donate"
             android:icon="@drawable/ic_donate"
-            android:summary="You can show your appreciation for my work by making a small donation"
-            android:title="Donate (Support Development)" />
+            android:key="pref_donate"
+            android:summary="@string/donate_summary"
+            android:title="@string/donate_support_development" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory android:title="@string/about">
         <Preference
-            android:key="app_version_pref"
             android:icon="@drawable/ic_about"
+            android:key="app_version_pref"
             android:persistent="false"
             android:selectable="false"
             android:summary=""
-            android:title="App Version" />
+            android:title="@string/app_version" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

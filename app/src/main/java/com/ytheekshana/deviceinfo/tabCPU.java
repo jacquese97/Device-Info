@@ -264,12 +264,12 @@ public class tabCPU extends Fragment {
                             String curfreg = readerCurFreq.readLine();
                             currentFreq = Double.parseDouble(curfreg) / 1000;
                             readerCurFreq.close();
-                            final String settextcorecores = "\t\tCore " + corecount + "       " + (int) currentFreq + " Mhz";
+                            final String settextcorecores = "\t\t" + getString(R.string.core) + " " + corecount + "       " + (int) currentFreq + " Mhz";
                             final int finalCorecount1 = corecount;
                             txtCore[corecount].post(() -> txtCore[finalCorecount1].setText(settextcorecores));
 
                         } catch (Exception ex) {
-                            final String settextcorecoresEX = "\t\tCore " + corecount + "       " + "Idle";
+                            final String settextcorecoresEX = "\t\t" + getString(R.string.core) + " " + corecount + "       " + getString(R.string.idle);
                             final int finalCorecount = corecount;
                             txtCore[corecount].post(() -> txtCore[finalCorecount].setText(settextcorecoresEX));
                         }

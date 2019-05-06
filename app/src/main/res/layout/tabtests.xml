@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/display_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -66,7 +66,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/display_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_phone_android" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/flashlight_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -113,7 +113,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/flashlight_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_flashlight" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/loudspeaker_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -159,7 +159,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/loudspeaker_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_speaker" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/earspeaker_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -205,7 +205,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/earspeaker_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_earspeaker" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -240,7 +240,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/earproximity_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -251,7 +251,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/earproximity_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_earproximity" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -286,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/lightsensor_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -297,7 +297,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/lightsensor_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_light_sensor" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -332,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/vibration_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -343,7 +343,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/vibration_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_vibration" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -378,7 +378,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/wifi_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -389,7 +389,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/wifi_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_wifi" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -424,7 +424,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/bluetooth_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -435,7 +435,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/bluetooth_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_bluetooth" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -470,7 +470,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/fingerprint_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -481,7 +481,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/fingerprint_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_fingerprint" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -516,7 +516,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/volumeup_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -527,7 +527,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/volumeup_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_volume_up" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -562,7 +562,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/volumedown_test_status"
+                        android:contentDescription="@null"
                         android:tint="@color/test_default"
                         card_view:srcCompat="@drawable/test_default" />
 
@@ -573,7 +573,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/volumedown_test"
+                        android:contentDescription="@null"
                         card_view:srcCompat="@drawable/ic_volume_down" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

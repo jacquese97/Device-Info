@@ -114,7 +114,6 @@ public class WifiTestActivity extends AppCompatActivity {
                         editPrefs.putInt("wifi_test_status", 1);
                         editPrefs.apply();
                         editPrefs.commit();
-                        context.unregisterReceiver(this);
                     } else {
                         imgWifiImage.setImageResource(R.drawable.ic_wifi_image);
                         btnDone.setVisibility(View.GONE);
@@ -132,7 +131,6 @@ public class WifiTestActivity extends AppCompatActivity {
                         editPrefs.putInt("wifi_test_status", 1);
                         editPrefs.apply();
                         editPrefs.commit();
-                        context.unregisterReceiver(this);
                     } else {
                         imgWifiImage.setImageResource(R.drawable.ic_wifi_image);
                         btnDone.setVisibility(View.GONE);
@@ -150,9 +148,20 @@ public class WifiTestActivity extends AppCompatActivity {
                     editPrefs.putInt("wifi_test_status", 0);
                     editPrefs.apply();
                     editPrefs.commit();
-                    context.unregisterReceiver(this);
                     break;
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (mWifiStateChangedReceiver != null) {
+                this.unregisterReceiver(mWifiStateChangedReceiver);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

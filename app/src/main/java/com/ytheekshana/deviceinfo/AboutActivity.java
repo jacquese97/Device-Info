@@ -61,7 +61,7 @@ public class AboutActivity extends AppCompatActivity {
         });
 
         circleimgAuthor.setOnClickListener(view -> {
-            Snackbar snackAuthor = Snackbar.make(view, "Created by Ytheekshana", Snackbar.LENGTH_LONG);
+            Snackbar snackAuthor = Snackbar.make(view, getString(R.string.created_by) +" Ytheekshana", Snackbar.LENGTH_LONG);
             SnackbarHelper.configSnackbar(context, snackAuthor);
             snackAuthor.show();
         });

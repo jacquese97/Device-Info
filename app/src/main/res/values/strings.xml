@@ -11,7 +11,7 @@
     <string name="DashApp">All Apps</string>
     <string name="DashAppStatus">Installed</string>
 
-    <string name="ZeroPerc">0%</string>
+    <string name="ZeroPerc" translatable="false">0%</string>
     <string name="imgRAM">RAM Logo</string>
     <string name="imgInternalStorage">Internal Storage Logo</string>
     <string name="imgExternalStorage">External Storage Logo</string>
@@ -20,6 +20,7 @@
     <string name="imgROM">ROM Logo</string>
 
     <string name="app_name">Device Info</string>
+    <string name="package_name" translatable="false">com.ytheekshana.deviceinfo</string>
     <string name="app_description">Device Info is a simple and powerful Android application which gives you complete information about your Mobile device with advanced user interfaces</string>
     <string name="action_settings">Settings</string>
     <string name="action_export">Export</string>
@@ -27,13 +28,24 @@
     <string name="action_rate">Rate App</string>
     <string name="action_donate">Donate</string>
     <string name="action_search">Search</string>
-    <string name="app_author">Yasiru Nayanajith</string>
+    <string name="app_author" translatable="false">Yasiru Nayanajith</string>
     <string name="app_cover_photo">Cover Picture</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="device">Device</string>
+    <string name="system">System</string>
+    <string name="cpu">CPU</string>
+    <string name="battery">Battery</string>
+    <string name="display">Display</string>
+    <string name="memory">Memory</string>
+    <string name="camera">Camera</string>
+    <string name="thermal">Thermal</string>
+    <string name="sensors">Sensors</string>
+    <string name="apps">Apps</string>
+    <string name="tests">Tests</string>
 
     <string name="DeviceName">Device Name</string>
     <string name="Model">Model</string>
     <string name="Manufacturer">Manufacturer</string>
-    <string name="Device">Device</string>
     <string name="Board">Board</string>
     <string name="Hardware">Hardware</string>
     <string name="Brand">Brand</string>
@@ -57,12 +69,12 @@
     <string name="Bootloader">Bootloader</string>
     <string name="BuildNumber">Build Number</string>
     <string name="Baseband">Baseband</string>
-    <string name="AndroidRuntime">Java VM</string>
     <string name="Kernel">Kernel</string>
     <string name="OpenGL">OpenGL ES</string>
     <string name="RootAccess">Root Access</string>
     <string name="SELinux">SELinux</string>
     <string name="Uptime">System Uptime</string>
+    <string name="Language">Language</string>
 
     <string name="Processor">Processor</string>
     <string name="ABIs">Supported ABIs</string>
@@ -84,6 +96,17 @@
     <string name="Level">Level</string>
     <string name="PowerSource">Power Source</string>
     <string name="Capacity">Capacity</string>
+    <string name="charging">Charging</string>
+    <string name="discharging">Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="not_charging">Not Charging</string>
+    <string name="usb_port">USB Port</string>
+    <string name="ac">AC</string>
+    <string name="cold">Cold</string>
+    <string name="dead">Dead</string>
+    <string name="good">Good</string>
+    <string name="over_voltage">Over Voltage</string>
+    <string name="overheat">Overheat</string>
 
     <string name="Resolution">Resolution</string>
     <string name="Density">Density</string>
@@ -94,6 +117,10 @@
     <string name="brightnessMode">Brightness Mode</string>
     <string name="screenTimeout">Screen Timeout</string>
     <string name="Orientation">Orientation</string>
+    <string name="adaptive">Adaptive</string>
+    <string name="manual">Manual</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
 
     <string name="RAM">Random Access Memory</string>
     <string name="ROM">System Storage</string>
@@ -123,9 +150,8 @@
     <string name="title_activity_splash">Device Info</string>
     <string name="title_activity_donate">Donate</string>
     <string name="title_activity_about">About</string>
-    <string name="title_activity_running_services">Running Services</string>
 
-
+    <!--Tests-->
     <string name="test_failed">Test Failed</string>
     <string name="test_passed">Test Passed</string>
     <string name="display_test">Display</string>
@@ -147,6 +173,7 @@
     <string name="lightsensor_test">Light Sensor</string>
     <string name="lightsensor_test_status">Light Sensor Test Status</string>
     <string name="lightsensor_test_question">Cover the area above the display. Is the value changing?</string>
+    <string name="lightsensor_default_value">Default Lux</string>
     <string name="vibration_test">Vibration</string>
     <string name="vibration_test_status">Vibration Test Status</string>
     <string name="vibration_test_question">Can you feel the phone vibrating?</string>
@@ -156,8 +183,10 @@
     <string name="bluetooth_test">Bluetooth</string>
     <string name="bluetooth_test_status">Bluetooth Test Status</string>
     <string name="bluetooth_test_start">Starting Bluetooth</string>
-    <string name="fingerprint_test">Fingerprint</string>
-    <string name="fingerprint_test_status">Fingerprint Test Status</string>
+    <string name="fingerprint_test">Fingerprint Test</string>
+    <string name="place_your_finger">Place your finger on the sensor</string>
+    <string name="place_enrolled_finger">Place an enrolled finger on the fingerprint sensor to pass the test. Please enroll a finger if you haven\'t.</string>
+    <!--<string name="fingerprint_test_status">Fingerprint Test Status</string>-->
     <string name="volumeup_test">Volume Up Button</string>
     <string name="volumeup_test_status">Volume Up Button Test Status</string>
     <string name="volumeup_test_question">Press the volume up key, do you get any feedback?</string>
@@ -171,12 +200,12 @@
     <string name="review_enjoying_device_info">Enjoying Device Info ?</string>
     <string name="review_not_really">Not Really</string>
     <string name="review_yes">Yes!</string>
-    <string name="unknown_min_sdk">Unknown</string>
+    <string name="unknown">Unknown</string>
 
     <string name="file_chooser_title">Select Extract Folder</string>
     <string name="file_chooser_choose">Choose Folder</string>
-    <string name="file_chooser_cancel">Cancel</string>
 
+    <!--Donate-->
     <string name="donate_coffee_title">Cup of Coffee</string>
     <string name="donate_coffee_description">Buy me a cup of coffee</string>
     <string name="donate_sandwich_title">Sandwich</string>
@@ -191,6 +220,280 @@
     <string name="donate_description">You can show your appreciation for my work by making a small donation. This will help me to continue work on this app</string>
     <string name="donate_button">Support Development</string>
 
+    <!--Apps-->
+    <string name="app_info">App Info</string>
+    <string name="extract_app">Extract App</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="min_android">Min : Android </string>
+    <string name="target_android">Target : Android </string>
+    <string name="installed">Installed : </string>
+    <string name="last_updated">Last Updated : </string>
+    <string name="exported_to">Exported to</string>
+
+    <!--Camera-->
     <string name="cameraNoteTitle">Please Read This</string>
     <string name="cameraNote">If the MegaPixel count shown is wrong, that means your device manufacturer has limited the access to the camera for third-party apps. Also even if your device has more than one camera on one side, Android OS identifies them as a single camera for that side.</string>
+    <string name="back">Back</string>
+    <string name="front">Front</string>
+    <string name="external">External</string>
+    <string name="position">Position</string>
+    <string name="mega_pixels">Mega Pixels</string>
+    <string name="focal_length">Focal Length</string>
+    <string name="camera_aberration_modes">Aberration Modes</string>
+    <string name="camera_antibanding_modes">Antibanding Modes</string>
+    <string name="camera_auto_exposure_modes">Auto Exposure Modes</string>
+    <string name="camera_target_fps_ranges">Target FPS Ranges</string>
+    <string name="camera_compensation_range">Compensation Range</string>
+    <string name="camera_compensation_step">Compensation Step</string>
+    <string name="camera_auto_exposure_lock">Auto Exposure Lock</string>
+    <string name="camera_autofocus_modes">AutoFocus Modes</string>
+    <string name="camera_effects">Effects</string>
+    <string name="camera_available_modes">Available Modes</string>
+    <string name="camera_scene_modes">Scene Modes</string>
+    <string name="camera_video_stabilization_modes">Video Stabilization Modes</string>
+    <string name="camera_auto_white_balance_modes">Auto White Balance Modes</string>
+    <string name="camera_auto_white_balance_lock">Auto White Balance Lock</string>
+    <string name="camera_maximum_auto_exposure_regions">Maximum Auto Exposure Regions</string>
+    <string name="camera_maximum_auto_focus_regions">Maximum Auto Focus Regions</string>
+    <string name="camera_maximum_auto_white_balance_regions">Maximum Auto White Balance Regions</string>
+    <string name="camera_edge_modes">Edge Modes</string>
+    <string name="camera_flash_available">Flash Available</string>
+    <string name="camera_hot_pixel_modes">Hot Pixel Modes</string>
+    <string name="camera_hardware_level">Hardware Level</string>
+    <string name="camera_thumbnail_sizes">Thumbnail Sizes</string>
+    <string name="camera_lens_placement">Lens Placement</string>
+    <string name="camera_apertures">Apertures</string>
+    <string name="camera_filter_densities">Filter Densities</string>
+    <string name="camera_focal_lengths">Focal Lengths</string>
+    <string name="camera_optical_stabilization">Optical Stabilization</string>
+    <string name="camera_focus_distance_calibration">Focus Distance Calibration</string>
+    <string name="camera_hyperfocal_distance">Hyperfocal Distance</string>
+    <string name="camera_minimum_focus_distance">Minimum Focus Distance</string>
+    <string name="camera_noise_reduction_modes">Noise Reduction Modes</string>
+    <string name="camera_capabilities">Camera Capabilities</string>
+    <string name="camera_maximum_input_streams">Maximum Input Streams</string>
+    <string name="camera_maximum_output_streams">Maximum Output Streams</string>
+    <string name="camera_maximum_output_streams_stalling">Maximum Output Streams Stalling</string>
+    <string name="camera_maximum_raw_output_streams">Maximum RAW Output Streams</string>
+    <string name="camera_partial_results">Partial Results</string>
+    <string name="camera_maximum_pipeline_depth">Maximum Pipeline Depth</string>
+    <string name="camera_maximum_digital_zoom">Maximum Digital Zoom</string>
+    <string name="camera_cropping_type">Cropping Type</string>
+    <string name="camera_supported_resolutions">Supported Resolutions</string>
+    <string name="camera_test_pattern_modes">Test Pattern Modes</string>
+    <string name="camera_black_level_pattern">Black Level Pattern</string>
+    <string name="camera_active_array_size">Active Array Size</string>
+    <string name="camera_color_filter_arrangement">Color Filter Arrangement</string>
+    <string name="camera_exposure_time_range">Exposure Time Range</string>
+    <string name="camera_maximum_frame_duration">Maximum Frame Duration</string>
+    <string name="camera_sensor_size">Sensor Size</string>
+    <string name="camera_pixel_array_size">Pixel Array Size</string>
+    <string name="camera_pre_correction_active_array_size">Pre Correction Active Array Size</string>
+    <string name="camera_sensitivity_range">Sensitivity Range</string>
+    <string name="camera_timestamp_source">Timestamp Source</string>
+    <string name="camera_white_level">White Level</string>
+    <string name="camera_maximum_analog_sensitivity">Maximum Analog Sensitivity</string>
+    <string name="camera_orientation">Orientation</string>
+    <string name="camera_shading_modes">Shading Modes</string>
+    <string name="camera_face_detection_modes">Face Detection Modes</string>
+    <string name="camera_hot_pixel_map_modes">Hot Pixel Map Modes</string>
+    <string name="camera_lens_shading_map_modes">Lens Shading Map Modes</string>
+    <string name="camera_maximum_face_detectable">Maximum Faces Detectable</string>
+    <string name="camera_maximum_latency">Maximum Latency</string>
+    <string name="camera_tone_map_modes">Tone Map Modes</string>
+    <string name="camera_maximum_curve_points">Maximum Curve Points</string>
+
+    <string name="feature_fast">Fast</string>
+    <string name="feature_high_quality">High Quality</string>
+    <string name="feature_always_flash">Always Flash</string>
+    <string name="feature_auto_flash">Auto Flash</string>
+    <string name="feature_auto_flash_redeye">Auto Flash Red-eye</string>
+    <string name="feature_edof" translatable="false">EDOF</string>
+    <string name="feature_macro">Macro</string>
+    <string name="feature_continuous_picture">Continuous Picture</string>
+    <string name="feature_continuous_video">Continuous Video</string>
+    <string name="feature_aqua">Aqua</string>
+    <string name="feature_blackboard">Blackboard</string>
+    <string name="feature_mono">Mono</string>
+    <string name="feature_negative">Negative</string>
+    <string name="feature_posterize">Posterize</string>
+    <string name="feature_sepia">Sepia</string>
+    <string name="feature_solarize">Solarize</string>
+    <string name="feature_whiteboard">Whiteboard</string>
+    <string name="feature_action">Action</string>
+    <string name="feature_barcode">Barcode</string>
+    <string name="feature_beach">Beach</string>
+    <string name="feature_candlelight">Candlelight</string>
+    <string name="feature_face_priority">Face Priority</string>
+    <string name="feature_fireworks">Fireworks</string>
+    <string name="feature_hdr" translatable="false">HDR</string>
+    <string name="feature_landscape">Landscape</string>
+    <string name="feature_night">Night</string>
+    <string name="feature_night_portrait">Night Portrait</string>
+    <string name="feature_party">Party</string>
+    <string name="feature_portrait">Portrait</string>
+    <string name="feature_snow">Snow</string>
+    <string name="feature_sports">Sports</string>
+    <string name="feature_steady_photo">Steady Photo</string>
+    <string name="feature_sunset">Sunset</string>
+    <string name="feature_theatre">Theatre</string>
+    <string name="feature_high_speed_video">High Speed Video</string>
+    <string name="feature_cloudy_daylight">Cloudy Daylight</string>
+    <string name="feature_daylight">Daylight</string>
+    <string name="feature_fluorescent">Fluorescent</string>
+    <string name="feature_incandescent">Incandescent</string>
+    <string name="feature_shade">Shade</string>
+    <string name="feature_twilight">Twilight</string>
+    <string name="feature_warm_fluorescent">Warm Fluorescent</string>
+    <string name="feature_zero_shutter_lag">Zero Shutter Lag</string>
+    <string name="feature_level_3">Level 3</string>
+    <string name="feature_full">Full</string>
+    <string name="feature_legacy">Legacy</string>
+    <string name="feature_limited">Limited</string>
+    <string name="feature_approximate">Approximate</string>
+    <string name="feature_calibrated">Calibrated</string>
+    <string name="feature_uncalibrated">Uncalibrated</string>
+    <string name="feature_backward_compatible">Backward Compatible</string>
+    <string name="feature_burst_capture">Burst Capture</string>
+    <string name="feature_constrained_high_speed_video">Constrained High Speed Video</string>
+    <string name="feature_depth_output">Depth Output</string>
+    <string name="feature_logical_multi_camera">Logical Multi Camera</string>
+    <string name="feature_manual_post_processing">Manual Post Processing</string>
+    <string name="feature_manual_sensor">Manual Sensor</string>
+    <string name="feature_monochrome">Monochrome</string>
+    <string name="feature_motion_tracking">Motion Tracking</string>
+    <string name="feature_private_reprocessing">Private Reprocessing</string>
+    <string name="feature_raw">Raw</string>
+    <string name="feature_read_sensor_settings">Read Sensor Settings</string>
+    <string name="feature_yuv_reprocessing">YUV Reprocessing</string>
+    <string name="feature_center_only">Center Only</string>
+    <string name="feature_freeform">Freeform</string>
+    <string name="feature_color_bars">Color Bars</string>
+    <string name="feature_color_bars_fade_to_gray">Color Bars Fade to Gray</string>
+    <string name="feature_custom_1">Custom 1</string>
+    <string name="feature_pn9" translatable="false">PN9</string>
+    <string name="feature_solid_color">Solid Color</string>
+    <string name="feature_realtime">Realtime</string>
+    <string name="feature_simple">Simple</string>
+
+    <!--Export Report-->
+    <string name="device_info_report">Device Info Report</string>
+    <string name="date_created">Date Created </string>
+    <string name="android_version">Android Version</string>
+    <string name="version_name">Version Name</string>
+    <string name="released_date">Released Date</string>
+    <string name="java_vm">Java VM</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="pixels">Pixels</string>
+    <string name="dpi" translatable="false">dpi</string>
+    <string name="inches">inches</string>
+    <string name="hz" translatable="false">Hz</string>
+    <string name="total">Total</string>
+    <string name="available">Available</string>
+    <string name="used">Used</string>
+    <string name="used_percentage">Used Percentage</string>
+    <string name="vendor">Vendor</string>
+    <string name="type">Type</string>
+    <string name="power">Power</string>
+    <string name="document_generated">Document generated in Downloads folder</string>
+    <string name="open">Open</string>
+    <string name="something_went_wrong">Something went wrong</string>
+
+    <!--Sensors-->
+    <string name="sensor_accelerometer">ACCELEROMETER</string>
+    <string name="sensor_magnetic_field">MAGNETIC FIELD</string>
+    <string name="sensor_orientation">ORIENTATION</string>
+    <string name="sensor_gyroscope">GYROSCOPE</string>
+    <string name="sensor_light">LIGHT</string>
+    <string name="sensor_pressure">PRESSURE</string>
+    <string name="sensor_temperature">TEMPERATURE</string>
+    <string name="sensor_proximity">PROXIMITY</string>
+    <string name="sensor_gravity">GRAVITY</string>
+    <string name="sensor_linear_acceleration">LINEAR ACCELERATION</string>
+    <string name="sensor_rotation_vector">ROTATION VECTOR</string>
+    <string name="sensor_relative_humidity">RELATIVE HUMIDITY</string>
+    <string name="sensor_ambient_temperature">AMBIENT TEMPERATURE</string>
+    <string name="sensor_magnetic_field_uncalibrated">MAGNETIC FIELD UNCALIBRATED</string>
+    <string name="sensor_game_rotation_vector">GAME ROTATION VECTOR</string>
+    <string name="sensor_gyroscope_uncalibrated">GYROSCOPE UNCALIBRATED</string>
+    <string name="sensor_significant_motion">SIGNIFICANT MOTION</string>
+    <string name="sensor_step_detector">STEP DETECTOR</string>
+    <string name="sensor_step_counter">STEP COUNTER</string>
+    <string name="sensor_geomagnetic_rotation_vector">GEOMAGNETIC ROTATION VECTOR</string>
+    <string name="sensor_heart_rate">HEART RATE</string>
+    <string name="sensor_tilt_detector">TILT DETECTOR</string>
+    <string name="sensor_wake_gesture">WAKE GESTURE</string>
+    <string name="sensor_glance_gesture">GLANCE GESTURE</string>
+    <string name="sensor_pickup_gesture">PICK UP GESTURE</string>
+    <string name="sensor_wrist_tilt_detector">WRIST TILT GESTURE</string>
+    <string name="sensor_device_orientation">DEVICE ORIENTATION</string>
+    <string name="sensor_pose_6dof">POSE 6DOF</string>
+    <string name="sensor_stationary_detect">STATIONARY DETECT</string>
+    <string name="sensor_motion_detect">MOTION DETECT</string>
+    <string name="sensor_heart_beat">HEART BEAT</string>
+    <string name="sensor_dynamic_sensor_meta">DYNAMIC SENSOR META</string>
+    <string name="sensor_additional_info">ADDITIONAL INFO</string>
+    <string name="sensor_low_latency_offbody_detect">LOW LATENCY OFFBODY DETECT</string>
+    <string name="sensor_accelerometer_uncalibrated">ACCELEROMETER UNCALIBRATED</string>
+
+    <!--Settings-->
+    <string name="dark_theme_enabled">Dark Theme Enabled</string>
+    <string name="dark_theme_disabled">Dark Theme Disabled</string>
+    <string name="theme">Theme</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="select_an_accent_color">Select an Accent Color</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="app_backup">App Backup</string>
+    <string name="default_extract_path" translatable="false">/emulated/0/DeviceInfo</string>
+    <string name="extract_location">Extract Location</string>
+    <string name="export">Export</string>
+    <string name="save_to_text_file">Save your device information to a text file</string>
+    <string name="support_us">Support Us</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="enjoying_device_info">Enjoying Device Info? Would you mind giving us some feedback on Google Play Store</string>
+    <string name="donate_summary">You can show your appreciation for my work by making a small donation</string>
+    <string name="donate_support_development">Donate (Support Development)</string>
+    <string name="about">About</string>
+    <string name="app_version">App Version</string>
+
+    <string name="export_data">Export Data</string>
+    <string name="done">Done</string>
+    <string name="next">Next</string>
+    <string name="mb_used">MB Used</string>
+    <string name="mb_free">MB Free</string>
+    <string name="cpu_status">CPU Status</string>
+    <string name="created_by">Created by</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="check_your_connection">Check your connection</string>
+    <string name="purchase_cancelled">Purchase Cancelled</string>
+    <string name="already_purchased">Already Purchased</string>
+    <string name="try_again_later">Please try again later</string>
+    <string name="not_available">Not Available</string>
+    <string name="not_supported">Not Supported</string>
+    <string name="supported">Supported</string>
+    <string name="failure">Failure</string>
+    <string name="unable_to_determine">Unable to determine</string>
+    <string name="permissive">Permissive</string>
+    <string name="enforcing">Enforcing</string>
+    <string name="play_store_not_found">Google Play Store not found</string>
+    <string name="install_google_play_services">Install Google Play Services</string>
+    <string name="undefined">Undefined</string>
+    <string name="version">Version</string>
+    <string name="core">Core</string>
+    <string name="idle">Idle</string>
+    <string name="free">Free</string>
+    <string name="ram">RAM</string>
+    <string name="seconds">Seconds</string>
+    <string name="used_of">used of</string>
+    <string name="wake_up_sensor">Wake Up Sensor</string>
+    <string name="sensors_are_available">Sensors are available on your device</string>
+    <string name="android">Android</string>
+    <string name="released">Released</string>
+    <string name="cancel">Cancel</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="auto">Auto</string>
+    <string name="disabled">Disabled</string>
+    <string name="no_thermal_data">No Thermal Data</string>
 </resources>

@@ -100,7 +100,7 @@ public class tabDevice extends Fragment {
             View v2 = new View(getContext());
             v2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
             v2.setBackgroundColor(lineColor);
-            txtDevice.setText(R.string.Device);
+            txtDevice.setText(R.string.device);
             txtDevice.setTypeface(null, Typeface.BOLD);
             txtDevice.setTextSize(16);
             txtDevice.setPadding(0, 15, 0, 0);
@@ -489,7 +489,7 @@ public class tabDevice extends Fragment {
                     txtNetworkOperatordis.setText(tm.getNetworkOperatorName());
                     txtNetworkTypedis.setText(GetDetails.NetworkType(tm.getNetworkType()));
                 } else {
-                    Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (SecurityException ex) {

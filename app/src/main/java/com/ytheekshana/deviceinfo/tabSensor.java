@@ -1,6 +1,5 @@
 package com.ytheekshana.deviceinfo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -28,15 +27,11 @@ public class tabSensor extends Fragment {
     private SwipeRefreshLayout swipesensorlist;
     private RecyclerView recyclerSensors;
     Context context;
-    private Activity activity;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
-        if (context instanceof Activity) {
-            activity = (Activity) context;
-        }
     }
 
     @Override
@@ -50,7 +45,7 @@ public class tabSensor extends Fragment {
         swipesensorlist.setColorSchemeColors(MainActivity.themeColor);
         swipesensorlist.setOnRefreshListener(() -> new Thread(loadSensors).start());
 
-        getcount = SplashActivity.numberOfSensors + " Sensors are available on your device";
+        getcount = SplashActivity.numberOfSensors + " " + getString(R.string.sensors_are_available);
 
         loadSensors = new Thread() {
             @Override
@@ -82,16 +77,16 @@ public class tabSensor extends Fragment {
     private ArrayList<SensorInfo> getAllSensors() {
 
         ArrayList<SensorInfo> allsensors = new ArrayList<>();
-        SensorManager mSensorManager = (SensorManager) Objects.requireNonNull(activity.getSystemService(Context.SENSOR_SERVICE));
+        SensorManager mSensorManager = (SensorManager) Objects.requireNonNull(context.getSystemService(Context.SENSOR_SERVICE));
         List<Sensor> deviceSensors = Objects.requireNonNull(mSensorManager).getSensorList(Sensor.TYPE_ALL);
 
         for (Sensor s : deviceSensors) {
             String sensorName = s.getName();
-            String sensorVendor = "Vendor : " + s.getVendor();
-            String sensorType = "Type : " + GetDetails.GetSensorType(s.getType());
-            String wakup = s.isWakeUpSensor() ? "Yes" : "No";
-            String wakeUpType = "Wake Up Sensor : " + wakup;
-            String sensorPower = "Power : " + s.getPower() + "mA";
+            String sensorVendor = getString(R.string.vendor) + " : " + s.getVendor();
+            String sensorType = getString(R.string.type) + " : " + GetDetails.GetSensorType(s.getType(), context);
+            String wakup = s.isWakeUpSensor() ? getString(R.string.yes) : getString(R.string.no);
+            String wakeUpType = getString(R.string.wake_up_sensor) + " : " + wakup;
+            String sensorPower = getString(R.string.power) + " : " + s.getPower() + "mA";
             allsensors.add(new SensorInfo(sensorName, sensorVendor, sensorType, wakeUpType, sensorPower));
         }
         return allsensors;

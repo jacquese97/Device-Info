@@ -80,12 +80,6 @@ public class VibrationTestActivity extends AppCompatActivity {
                 }
             }
 
-            /*vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-            if(Objects.requireNonNull(vibrator).hasVibrator()){
-                long[] pattern = {0, 1000, 0};
-                vibrator.vibrate(pattern, 0);
-            }*/
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

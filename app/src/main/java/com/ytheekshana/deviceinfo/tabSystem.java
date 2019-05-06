@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class tabSystem extends Fragment {
@@ -57,10 +58,10 @@ public class tabSystem extends Fragment {
                     imgAndroidLogo.setImageResource(R.drawable.pie);
                     break;
             }
-            String Aversion = "Android " + Build.VERSION.RELEASE;
+            String Aversion = getString(R.string.android) + " " + Build.VERSION.RELEASE;
             txtAndroidVersionNumber.setText(Aversion);
-            txtAndroidVersionName.setText(GetDetails.GetOSName(Build.VERSION.SDK_INT).toUpperCase());
-            String AReleaseDate = "Released : " + GetDetails.GetOSReleaseDate();
+            txtAndroidVersionName.setText(GetDetails.GetOSName(Build.VERSION.SDK_INT, getContext()).toUpperCase());
+            String AReleaseDate = getString(R.string.released) + " : " + GetDetails.GetOSReleaseDate(getContext());
             txtAndroidVersionDate.setText(AReleaseDate);
             if (SplashActivity.rootedStatus) {
                 txtRootStatus.setText(R.string.rooted);
@@ -80,7 +81,7 @@ public class tabSystem extends Fragment {
             txtAndroidNamedis.setPadding(0, 0, 0, 15);
             txtAndroidNamedis.setTextColor(textDisColor);
             txtAndroidNamedis.setTextSize(16);
-            txtAndroidNamedis.setText(GetDetails.GetOSNameAdvanced());
+            txtAndroidNamedis.setText(GetDetails.GetOSNameAdvanced(getContext()));
             txtAndroidNamedis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             txtAndroidName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             llayout.addView(txtAndroidName);
@@ -189,7 +190,7 @@ public class tabSystem extends Fragment {
             View v7 = new View(getContext());
             v7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
             v7.setBackgroundColor(lineColor);
-            txtAndroidRuntime.setText(R.string.AndroidRuntime);
+            txtAndroidRuntime.setText(R.string.java_vm);
             txtAndroidRuntime.setTypeface(null, Typeface.BOLD);
             txtAndroidRuntime.setTextSize(16);
             txtAndroidRuntime.setPadding(0, 15, 0, 0);
@@ -222,11 +223,31 @@ public class tabSystem extends Fragment {
             llayout.addView(txtKernelVersiondis);
             llayout.addView(v8);
 
-            TextView txtOpenGLES = new TextView(getContext());
-            TextView txtOpenGLESdis = new TextView(getContext());
+            TextView txtLanguage = new TextView(getContext());
+            TextView txtLanguagedis = new TextView(getContext());
             View v9 = new View(getContext());
             v9.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
             v9.setBackgroundColor(lineColor);
+            txtLanguage.setText(R.string.Language);
+            txtLanguage.setTypeface(null, Typeface.BOLD);
+            txtLanguage.setTextSize(16);
+            txtLanguage.setPadding(0, 15, 0, 0);
+            txtLanguagedis.setPadding(0, 0, 0, 15);
+            txtLanguagedis.setTextColor(textDisColor);
+            txtLanguagedis.setTextSize(16);
+            String language = Locale.getDefault().getDisplayLanguage() + " (" + Locale.getDefault().toString() + ")";
+            txtLanguagedis.setText(language);
+            txtLanguagedis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            txtLanguage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            llayout.addView(txtLanguage);
+            llayout.addView(txtLanguagedis);
+            llayout.addView(v9);
+
+            TextView txtOpenGLES = new TextView(getContext());
+            TextView txtOpenGLESdis = new TextView(getContext());
+            View v10 = new View(getContext());
+            v10.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3));
+            v10.setBackgroundColor(lineColor);
             txtOpenGLES.setText(R.string.OpenGL);
             txtOpenGLES.setTypeface(null, Typeface.BOLD);
             txtOpenGLES.setTextSize(16);
@@ -239,7 +260,7 @@ public class tabSystem extends Fragment {
             txtOpenGLES.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             llayout.addView(txtOpenGLES);
             llayout.addView(txtOpenGLESdis);
-            llayout.addView(v9);
+            llayout.addView(v10);
 
             TextView txtRootAccess = new TextView(getContext());
             TextView txtRootAccessdis = new TextView(getContext());
@@ -253,7 +274,7 @@ public class tabSystem extends Fragment {
             txtRootAccessdis.setPadding(0, 0, 0, 15);
             txtRootAccessdis.setTextColor(textDisColor);
             txtRootAccessdis.setTextSize(16);
-            txtRootAccessdis.setText(SplashActivity.rootedStatus ? "Yes" : "No");
+            txtRootAccessdis.setText(SplashActivity.rootedStatus ? getString(R.string.yes) : getString(R.string.no));
             txtRootAccessdis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             txtRootAccess.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             llayout.addView(txtRootAccess);

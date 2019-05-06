@@ -113,19 +113,26 @@ public class EarSpeakerTestActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
-        mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
-        mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
         super.onPause();
     }
 }

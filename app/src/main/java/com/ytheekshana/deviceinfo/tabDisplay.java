@@ -28,11 +28,11 @@ public class tabDisplay extends Fragment {
             String brightnessLevelPerc = (Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS) * 100) / 255 + "%";
             String brightnessMode = "";
             if (Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
-                brightnessMode = "Adaptive";
+                brightnessMode = getString(R.string.adaptive);
             } else if (Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL) {
-                brightnessMode = "Manual";
+                brightnessMode = getString(R.string.manual);
             }
-            String screenTimeout = Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT) / 1000 + " Seconds";
+            String screenTimeout = Settings.System.getInt(getContext().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT) / 1000 + " " + getString(R.string.seconds);
 
             TextView txtResolution = new TextView(getContext());
             TextView txtResolutiondis = new TextView(getContext());
@@ -45,7 +45,7 @@ public class tabDisplay extends Fragment {
             txtResolutiondis.setPadding(0, 0, 0, 15);
             txtResolutiondis.setTextColor(textDisColor);
             txtResolutiondis.setTextSize(16);
-            String Res = SplashActivity.displayWidth + " x " + SplashActivity.displayHeight + " Pixels";
+            String Res = SplashActivity.displayWidth + " x " + SplashActivity.displayHeight + " " + getString(R.string.pixels);
             txtResolutiondis.setText(Res);
             txtResolutiondis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             txtResolution.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -105,7 +105,7 @@ public class tabDisplay extends Fragment {
             txtScreenPhysicaldis.setPadding(0, 0, 0, 15);
             txtScreenPhysicaldis.setTextColor(textDisColor);
             txtScreenPhysicaldis.setTextSize(16);
-            String physical_size = SplashActivity.displayPhysicalSize + " inches";
+            String physical_size = SplashActivity.displayPhysicalSize + " " + getString(R.string.inches);
             txtScreenPhysicaldis.setText(physical_size);
             txtScreenPhysicaldis.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             txtFontScale.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

@@ -46,8 +46,8 @@ public class BottomSheetEnjoy extends BottomSheetDialogFragment {
 
         btnok.setOnClickListener(view12 -> {
             BottomSheetReview bottomSheetReview = BottomSheetReview.newInstance();
-            bottomSheetReview.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), "ReviewAppFragment");
-            dismiss();
+            bottomSheetReview.show(Objects.requireNonNull(getFragmentManager()), "ReviewAppFragment");
+            //dismiss();
         });
 
         btnno.setOnClickListener(view1 -> dismiss());

@@ -65,6 +65,7 @@ public class tabDashboard extends Fragment {
     private CPUCoreAdapter cpuCoreAdapter;
     private ScheduledExecutorService scheduledExecutorService;
     private Context batteryContext;
+    private MemoryInfo memoryInfo;
 
     @Override
     public void onDestroyView() {
@@ -98,6 +99,7 @@ public class tabDashboard extends Fragment {
 
             CardView cardviewRam = rootView.findViewById(R.id.cardviewRam);
             cardviewRam.setCardBackgroundColor(MainActivity.themeColor);
+            Locale locale = GetDetails.getLocale(getContext());
 
             final CardView cardRom = rootView.findViewById(R.id.cardviewRom);
             final CardView cardInternalStorage = rootView.findViewById(R.id.cardviewInStorage);
@@ -163,19 +165,19 @@ public class tabDashboard extends Fragment {
             txtFreeRam.setText(String.valueOf((int) SplashActivity.availableRam));
             usedRam = (float) SplashActivity.usedRam;
 
-            String totalRamSpan = "RAM - " + (int) SplashActivity.totalRam + " MB Total";
+            String totalRamSpan = getString(R.string.ram) + " - " + (int) SplashActivity.totalRam + " MB " + getString(R.string.total);
             SpannableString ssTotalRam = new SpannableString(totalRamSpan);
             ssTotalRam.setSpan(new RelativeSizeSpan(0.7f), totalRamSpan.length() - 8, totalRamSpan.length(), 0); // set size
             txtTotalRam.setText(ssTotalRam);
 
             startROM = (int) SplashActivity.usedRomPercentage;
-            String setRom = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableRom) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalRom) + " GB";
+            String setRom = getString(R.string.free) + ": " + String.format(locale, "%.1f", SplashActivity.availableRom) + " GB,  " + getString(R.string.total) + ": " + String.format(locale, "%.1f", SplashActivity.totalRom) + " GB";
             txtRomStatus.setText(setRom);
             String storage_percentageRom = (int) SplashActivity.usedRomPercentage + "%";
             txtRomPerce.setText(storage_percentageRom);
 
             startInStorage = (int) SplashActivity.usedInternalPercentage;
-            String setInStorage = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableInternalStorage) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalInternalStorage) + " GB";
+            String setInStorage = getString(R.string.free) + ": " + String.format(locale, "%.1f", SplashActivity.availableInternalStorage) + " GB,  " + getString(R.string.total) + ": " + String.format(locale, "%.1f", SplashActivity.totalInternalStorage) + " GB";
             txtInStorageStatus.setText(setInStorage);
             String in_storage_percentage = (int) SplashActivity.usedInternalPercentage + "%";
             txtInStoragePerce.setText(in_storage_percentage);
@@ -183,7 +185,7 @@ public class tabDashboard extends Fragment {
             if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) && ContextCompat.getExternalFilesDirs(Objects.requireNonNull(getContext()), null).length >= 2) {
                 cardExternalStorage.setVisibility(View.VISIBLE);
                 startExStorage = (int) SplashActivity.usedExternalPercentage;
-                String setExStorage = "Free: " + String.format(Locale.US, "%.1f", SplashActivity.availableExternalStorage) + " GB,  Total: " + String.format(Locale.US, "%.1f", SplashActivity.totalExternalStorage) + " GB";
+                String setExStorage = getString(R.string.free) + ": " + String.format(locale, "%.1f", SplashActivity.availableExternalStorage) + " GB,  " + getString(R.string.total) + ": " + String.format(locale, "%.1f", SplashActivity.totalExternalStorage) + " GB";
                 txtExStorageStatus.setText(setExStorage);
                 String ex_storage_percentage = (int) SplashActivity.usedExternalPercentage + "%";
                 txtExStoragePerce.setText(ex_storage_percentage);
@@ -191,7 +193,7 @@ public class tabDashboard extends Fragment {
                 cardExternalStorage.setVisibility(View.GONE);
             }
 
-            final MemoryInfo memoryInfo = new MemoryInfo(getContext());
+            memoryInfo = new MemoryInfo(getContext());
             handlerRam = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
@@ -228,6 +230,7 @@ public class tabDashboard extends Fragment {
             cpuCoreAdapter = new CPUCoreAdapter(getContext(), cpuCoreList);
             recyclerCPU.setLayoutManager(layoutManager);
             recyclerCPU.setAdapter(cpuCoreAdapter);
+            recyclerCPU.setNestedScrollingEnabled(false);
 
             if (cpuCoreList.isEmpty()) {
                 Snackbar snackbar = Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(R.id.cordmain), "No Thermal Data", Snackbar.LENGTH_INDEFINITE);
@@ -291,7 +294,7 @@ public class tabDashboard extends Fragment {
             int batstatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             int voltage = intent.getIntExtra("voltage", 0);
             int temperature = (intent.getIntExtra("temperature", 0)) / 10;
-            String setBattery = "Voltage: " + voltage + "mV,  Temperature: " + temperature + " \u2103";
+            String setBattery = getString(R.string.Voltage) + ": " + voltage + "mV,  " + getString(R.string.Temperature) + ": " + temperature + " \u2103";
             txtBatteryStatus.setText(setBattery);
             String battery_percentage = batlevel + "%";
             txtBatteryPerce.setText(battery_percentage);
@@ -421,10 +424,10 @@ public class tabDashboard extends Fragment {
                 String curfreg = readerCurFreq.readLine();
                 currentFreq = Double.parseDouble(curfreg) / 1000;
                 readerCurFreq.close();
-                cpuCoreList.add(new CPUCoreInfo("Core " + corecount, (int) currentFreq + " Mhz"));
+                cpuCoreList.add(new CPUCoreInfo(getString(R.string.core) + " " + corecount, (int) currentFreq + " Mhz"));
 
             } catch (Exception ex) {
-                cpuCoreList.add(new CPUCoreInfo("Core " + corecount, "Idle"));
+                cpuCoreList.add(new CPUCoreInfo(getString(R.string.core) + " " + corecount, getString(R.string.idle)));
             }
         }
     }

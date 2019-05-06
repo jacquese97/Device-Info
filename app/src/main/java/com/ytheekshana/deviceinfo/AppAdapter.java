@@ -48,6 +48,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
     private ArrayList<AppInfo> filterMDataSet;
     private AppFilter filter;
     private int lastPosition = -1;
+    private Locale locale;
 
     AppAdapter(Context context, ArrayList<AppInfo> list) {
         mContext = context;
@@ -104,16 +105,17 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
         Animation animation = AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.recycler_up_from_bottom : R.anim.recycler_down_from_top);
         holder.itemView.startAnimation(animation);
         lastPosition = position;
+        locale = GetDetails.getLocale(context);
 
         holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
             menu.setHeaderTitle(appName);
-            menu.add("App Info").setOnMenuItemClickListener(item -> {
+            menu.add(context.getString(R.string.app_info)).setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 intent.setData(Uri.parse("package:" + packageName));
                 context.startActivity(intent);
                 return true;
             });
-            menu.add("Extract App").setOnMenuItemClickListener(item -> {
+            menu.add(context.getString(R.string.extract_app)).setOnMenuItemClickListener(item -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     Permissions.check(context, Manifest.permission.WRITE_EXTERNAL_STORAGE, null, new PermissionHandler() {
                         @Override
@@ -123,7 +125,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
 
                         @Override
                         public void onDenied(Context context1, ArrayList<String> deniedPermissions) {
-                            Toast.makeText(context1, "Permission Denied", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context1, context1.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -131,7 +133,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
                 }
                 return true;
             });
-            menu.add("Uninstall").setOnMenuItemClickListener(item -> {
+            menu.add(context.getString(R.string.uninstall)).setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
                 intent.setData(Uri.parse("package:" + packageName));
                 context.startActivity(intent);
@@ -169,22 +171,22 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
                 ApplicationInfo appinfo = context.getPackageManager().getApplicationInfo(packageName, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     int minsdk = appinfo.minSdkVersion;
-                    String minsdkall = "Min : Android " + GetDetails.getAndroidVersion(minsdk) + " (" + GetDetails.GetOSName(minsdk) + ", API " + minsdk + ")";
+                    String minsdkall = context.getString(R.string.min_android) + " " + GetDetails.getAndroidVersion(minsdk) + " (" + GetDetails.GetOSName(minsdk, context) + ", API " + minsdk + ")";
                     txtappminsdk.setText(minsdkall);
                 } else {
                     txtappminsdk.setVisibility(View.GONE);
-                    txtappminsdk.setText(R.string.unknown_min_sdk);
+                    txtappminsdk.setText(R.string.unknown);
                 }
                 int targetsdk = appinfo.targetSdkVersion;
-                String targetsdkall = "Target : Android " + GetDetails.getAndroidVersion(targetsdk) + " (" + GetDetails.GetOSName(targetsdk) + ", API " + targetsdk + ")";
+                String targetsdkall = context.getString(R.string.target_android) + " " + GetDetails.getAndroidVersion(targetsdk) + " (" + GetDetails.GetOSName(targetsdk, context) + ", API " + targetsdk + ")";
                 txtapptargetsdk.setText(targetsdkall);
 
-                String insdate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.US).format(new Date(context.getPackageManager().getPackageInfo(packageName, 0).firstInstallTime));
-                String finalinsdate = "Installed : " + insdate;
+                String insdate = new SimpleDateFormat("EEE, d MMM yyyy", locale).format(new Date(context.getPackageManager().getPackageInfo(packageName, 0).firstInstallTime));
+                String finalinsdate = context.getString(R.string.installed) + " " + insdate;
                 txtappinstalldate.setText(finalinsdate);
 
-                String updatedate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.US).format(new Date(context.getPackageManager().getPackageInfo(packageName, 0).lastUpdateTime));
-                String finalupdatedate = "Last Updated : " + updatedate;
+                String updatedate = new SimpleDateFormat("EEE, d MMM yyyy", locale).format(new Date(context.getPackageManager().getPackageInfo(packageName, 0).lastUpdateTime));
+                String finalupdatedate = context.getString(R.string.last_updated) + " " + updatedate;
                 txtappupdatedate.setText(finalupdatedate);
 
                 Drawable icon = context.getPackageManager().getApplicationIcon(packageName);
@@ -236,7 +238,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
                         GetDetails.copy(sourceFile.getAbsoluteFile(), new File(destinationFile, packageName + ".apk"));
                         progressApp.post(() -> {
                             progressApp.setVisibility(View.GONE);
-                            Toast.makeText(context, "Exported to " + getExtractpath + "/", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.exported_to) + getExtractpath + "/", Toast.LENGTH_SHORT).show();
                         });
 
                     }

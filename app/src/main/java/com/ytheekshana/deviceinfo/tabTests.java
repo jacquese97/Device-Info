@@ -125,10 +125,10 @@ public class tabTests extends Fragment {
                     }
                 });
                 promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Fingerprint Test")
-                        .setSubtitle("Place your finger on the sensor")
-                        .setDescription("Place an enrolled finger on the fingerprint sensor to pass the test. Please enroll a finger if you haven't.")
-                        .setNegativeButtonText("Cancel")
+                        .setTitle(getString(R.string.fingerprint_test))
+                        .setSubtitle(getString(R.string.place_your_finger))
+                        .setDescription(getString(R.string.place_enrolled_finger))
+                        .setNegativeButtonText(getString(R.string.cancel))
                         .build();
             }
         } catch (Exception e) {

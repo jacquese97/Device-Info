@@ -129,7 +129,7 @@ public class DonateActivity extends AppCompatActivity implements PurchasesUpdate
 
                 @Override
                 public void onBillingServiceDisconnected() {
-                    Toast.makeText(activity, "Check your connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, getString(R.string.check_your_connection), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception ex) {
@@ -145,11 +145,11 @@ public class DonateActivity extends AppCompatActivity implements PurchasesUpdate
                     mBillingClient.consumeAsync(purchase.getPurchaseToken(), (responseCode1, purchaseToken) -> Toast.makeText(activity, "Thanks for the donation", Toast.LENGTH_SHORT).show());
                 }
             } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-                Toast.makeText(activity, "Purchase Cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.purchase_cancelled), Toast.LENGTH_SHORT).show();
             } else if (responseCode == BillingClient.BillingResponse.ITEM_ALREADY_OWNED) {
-                Toast.makeText(activity, "Already Purchased", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.already_purchased), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(activity, "Please try again later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.try_again_later), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

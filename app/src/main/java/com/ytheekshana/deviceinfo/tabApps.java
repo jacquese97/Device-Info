@@ -68,7 +68,6 @@ public class tabApps extends Fragment implements SearchView.OnQueryTextListener 
 
                         recyclerInstalledApps.setLayoutManager(layoutManager);
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_layout_animation);
-
                         recyclerInstalledApps.setLayoutAnimation(controller);
                         recyclerInstalledApps.scheduleLayoutAnimation();
                         recyclerInstalledApps.setAdapter(appAdapter);
@@ -191,7 +190,7 @@ public class tabApps extends Fragment implements SearchView.OnQueryTextListener 
                     if (!isSystemPackage(p)) {
                         String appName = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
                         String packageName = p.applicationInfo.packageName;
-                        String appVersion = "Version : " + p.versionName;
+                        String appVersion = getString(R.string.version) + " : " + p.versionName;
                         Drawable icon = p.applicationInfo.loadIcon(context.getPackageManager());
                         res.add(new AppInfo(appName, packageName, appVersion, icon));
                     }

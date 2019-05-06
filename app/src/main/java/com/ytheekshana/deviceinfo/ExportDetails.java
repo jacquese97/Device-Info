@@ -34,13 +34,13 @@ import androidx.core.content.FileProvider;
 
 class ExportDetails {
 
-    private static void createTextFile(String content) {
+    private static void createTextFile(String content, Context context) {
         try {
             File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
             if (!root.exists()) {
                 root.mkdirs();
             }
-            File file = new File(root, "Device Info Report.txt");
+            File file = new File(root, context.getString(R.string.device_info_report) + ".txt");
             FileWriter writer = new FileWriter(file);
             writer.append(content);
             writer.flush();
@@ -66,11 +66,12 @@ class ExportDetails {
             String brightnessLevel = (Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS) * 100) / 255 + "%";
             String brightnessMode = "";
             if (Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
-                brightnessMode = "Adaptive";
+                brightnessMode = context.getString(R.string.adaptive);
             } else if (Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL) {
-                brightnessMode = "Manual";
+                brightnessMode = context.getString(R.string.manual);
             }
             String screenTimeout = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT) / 1000 + " Seconds";
+            Locale locale = GetDetails.getLocale(context);
 
             SensorManager mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
             List<Sensor> deviceSensors = Objects.requireNonNull(mSensorManager).getSensorList(Sensor.TYPE_ALL);
@@ -78,96 +79,96 @@ class ExportDetails {
             String seperator = "--------------------------------------------------------\n";
             String seperatorSmall = "------------------\n";
             @SuppressLint({"HardwareIds", "InlinedApi"})
-            String content = "Device Info " + BuildConfig.VERSION_NAME + "\n" +
-                    "Date Created " + Calendar.getInstance().getTime().toString() + "\n\n" +
-                    "Device\n" + seperator +
-                    "Device Name : " + SplashActivity.deviceName + "\n" +
-                    "Model : " + Build.MODEL + "\n" +
-                    "Manufacturer : " + Build.MANUFACTURER + "\n" +
-                    "Device : " + Build.DEVICE + "\n" +
-                    "Board : " + Build.BOARD + "\n" +
-                    "Hardware : " + Build.HARDWARE + "\n" +
-                    "Brand : " + Build.BRAND + "\n" +
-                    "Build Fingerprint : " + Build.FINGERPRINT + "\n" +
-                    "USB Host : " + SplashActivity.usbHost + "\n\n\n" +
+            String content = context.getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME + "\n" +
+                    context.getString(R.string.date_created) + " " + Calendar.getInstance().getTime().toString() + "\n\n" +
+                    context.getString(R.string.device) + "\n" + seperator +
+                    context.getString(R.string.DeviceName) + " : " + SplashActivity.deviceName + "\n" +
+                    context.getString(R.string.Model) + " : " + Build.MODEL + "\n" +
+                    context.getString(R.string.Manufacturer) + " : " + Build.MANUFACTURER + "\n" +
+                    context.getString(R.string.device) + " : " + Build.DEVICE + "\n" +
+                    context.getString(R.string.Board) + " : " + Build.BOARD + "\n" +
+                    context.getString(R.string.Hardware) + " : " + Build.HARDWARE + "\n" +
+                    context.getString(R.string.Brand) + " : " + Build.BRAND + "\n" +
+                    context.getString(R.string.BuildFingerprint) + " : " + Build.FINGERPRINT + "\n" +
+                    context.getString(R.string.usbHost) + " : " + SplashActivity.usbHost + "\n\n\n" +
 
-                    "System\n" + seperator +
-                    "Android Version : " + Build.VERSION.RELEASE + "\n" +
-                    "Version Name : " + GetDetails.GetOSName(Build.VERSION.SDK_INT) + "\n" +
-                    "Release Date : " + GetDetails.GetOSReleaseDate() + "\n" +
-                    "Code Name : " + GetDetails.GetOSNameAdvanced() + "\n" +
-                    "API Level : " + Build.VERSION.SDK_INT + "\n" +
-                    "Security Patch : " + ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) ? Build.VERSION.SECURITY_PATCH : "Not Available") + "\n" +
-                    "Bootloader : " + Build.BOOTLOADER + "\n" +
-                    "Build Number : " + Build.DISPLAY + "\n" +
-                    "Baseband : " + Build.getRadioVersion() + "\n" +
-                    "Java VM : " + SplashActivity.androidRuntime + "\n" +
-                    "Kernel : " + SplashActivity.kernelVersion + "\n" +
-                    "OpenGL ES : " + SplashActivity.glVersion + "\n" +
-                    "Root Access : " + (SplashActivity.rootedStatus ? "Yes" : "No") + "\n" +
-                    "SELinux : " + SplashActivity.selinuxMode + "\n\n\n" +
+                    context.getString(R.string.system) + "\n" + seperator +
+                    context.getString(R.string.android_version) + " : " + Build.VERSION.RELEASE + "\n" +
+                    context.getString(R.string.version_name) + " : " + GetDetails.GetOSName(Build.VERSION.SDK_INT,context) + "\n" +
+                    context.getString(R.string.released_date) + " : " + GetDetails.GetOSReleaseDate(context) + "\n" +
+                    context.getString(R.string.CodeName) + " : " + GetDetails.GetOSNameAdvanced(context) + "\n" +
+                    context.getString(R.string.APILevel) + " : " + Build.VERSION.SDK_INT + "\n" +
+                    context.getString(R.string.SecurityPatchLevel) + " : " + ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) ? Build.VERSION.SECURITY_PATCH : "Not Available") + "\n" +
+                    context.getString(R.string.Bootloader) + " : " + Build.BOOTLOADER + "\n" +
+                    context.getString(R.string.BuildNumber) + " : " + Build.DISPLAY + "\n" +
+                    context.getString(R.string.Baseband) + " : " + Build.getRadioVersion() + "\n" +
+                    context.getString(R.string.java_vm) + " : " + SplashActivity.androidRuntime + "\n" +
+                    context.getString(R.string.Kernel) + " : " + SplashActivity.kernelVersion + "\n" +
+                    context.getString(R.string.OpenGL) + " : " + SplashActivity.glVersion + "\n" +
+                    context.getString(R.string.RootAccess) + " : " + (SplashActivity.rootedStatus ? context.getString(R.string.yes) : context.getString(R.string.no)) + "\n" +
+                    context.getString(R.string.SELinux) + " : " + SplashActivity.selinuxMode + "\n\n\n" +
 
-                    "CPU\n" + seperator +
-                    "Processor : " + SplashActivity.processorName + "\n" +
-                    "Supported ABIs : " + SplashActivity.cpuABIs + "\n" +
-                    "CPU Hardware : " + SplashActivity.processorHardware + "\n" +
-                    "Governor : " + SplashActivity.cpuGovernor + "\n" +
-                    "Cores : " + Runtime.getRuntime().availableProcessors() + "\n" +
-                    "CPU Frequency : " + String.format(Locale.US, "%.0f", SplashActivity.cpuMinFreq) + " MHz - " + String.format(Locale.US, "%.0f", SplashActivity.cpuMaxFreq) + " MHz" + "\n" +
-                    "GPU Renderer : " + SplashActivity.gpuRenderer + "\n" +
-                    "GPU Vendor : " + SplashActivity.gpuVendor + "\n" +
-                    "GPU Version : " + SplashActivity.gpuVersion + "\n\n\n" +
+                    context.getString(R.string.cpu) + "\n" + seperator +
+                    context.getString(R.string.Processor) + " : " + SplashActivity.processorName + "\n" +
+                    context.getString(R.string.ABIs) + " : " + SplashActivity.cpuABIs + "\n" +
+                    context.getString(R.string.CPUHardware) + " : " + SplashActivity.processorHardware + "\n" +
+                    context.getString(R.string.CPUGovernor) + " : " + SplashActivity.cpuGovernor + "\n" +
+                    context.getString(R.string.Cores) + " : " + Runtime.getRuntime().availableProcessors() + "\n" +
+                    context.getString(R.string.CPUFrequency) + " : " + String.format(Locale.US, "%.0f", SplashActivity.cpuMinFreq) + " MHz - " + String.format(Locale.US, "%.0f", SplashActivity.cpuMaxFreq) + " MHz" + "\n" +
+                    context.getString(R.string.GPURenderer) + " : " + SplashActivity.gpuRenderer + "\n" +
+                    context.getString(R.string.GPUVendor) + " : " + SplashActivity.gpuVendor + "\n" +
+                    context.getString(R.string.GPUVersion) + " : " + SplashActivity.gpuVersion + "\n\n\n" +
 
-                    "Battery\n" + seperator +
-                    "Health : " + GetDetails.getBatteryHealth(batteryHealth) + "\n" +
-                    "Level : " + batteryLevel + "%" + "\n" +
-                    "Status : " + GetDetails.getBatteryStatus(batteryStatus) + "\n" +
-                    "Power Source : " + GetDetails.getBatteryPowerSource(batteryPowerSource) + "\n" +
-                    "Technology : " + batteryTechnology + "\n" +
-                    "Temperature : " + batteryTemperature + " \u2103" + "\n" +
-                    "Voltage : " + batteryVoltage + " mV" + "\n" +
-                    "Capacity : " + SplashActivity.batteryCapacity + " mAh" + "\n\n\n" +
+                    context.getString(R.string.battery) + "\n" + seperator +
+                    context.getString(R.string.Health) + " : " + GetDetails.getBatteryHealth(batteryHealth,context) + "\n" +
+                    context.getString(R.string.Level) + " : " + batteryLevel + "%" + "\n" +
+                    context.getString(R.string.Status) + " : " + GetDetails.getBatteryStatus(batteryStatus,context) + "\n" +
+                    context.getString(R.string.PowerSource) + " : " + GetDetails.getBatteryPowerSource(batteryPowerSource,context) + "\n" +
+                    context.getString(R.string.Technology) + " : " + batteryTechnology + "\n" +
+                    context.getString(R.string.Temperature) + " : " + batteryTemperature + " \u2103" + "\n" +
+                    context.getString(R.string.Voltage) + " : " + batteryVoltage + " mV" + "\n" +
+                    context.getString(R.string.Capacity) + " : " + SplashActivity.batteryCapacity + " mAh" + "\n\n\n" +
 
-                    "Display\n" + seperator +
-                    "Resolution : " + SplashActivity.displayWidth + " x " + SplashActivity.displayHeight + " Pixels" + "\n" +
-                    "Density : " + SplashActivity.displayDensityDPI + " dpi (" + SplashActivity.displaySize + ")" + "\n" +
-                    "Font Scale : " + SplashActivity.fontSize + "\n" +
-                    "Physical Size : " + SplashActivity.displayPhysicalSize + " inches" + "\n" +
-                    "Refresh Rate : " + SplashActivity.displayRefreshRate + " Hz" + "\n" +
-                    "Brightness Level : " + brightnessLevel + "\n" +
-                    "Brightness Mode : " + brightnessMode + "\n" +
-                    "Screen Timeout : " + screenTimeout + "\n" +
-                    "Orientation : " + SplashActivity.displayOrientation + "\n\n\n" +
+                    context.getString(R.string.display) + "\n" + seperator +
+                    context.getString(R.string.Resolution) + " : " + SplashActivity.displayWidth + " x " + SplashActivity.displayHeight + " " + context.getString(R.string.pixels) + "\n" +
+                    context.getString(R.string.Density) + " : " + SplashActivity.displayDensityDPI + " " + context.getString(R.string.dpi) + " (" + SplashActivity.displaySize + ")" + "\n" +
+                    context.getString(R.string.FontScale) + " : " + SplashActivity.fontSize + "\n" +
+                    context.getString(R.string.PhysicalSize) + " : " + SplashActivity.displayPhysicalSize + " " + context.getString(R.string.inches) + "\n" +
+                    context.getString(R.string.RefreshRate) + " : " + SplashActivity.displayRefreshRate + " " + context.getString(R.string.hz) + "\n" +
+                    context.getString(R.string.brightnessLevel) + " : " + brightnessLevel + "\n" +
+                    context.getString(R.string.brightnessMode) + " : " + brightnessMode + "\n" +
+                    context.getString(R.string.screenTimeout) + " : " + screenTimeout + "\n" +
+                    context.getString(R.string.Orientation) + " : " + SplashActivity.displayOrientation + "\n\n\n" +
 
-                    "Memory\n" + seperator +
-                    "RAM\n" + seperatorSmall +
-                    "Total : " + String.format(Locale.US, "%.1f", SplashActivity.totalRam) + "MB" + "\n" +
-                    "Available : " + String.format(Locale.US, "%.1f", SplashActivity.availableRam) + "MB" + "\n" +
-                    "Used : " + String.format(Locale.US, "%.1f", SplashActivity.usedRam) + "MB" + "\n" +
-                    "Used Percentage : " + (int) SplashActivity.usedRamPercentage + "%" + "\n\n" +
+                    context.getString(R.string.memory) + "\n" + seperator +
+                    context.getString(R.string.RAM) + "\n" + seperatorSmall +
+                    context.getString(R.string.total) + " : " + String.format(locale, "%.1f", SplashActivity.totalRam) + "MB" + "\n" +
+                    context.getString(R.string.available) + " : " + String.format(locale, "%.1f", SplashActivity.availableRam) + "MB" + "\n" +
+                    context.getString(R.string.used) + " : " + String.format(locale, "%.1f", SplashActivity.usedRam) + "MB" + "\n" +
+                    context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedRamPercentage + "%" + "\n\n" +
 
-                    "System Storage\n" + seperatorSmall +
-                    "Total : " + String.format(Locale.US, "%.2f", SplashActivity.totalRom) + "GB" + "\n" +
-                    "Available : " + String.format(Locale.US, "%.2f", SplashActivity.availableRom) + "GB" + "\n" +
-                    "Used : " + String.format(Locale.US, "%.2f", SplashActivity.usedRom) + "GB" + "\n" +
-                    "Used Percentage : " + (int) SplashActivity.usedRomPercentage + "%" + "\n\n" +
+                    context.getString(R.string.ROM) + "\n" + seperatorSmall +
+                    context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalRom) + "GB" + "\n" +
+                    context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableRom) + "GB" + "\n" +
+                    context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedRom) + "GB" + "\n" +
+                    context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedRomPercentage + "%" + "\n\n" +
 
-                    "Internal Storage\n" + seperatorSmall +
-                    "Total : " + String.format(Locale.US, "%.2f", SplashActivity.totalInternalStorage) + "GB" + "\n" +
-                    "Available : " + String.format(Locale.US, "%.2f", SplashActivity.availableInternalStorage) + "GB" + "\n" +
-                    "Used : " + String.format(Locale.US, "%.2f", SplashActivity.usedInternalStorage) + "GB" + "\n" +
-                    "Used Percentage : " + (int) SplashActivity.usedInternalPercentage + "%" + "\n\n";
+                    context.getString(R.string.InternalStorage) + "\n" + seperatorSmall +
+                    context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalInternalStorage) + "GB" + "\n" +
+                    context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableInternalStorage) + "GB" + "\n" +
+                    context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedInternalStorage) + "GB" + "\n" +
+                    context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedInternalPercentage + "%" + "\n\n";
 
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && ContextCompat.getExternalFilesDirs(context, null).length >= 2) {
-                String externalStorageData = "External Storage\n" + seperatorSmall +
-                        "Total : " + String.format(Locale.US, "%.2f", SplashActivity.totalExternalStorage) + "GB" + "\n" +
-                        "Available : " + String.format(Locale.US, "%.2f", SplashActivity.availableExternalStorage) + "GB" + "\n" +
-                        "Used : " + String.format(Locale.US, "%.2f", SplashActivity.usedExternalStorage) + "GB" + "\n" +
-                        "Used Percentage : " + (int) SplashActivity.usedExternalPercentage + "%" + "\n\n";
+                String externalStorageData = context.getString(R.string.ExternalStorage) + "\n" + seperatorSmall +
+                        context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalExternalStorage) + "GB" + "\n" +
+                        context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableExternalStorage) + "GB" + "\n" +
+                        context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedExternalStorage) + "GB" + "\n" +
+                        context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedExternalPercentage + "%" + "\n\n";
                 content = content + externalStorageData;
             }
 
-            content = content + "\nCamera\n" + seperator;
+            content = content + "\n" + context.getString(R.string.camera) + "\n" + seperator;
 
             CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             StringBuilder cameraContent = new StringBuilder();
@@ -181,32 +182,33 @@ class ExportDetails {
                 if (lensFacing != null) {
                     switch (lensFacing) {
                         case CameraCharacteristics.LENS_FACING_BACK:
-                            lens = "Back";
+                            lens = context.getString(R.string.back);
                             break;
                         case CameraCharacteristics.LENS_FACING_FRONT:
-                            lens = "Front";
+                            lens = context.getString(R.string.front);
                             break;
                         case CameraCharacteristics.LENS_FACING_EXTERNAL:
-                            lens = "External";
+                            lens = context.getString(R.string.external);
                             break;
                         default:
-                            lens = "Unknown";
+                            lens = context.getString(R.string.unknown);
                             break;
                     }
                 }
                 float[] flenths = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
-                cameraContent.append("Camera - ").append(cameraId).append("\n").append(seperatorSmall)
-                        .append("Position : ").append(lens).append("\n")
-                        .append("Mega Pixels : ").append(GetDetails.getCameraMP(sizes)).append("\n")
-                        .append("Resolution : ").append(GetDetails.getCameraResolution(sizes)).append("\n")
-                        .append("Focul Length : ").append(Objects.requireNonNull(flenths)[0]).append("mm").append("\n\n");
+                cameraContent.append(context.getString(R.string.camera))
+                        .append(" - ").append(cameraId).append("\n").append(seperatorSmall)
+                        .append(context.getString(R.string.position)).append(" : ").append(lens).append("\n")
+                        .append(context.getString(R.string.mega_pixels)).append(" : ").append(GetDetails.getCameraMP(sizes)).append("\n")
+                        .append(context.getString(R.string.Resolution)).append(" : ").append(GetDetails.getCameraResolution(sizes)).append("\n")
+                        .append(context.getString(R.string.focal_length)).append(" : ").append(Objects.requireNonNull(flenths)[0]).append("mm").append("\n\n");
             }
 
             content = content + cameraContent.toString();
 
             ArrayList<ThermalInfo> exportThermalList = GetDetails.loadThermal();
             if (exportThermalList != null && !exportThermalList.isEmpty()) {
-                content = content + "\nThermal\n" + seperator;
+                content = content + "\n" + context.getString(R.string.thermal) + "\n" + seperator;
                 StringBuilder thermalContent = new StringBuilder();
                 for (ThermalInfo ti : exportThermalList) {
                     thermalContent.append(ti.getThermalName()).append(" - ").append(ti.getThermalValue()).append("\n");
@@ -214,17 +216,17 @@ class ExportDetails {
                 content = content + thermalContent.toString();
             }
 
-            content = content + "\n\nSensors\n" + seperator;
+            content = content + "\n\n" + context.getString(R.string.sensors) + "\n" + seperator;
             StringBuilder sensorContent = new StringBuilder();
             for (Sensor sensor : deviceSensors) {
                 sensorContent.append(sensor.getName()).append("\n").append(seperatorSmall)
-                        .append("Vendor : ").append(sensor.getVendor()).append("\n")
-                        .append("Type : ").append(GetDetails.GetSensorType(sensor.getType())).append("\n")
-                        .append("Power : ").append(sensor.getPower()).append("mA").append("\n\n");
+                        .append(context.getString(R.string.vendor)).append(" : ").append(sensor.getVendor()).append("\n")
+                        .append(context.getString(R.string.type)).append(" : ").append(GetDetails.GetSensorType(sensor.getType(),context)).append("\n")
+                        .append(context.getString(R.string.power)).append(" : ").append(sensor.getPower()).append("mA").append("\n\n");
             }
             content = content + sensorContent.toString();
 
-            createTextFile(content);
+            createTextFile(content, context);
             isReportCreated = true;
 
         } catch (Exception e) {
@@ -235,9 +237,9 @@ class ExportDetails {
 
     static void export(Context context, View viewSnackbar) {
         if (exportReport(context)) {
-            Snackbar snackbar = Snackbar.make(viewSnackbar, "Document generated in Downloads folder", Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("Open", view -> {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Device Info Report.txt");
+            Snackbar snackbar = Snackbar.make(viewSnackbar, context.getString(R.string.document_generated), Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(context.getString(R.string.open), view -> {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" + context.getString(R.string.device_info_report) + ".txt");
                 Uri path = FileProvider.getUriForFile(context, "com.ytheekshana.deviceinfo", file);
                 Intent openTextFile = new Intent(Intent.ACTION_VIEW);
                 openTextFile.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -251,7 +253,7 @@ class ExportDetails {
             SnackbarHelper.configSnackbar(context, snackbar);
             snackbar.show();
         } else {
-            Snackbar snackbar = Snackbar.make(viewSnackbar, "Something went wrong", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(viewSnackbar, context.getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG);
             SnackbarHelper.configSnackbar(context, snackbar);
             snackbar.show();
         }

@@ -116,7 +116,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
                         editPrefs.putInt("bluetooth_test_status", 1);
                         editPrefs.apply();
                         editPrefs.commit();
-                        context.unregisterReceiver(this);
                     } else {
                         imgBluetoothImage.setImageResource(R.drawable.ic_bluetooth_image);
                         btnDone.setVisibility(View.GONE);
@@ -134,7 +133,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
                         editPrefs.putInt("bluetooth_test_status", 1);
                         editPrefs.apply();
                         editPrefs.commit();
-                        context.unregisterReceiver(this);
                     } else {
                         imgBluetoothImage.setImageResource(R.drawable.ic_bluetooth_image);
                         btnDone.setVisibility(View.GONE);
@@ -152,9 +150,20 @@ public class BluetoothTestActivity extends AppCompatActivity {
                     editPrefs.putInt("bluetooth_test_status", 0);
                     editPrefs.apply();
                     editPrefs.commit();
-                    context.unregisterReceiver(this);
                     break;
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (mBluetoothStateChangedReceiver != null) {
+                this.unregisterReceiver(mBluetoothStateChangedReceiver);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

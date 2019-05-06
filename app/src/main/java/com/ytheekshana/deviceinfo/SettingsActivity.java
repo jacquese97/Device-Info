@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
         SwitchPreference dark_theme_Pref;
         SharedPreferences sharedPrefs;
         SharedPreferences.Editor shareEdit;
-        Preference app_version_pref, pref_rate_us, pref_donate, pref_extract_location,pref_export_data;
+        Preference app_version_pref, pref_rate_us, pref_donate, pref_extract_location, pref_export_data;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -88,11 +88,11 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                     if (dark_theme_Pref.isChecked()) {
                         shareEdit.putInt("ThemeNoBar", R.style.AppThemeDark_NoActionBar);
                         shareEdit.putInt("ThemeBar", R.style.AppThemeDark);
-                        dark_theme_Pref.setSummary("Dark Theme Enabled");
+                        dark_theme_Pref.setSummary(getString(R.string.dark_theme_enabled));
                     } else {
                         shareEdit.putInt("ThemeNoBar", R.style.AppTheme_NoActionBar);
                         shareEdit.putInt("ThemeBar", R.style.AppTheme);
-                        dark_theme_Pref.setSummary("Dark Theme Disabled");
+                        dark_theme_Pref.setSummary(getString(R.string.dark_theme_disabled));
                     }
                     shareEdit.apply();
                     shareEdit.commit();
@@ -104,10 +104,10 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
 
                 if (sharedPrefs.getInt("ThemeBar", 0) == R.style.AppThemeDark) {
                     dark_theme_Pref.setChecked(true);
-                    dark_theme_Pref.setSummary("Dark Theme Enabled");
+                    dark_theme_Pref.setSummary(getString(R.string.dark_theme_enabled));
                 } else {
                     dark_theme_Pref.setChecked(false);
-                    dark_theme_Pref.setSummary("Dark Theme Disabled");
+                    dark_theme_Pref.setSummary(getString(R.string.dark_theme_disabled));
                 }
                 app_version_pref.setSummary(BuildConfig.VERSION_NAME);
                 pref_rate_us = findPreference("pref_rate_us");
@@ -118,7 +118,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                     if (intent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getContext(), "Google Play Store not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.play_store_not_found), Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 });
@@ -143,7 +143,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                     chooseLocation.withDateFormat("dd MMMM yyyy");
                     chooseLocation.displayPath(false);
                     chooseLocation.enableOptions(true);
-                    chooseLocation.withResources(R.string.file_chooser_title, R.string.file_chooser_choose, R.string.file_chooser_cancel);
+                    chooseLocation.withResources(R.string.file_chooser_title, R.string.file_chooser_choose, R.string.cancel);
                     chooseLocation.withFilter(true, false);
                     chooseLocation.withStartFile(Environment.getExternalStorageDirectory().getAbsolutePath());
                     chooseLocation.withChosenListener((path, pathFile) -> {
@@ -163,11 +163,11 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                         Permissions.check(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, null, new PermissionHandler() {
                             @Override
                             public void onGranted() {
-                                ExportDetails.export(getContext(),getView());
+                                ExportDetails.export(getContext(), getView());
                             }
                         });
                     } else {
-                        ExportDetails.export(getContext(),getView());
+                        ExportDetails.export(getContext(), getView());
                     }
                     return true;
                 });

@@ -21,11 +21,18 @@ public class tabMemory extends Fragment {
     private Context context;
     private TextView txtRAMStatus;
     private ProgressBar progressRam;
+    private MemoryInfo memoryInfo;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        context = null;
     }
 
     @Override
@@ -58,12 +65,13 @@ public class tabMemory extends Fragment {
             DrawableCompat.setTint(progressInStorage.getProgressDrawable(), getResources().getColor(R.color.progress_insto));
             DrawableCompat.setTint(progressExStorage.getProgressDrawable(), getResources().getColor(R.color.progress_exsto));
 
-            final MemoryInfo memoryInfo = new MemoryInfo(getContext());
+            memoryInfo = new MemoryInfo(context);
+            String usedOf = getString(R.string.used_of);
             final Handler updateRam = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
                     memoryInfo.Ram();
-                    String ramStatus = memoryInfo.getUsedRam() + "MB used of " + memoryInfo.getTotalRam() + "MB";
+                    String ramStatus = memoryInfo.getUsedRam() + "MB " + usedOf + " " + memoryInfo.getTotalRam() + "MB";
                     txtRAMStatus.setText(ramStatus);
                     progressRam.setProgress((int) memoryInfo.getUsedRamPercentage());
                     updateRam.postDelayed(this, 1000);
@@ -71,12 +79,12 @@ public class tabMemory extends Fragment {
             };
             updateRam.postDelayed(runnable, 0);
 
-            String romStatus = String.format(Locale.US, "%.2f", SplashActivity.usedRom) + "GB used of " + String.format(Locale.US, "%.2f", SplashActivity.totalRom) + "GB";
+            String romStatus = String.format(Locale.US, "%.2f", SplashActivity.usedRom) + "GB " + usedOf + " " + String.format(Locale.US, "%.2f", SplashActivity.totalRom) + "GB";
             txtROMStatus.setText(romStatus);
             txtROMPath.setText(SplashActivity.romPath);
             progressRom.setProgress((int) SplashActivity.usedRomPercentage);
 
-            String internalStorageStatus = String.format(Locale.US, "%.2f", SplashActivity.usedInternalStorage) + "GB used of " + String.format(Locale.US, "%.2f", SplashActivity.totalInternalStorage) + "GB";
+            String internalStorageStatus = String.format(Locale.US, "%.2f", SplashActivity.usedInternalStorage) + "GB " + usedOf + " " + String.format(Locale.US, "%.2f", SplashActivity.totalInternalStorage) + "GB";
             txtInStorageStatus.setText(internalStorageStatus);
             txtInStoragePath.setText(SplashActivity.internalStoragePath);
             progressInStorage.setProgress((int) SplashActivity.usedInternalPercentage);
@@ -85,7 +93,7 @@ public class tabMemory extends Fragment {
             if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) && ContextCompat.getExternalFilesDirs(context, null).length >= 2) {
                 cardExStorage.setVisibility(View.VISIBLE);
 
-                String externalStorageStatus = String.format(Locale.US, "%.2f", SplashActivity.usedExternalStorage) + "GB used of " + String.format(Locale.US, "%.2f", SplashActivity.totalExternalStorage) + "GB";
+                String externalStorageStatus = String.format(Locale.US, "%.2f", SplashActivity.usedExternalStorage) + "GB " + usedOf + " " + String.format(Locale.US, "%.2f", SplashActivity.totalExternalStorage) + "GB";
                 txtExStorageStatus.setText(externalStorageStatus);
                 txtExStoragePath.setText(SplashActivity.externalStoragePath);
                 progressExStorage.setProgress((int) SplashActivity.usedExternalPercentage);

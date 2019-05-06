@@ -11,7 +11,7 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@null"
         android:src="@drawable/splash_logo1" />
 
     <ImageView
@@ -19,7 +19,7 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@null"
         android:src="@drawable/splash_logo2" />
 
     <ImageView
@@ -27,7 +27,7 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@null"
         android:src="@drawable/splash_logo3" />
 
     <ImageView
@@ -35,7 +35,7 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@null"
         android:src="@drawable/splash_logo4" />
 
     <androidx.appcompat.widget.AppCompatTextView

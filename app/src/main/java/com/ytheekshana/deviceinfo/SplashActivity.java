@@ -37,7 +37,6 @@ import android.widget.TextView;
 import com.jaredrummler.android.device.DeviceName;
 
 import java.io.RandomAccessFile;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -108,9 +107,9 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
         Animation animLogoFromRight = AnimationUtils.loadAnimation(this, R.anim.logo_from_right);
         imageLogoSplash4.setAnimation(animLogoFromRight);
 
-        Animation animpTextview = AnimationUtils.loadAnimation(this, R.anim.from_bottom);
-        txtAppName.setAnimation(animpTextview);
-        progressBarSplash.setAnimation(animpTextview);
+        Animation animTextview = AnimationUtils.loadAnimation(this, R.anim.from_bottom);
+        txtAppName.setAnimation(animTextview);
+        progressBarSplash.setAnimation(animTextview);
         LoadDetails loadDetails = new LoadDetails(this, this);
         loadDetails.execute();
 
@@ -161,9 +160,9 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 wifiMac = GetDetails.getWifiMacAddress();
                 bluetoothMac = GetDetails.getBluetoothMac(context);
                 if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_USB_HOST)) {
-                    usbHost = "Supported";
+                    usbHost = getString(R.string.supported);
                 } else {
-                    usbHost = "Not Supported";
+                    usbHost = getString(R.string.not_supported);
                 }
 
                 Thread.sleep(threadSleepAmount);
@@ -177,7 +176,7 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 glVersion = info.getGlEsVersion();
                 androidRuntime = System.getProperty("java.vm.version");
                 kernelVersion = System.getProperty("os.version");
-                selinuxMode = GetDetails.GetSELinuxMode();
+                selinuxMode = GetDetails.GetSELinuxMode(context);
                 Thread.sleep(threadSleepAmount);
                 publishProgress(20 * 10);
 
@@ -192,14 +191,14 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                 readermax.close();
                 readermin.close();
 
-                processorName = GetDetails.getProcessor();
+                processorName = GetDetails.getProcessor(context);
 
                 StringBuilder ABIs = new StringBuilder();
                 for (int a = 0; a < Build.SUPPORTED_ABIS.length; a++) {
                     ABIs.append(Build.SUPPORTED_ABIS[a]).append(", ");
                 }
                 cpuABIs = ABIs.substring(0, ABIs.length() - 2);
-                processorHardware = GetDetails.getProcessorHardware();
+                processorHardware = GetDetails.getProcessorHardware(context);
                 cpuGovernor = GetDetails.getCPUGoverner();
                 Thread.sleep(threadSleepAmount);
                 publishProgress(30 * 10);
@@ -236,14 +235,14 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
                     displaySize = "LDPI";
                 }
                 Display display = ((WindowManager) Objects.requireNonNull(activity.getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay();
-                displayRefreshRate = String.format(Locale.US,"%.1f", display.getRefreshRate());
+                displayRefreshRate = String.format(GetDetails.getLocale(context), "%.1f", display.getRefreshRate());
                 int orie = activity.getResources().getConfiguration().orientation;
                 if (orie == Configuration.ORIENTATION_PORTRAIT) {
-                    displayOrientation = "Portrait";
+                    displayOrientation = getString(R.string.portrait);
                 } else if (orie == Configuration.ORIENTATION_LANDSCAPE) {
-                    displayOrientation = "Landscape";
+                    displayOrientation = getString(R.string.landscape);
                 } else if (orie == Configuration.ORIENTATION_UNDEFINED) {
-                    displayOrientation = "Undefined";
+                    displayOrientation = getString(R.string.undefined);
                 }
                 fontSize = getResources().getConfiguration().fontScale;
                 displayPhysicalSize = GetDetails.getDisplaySize(activity);
