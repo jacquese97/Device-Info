@@ -21,6 +21,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ytheekshana.deviceinfo.fragments.*;
 
 import java.util.List;
 

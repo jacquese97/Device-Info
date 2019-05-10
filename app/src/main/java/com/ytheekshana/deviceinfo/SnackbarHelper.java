@@ -7,9 +7,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.core.view.ViewCompat;
 
-class SnackbarHelper {
+public class SnackbarHelper {
 
-    static void configSnackbar(Context context, Snackbar snack) {
+    public static void configSnackbar(Context context, Snackbar snack) {
         addMargins(snack);
         setRoundBordersBg(context, snack);
         ViewCompat.setElevation(snack.getView(), 6f);

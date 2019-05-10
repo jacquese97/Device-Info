@@ -2,6 +2,9 @@ package com.ytheekshana.deviceinfo;
 
 import android.widget.Filter;
 
+import com.ytheekshana.deviceinfo.adapters.AppAdapter;
+import com.ytheekshana.deviceinfo.models.AppInfo;
+
 import java.util.ArrayList;
 
 public class AppFilter extends Filter {
@@ -9,7 +12,7 @@ public class AppFilter extends Filter {
     private AppAdapter adapter;
     private ArrayList<AppInfo> filterList;
 
-    AppFilter(ArrayList<AppInfo> filterList, AppAdapter adapter) {
+    public AppFilter(ArrayList<AppInfo> filterList, AppAdapter adapter) {
         this.adapter = adapter;
         this.filterList = filterList;
     }

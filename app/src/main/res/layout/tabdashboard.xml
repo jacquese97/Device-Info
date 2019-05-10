@@ -151,7 +151,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/imgROM"
+                    android:contentDescription="@null"
                     app:srcCompat="@drawable/rom" />
 
                 <TextView
@@ -161,7 +161,7 @@
                     android:layout_alignTop="@+id/imageROM"
                     android:layout_toEndOf="@+id/imageROM"
                     android:gravity="top"
-                    android:text="@string/DashROM"
+                    android:text="@string/systemStorage"
                     android:textStyle="bold" />
 
                 <ProgressBar
@@ -221,7 +221,7 @@
                     android:layout_height="53dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/imgInternalStorage"
+                    android:contentDescription="@null"
                     app:srcCompat="@drawable/instorage" />
 
                 <TextView
@@ -231,7 +231,7 @@
                     android:layout_alignTop="@+id/imageInStorage"
                     android:layout_toEndOf="@+id/imageInStorage"
                     android:gravity="top"
-                    android:text="@string/DashInternalStorage"
+                    android:text="@string/internalStorage"
                     android:textStyle="bold" />
 
                 <ProgressBar
@@ -290,7 +290,7 @@
                     android:layout_height="53dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/imgExternalStorage"
+                    android:contentDescription="@null"
                     app:srcCompat="@drawable/exstorage" />
 
                 <TextView
@@ -300,7 +300,7 @@
                     android:layout_alignTop="@+id/imageExStorage"
                     android:layout_toEndOf="@+id/imageExStorage"
                     android:gravity="top"
-                    android:text="@string/DashExternalStorage"
+                    android:text="@string/externalStorage"
                     android:textStyle="bold" />
 
                 <ProgressBar
@@ -359,7 +359,7 @@
                     android:layout_height="53dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/imgBattery"
+                    android:contentDescription="@null"
                     app:srcCompat="@drawable/battery" />
 
                 <TextView
@@ -369,7 +369,7 @@
                     android:layout_alignTop="@+id/imageBattery"
                     android:layout_toEndOf="@+id/imageBattery"
                     android:gravity="top"
-                    android:text="@string/DashBattery"
+                    android:text="@string/battery"
                     android:textStyle="bold" />
 
                 <ProgressBar
@@ -435,7 +435,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:contentDescription="@string/imgCPU"
+                        android:contentDescription="@null"
                         app:srcCompat="@drawable/sensor" />
 
                     <TextView
@@ -455,7 +455,7 @@
                         android:layout_below="@id/txtSensorCount"
                         android:layout_toEndOf="@id/imageSensor"
                         android:gravity="top"
-                        android:text="@string/DashSensor"
+                        android:text="@string/sensors"
                         android:textStyle="bold" />
 
                     <TextView
@@ -465,7 +465,7 @@
                         android:layout_below="@id/txtSensorTitle"
                         android:layout_toEndOf="@+id/imageSensor"
                         android:gravity="top"
-                        android:text="@string/DashSensorStatus"
+                        android:text="@string/available"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
@@ -493,7 +493,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:contentDescription="@string/imgCPU"
+                        android:contentDescription="@null"
                         app:srcCompat="@drawable/app" />
 
                     <TextView
@@ -513,7 +513,7 @@
                         android:layout_below="@id/txtAppCount"
                         android:layout_toEndOf="@id/imageApps"
                         android:gravity="top"
-                        android:text="@string/DashApp"
+                        android:text="@string/all_apps"
                         android:textStyle="bold" />
 
                     <TextView
@@ -523,7 +523,7 @@
                         android:layout_below="@id/txtAppTitle"
                         android:layout_toEndOf="@+id/imageApps"
                         android:gravity="top"
-                        android:text="@string/DashAppStatus"
+                        android:text="@string/installed"
                         android:textStyle="bold" />
 
                 </RelativeLayout>

@@ -16,7 +16,7 @@ public class CPUUsage {
     private CpuInfo mCpuInfoTotal;
     private ArrayList<CpuInfo> mCpuInfoList;
 
-    CPUUsage() {
+    public CPUUsage() {
     }
 
     private void update() {
@@ -88,7 +88,7 @@ public class CPUUsage {
         }
     }
 
-    int getTotalCpuUsage() {
+    public int getTotalCpuUsage() {
         update();
         int usage = 0;
         if (mCpuInfoTotal != null)

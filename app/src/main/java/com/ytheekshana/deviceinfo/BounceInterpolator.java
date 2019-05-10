@@ -7,7 +7,7 @@ public class BounceInterpolator implements Interpolator {
     private double mAmplitude;
     private double mFrequency;
 
-    BounceInterpolator(double amplitude, double frequency) {
+    public BounceInterpolator(double amplitude, double frequency) {
         mAmplitude = amplitude;
         mFrequency = frequency;
     }

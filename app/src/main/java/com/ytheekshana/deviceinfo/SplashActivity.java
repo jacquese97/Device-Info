@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaredrummler.android.device.DeviceName;
+import com.ytheekshana.deviceinfo.models.MemoryInfo;
 
 import java.io.RandomAccessFile;
 import java.util.Objects;
@@ -114,6 +115,23 @@ public class SplashActivity extends Activity implements GLSurfaceView.Renderer {
         loadDetails.execute();
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (glSurfaceView != null) {
+            glSurfaceView.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (glSurfaceView != null) {
+            glSurfaceView.onResume();
+        }
+    }
+
 
     @Override
     public void onDrawFrame(GL10 gl) {

@@ -8,8 +8,8 @@ android {
         applicationId "com.ytheekshana.deviceinfo"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 32
-        versionName "1.7.6"
+        versionCode 33
+        versionName "1.7.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,20 +29,20 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0-alpha05', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.13-beta-2'
     implementation 'com.google.firebase:firebase-crash:16.2.1'
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-messaging:17.6.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha05'
     implementation 'androidx.biometric:biometric:1.0.0-alpha04'
     implementation 'com.android.billingclient:billing:1.2'
     implementation 'com.github.kizitonwose.colorpreference:core:1.1.0'

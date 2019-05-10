@@ -16,6 +16,8 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.ytheekshana.deviceinfo.models.ThermalInfo;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +46,7 @@ import androidx.annotation.NonNull;
 public class GetDetails {
 
     @ColorInt
-    static int getThemeColor(@NonNull final Context context, @AttrRes final int attributeColor) {
+    public static int getThemeColor(@NonNull final Context context, @AttrRes final int attributeColor) {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(attributeColor, value, true);
         return value.data;
@@ -67,7 +69,7 @@ public class GetDetails {
         return propvalue;
     }
 
-    static String GetOSNameAdvanced(Context context) {
+    public static String GetOSNameAdvanced(Context context) {
         String OSName;
         switch (Build.VERSION.SDK_INT) {
             case 21:
@@ -100,7 +102,7 @@ public class GetDetails {
         return OSName;
     }
 
-    static String GetOSReleaseDate(Context context) {
+    public static String GetOSReleaseDate(Context context) {
         String OSReleaseDate = "";
         switch (Build.VERSION.SDK_INT) {
             case 11:
@@ -150,7 +152,7 @@ public class GetDetails {
         return dateFormat.format(date);
     }
 
-    static String GetOSName(int sdk, Context context) {
+    public static String GetOSName(int sdk, Context context) {
         String OSName;
         switch (sdk) {
             case 11:
@@ -290,7 +292,7 @@ public class GetDetails {
         return aLine;
     }
 
-    static String getTime(long millis) {
+    public static String getTime(long millis) {
         if (millis < 0) {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
@@ -320,7 +322,7 @@ public class GetDetails {
         return String.format(Locale.US, "%.2f", Math.sqrt(x + y));
     }
 
-    static String PhoneType(int gettype) {
+    public static String PhoneType(int gettype) {
         String Type = "";
         switch (gettype) {
             case TelephonyManager.PHONE_TYPE_CDMA:
@@ -336,7 +338,7 @@ public class GetDetails {
         return Type;
     }
 
-    static String NetworkType(int gettype) {
+    public static String NetworkType(int gettype) {
         String Type;
         switch (gettype) {
             case TelephonyManager.NETWORK_TYPE_CDMA:
@@ -376,7 +378,7 @@ public class GetDetails {
         return Type;
     }
 
-    static String getBatteryStatus(int batstatus, Context context) {
+    public static String getBatteryStatus(int batstatus, Context context) {
         String batstatusdis;
         if (batstatus == BatteryManager.BATTERY_STATUS_CHARGING) {
             batstatusdis = context.getString(R.string.charging);
@@ -394,7 +396,7 @@ public class GetDetails {
         return batstatusdis;
     }
 
-    static String getBatteryPowerSource(int batpowersource, Context context) {
+    public static String getBatteryPowerSource(int batpowersource, Context context) {
         String batpowersourcedis;
         if (batpowersource == BatteryManager.BATTERY_PLUGGED_USB) {
             batpowersourcedis = context.getString(R.string.usb_port);
@@ -406,7 +408,7 @@ public class GetDetails {
         return batpowersourcedis;
     }
 
-    static String getBatteryHealth(int bathealth, Context context) {
+    public static String getBatteryHealth(int bathealth, Context context) {
         String bathealthdis;
         if (bathealth == BatteryManager.BATTERY_HEALTH_COLD) {
             bathealthdis = context.getString(R.string.cold);
@@ -498,7 +500,7 @@ public class GetDetails {
         return (int) batteryCapacity;
     }
 
-    static String[] getStorageDirectories(Context context) {
+    public static String[] getStorageDirectories(Context context) {
         String[] storageDirectories;
         String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
         List<String> results = new ArrayList<>();
@@ -514,7 +516,7 @@ public class GetDetails {
         return storageDirectories;
     }
 
-    static Double getAndroidVersion(int sdk) {
+    public static Double getAndroidVersion(int sdk) {
         double Version;
         switch (sdk) {
             case 10:
@@ -601,7 +603,7 @@ public class GetDetails {
         }
     }
 
-    static String GetSensorType(int type, Context context) {
+    public static String GetSensorType(int type, Context context) {
         String stype;
         switch (type) {
             case 1:
@@ -738,7 +740,7 @@ public class GetDetails {
         return Color.argb(alpha, red, green, blue);
     }
 
-    static void copy(File src, File dst) {
+    public static void copy(File src, File dst) {
         try (InputStream in = new FileInputStream(src)) {
             try (OutputStream out = new FileOutputStream(dst)) {
                 // Transfer bytes from in to out
@@ -753,7 +755,7 @@ public class GetDetails {
         }
     }
 
-    static String getKeyName(String name, Context context) {
+    public static String getKeyName(String name, Context context) {
         String keyName;
         switch (name) {
             case "android.colorCorrection.availableAberrationModes":
@@ -952,7 +954,7 @@ public class GetDetails {
         return keyName;
     }
 
-    static String getCameraMP(Size[] size) {
+    public static String getCameraMP(Size[] size) {
         String finalCameraRes = getMP(size[0], 1);
         int maxSize = size[0].getHeight() * size[0].getWidth();
         for (Size camSize : size) {
@@ -965,7 +967,7 @@ public class GetDetails {
         return finalCameraRes;
     }
 
-    static String getCameraResolution(Size[] size) {
+    public static String getCameraResolution(Size[] size) {
         Size first = size[0];
         if (size.length > 1) {
             Size second = size[size.length - 1];
@@ -979,7 +981,7 @@ public class GetDetails {
         }
     }
 
-    static String getMP(Size size, int decimalPlaces) {
+    public static String getMP(Size size, int decimalPlaces) {
         float mp = (size.getWidth() * size.getHeight()) / 1000000f;
         if (decimalPlaces == 1) {
             return String.format(Locale.US, "%.1f", mp) + " MP";
@@ -1006,7 +1008,7 @@ public class GetDetails {
         return new DecimalFormat("##.#").format(finalTemp) + " \u2103";
     }
 
-    static ArrayList<ThermalInfo> loadThermal() {
+    public static ArrayList<ThermalInfo> loadThermal() {
         ArrayList<ThermalInfo> thermalList = new ArrayList<>();
         File dir = new File("/sys/devices/virtual/thermal/");
         File[] files = dir.listFiles();
@@ -1031,7 +1033,7 @@ public class GetDetails {
         return thermalList;
     }
 
-    static Locale getLocale(Context context) {
+    public static Locale getLocale(Context context) {
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             locale = context.getResources().getConfiguration().getLocales().get(0);

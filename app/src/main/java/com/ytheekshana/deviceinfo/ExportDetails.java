@@ -19,10 +19,14 @@ import android.util.Size;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.ytheekshana.deviceinfo.models.ThermalInfo;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,10 +45,15 @@ class ExportDetails {
                 root.mkdirs();
             }
             File file = new File(root, context.getString(R.string.device_info_report) + ".txt");
-            FileWriter writer = new FileWriter(file);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
             writer.append(content);
             writer.flush();
             writer.close();
+
+            /*FileWriter writer = new FileWriter(file);
+            writer.append(content);
+            writer.flush();
+            writer.close();*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,20 +156,20 @@ class ExportDetails {
                     context.getString(R.string.used) + " : " + String.format(locale, "%.1f", SplashActivity.usedRam) + "MB" + "\n" +
                     context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedRamPercentage + "%" + "\n\n" +
 
-                    context.getString(R.string.ROM) + "\n" + seperatorSmall +
+                    context.getString(R.string.systemStorage) + "\n" + seperatorSmall +
                     context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalRom) + "GB" + "\n" +
                     context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableRom) + "GB" + "\n" +
                     context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedRom) + "GB" + "\n" +
                     context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedRomPercentage + "%" + "\n\n" +
 
-                    context.getString(R.string.InternalStorage) + "\n" + seperatorSmall +
+                    context.getString(R.string.internalStorage) + "\n" + seperatorSmall +
                     context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalInternalStorage) + "GB" + "\n" +
                     context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableInternalStorage) + "GB" + "\n" +
                     context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedInternalStorage) + "GB" + "\n" +
                     context.getString(R.string.used_percentage) + " : " + (int) SplashActivity.usedInternalPercentage + "%" + "\n\n";
 
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && ContextCompat.getExternalFilesDirs(context, null).length >= 2) {
-                String externalStorageData = context.getString(R.string.ExternalStorage) + "\n" + seperatorSmall +
+                String externalStorageData = context.getString(R.string.externalStorage) + "\n" + seperatorSmall +
                         context.getString(R.string.total) + " : " + String.format(locale, "%.2f", SplashActivity.totalExternalStorage) + "GB" + "\n" +
                         context.getString(R.string.available) + " : " + String.format(locale, "%.2f", SplashActivity.availableExternalStorage) + "GB" + "\n" +
                         context.getString(R.string.used) + " : " + String.format(locale, "%.2f", SplashActivity.usedExternalStorage) + "GB" + "\n" +

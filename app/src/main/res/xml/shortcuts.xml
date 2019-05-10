@@ -3,10 +3,10 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/shortcut_about"
-        android:shortcutDisabledMessage="@string/about_disabled_message"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
         android:shortcutId="shortcutAbout"
-        android:shortcutLongLabel="@string/about_shortcut_long_label"
-        android:shortcutShortLabel="@string/about_shortcut_short_label"
+        android:shortcutLongLabel="@string/about"
+        android:shortcutShortLabel="@string/about"
         tools:targetApi="n_mr1">
         <intent
             android:action="android.intent.action.VIEW"
@@ -17,27 +17,27 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/shortcut_donate"
-        android:shortcutDisabledMessage="@string/donate_disabled_message"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
         android:shortcutId="shortcutDonate"
-        android:shortcutLongLabel="@string/donate_shortcut_long_label"
-        android:shortcutShortLabel="@string/donate_shortcut_short_label"
+        android:shortcutLongLabel="@string/donate"
+        android:shortcutShortLabel="@string/donate"
         tools:targetApi="n_mr1">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.ytheekshana.deviceinfo.DonateActivity"
             android:targetPackage="com.ytheekshana.deviceinfo" />
     </shortcut>
-    <!--shortcut
+    <!--<shortcut
         android:enabled="true"
         android:icon="@drawable/shortcut_settings"
-        android:shortcutDisabledMessage="@string/settings_disabled_message"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
         android:shortcutId="shortcutSettings"
-        android:shortcutLongLabel="@string/settings_shortcut_long_label"
-        android:shortcutShortLabel="@string/settings_shortcut_short_label">
+        android:shortcutLongLabel="@string/settings"
+        android:shortcutShortLabel="@string/settings">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.ytheekshana.deviceinfo.SettingsActivity"
             android:targetPackage="com.ytheekshana.deviceinfo" />
         <categories android:name="android.shortcut.conversation" />
-    </shortcut-->
+    </shortcut>-->
 </shortcuts>

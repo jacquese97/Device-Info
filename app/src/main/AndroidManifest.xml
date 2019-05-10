@@ -37,16 +37,11 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <!--
-            meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9823272508031979~9460111064"/
-        -->
 
         <activity
             android:name=".MainActivity"
@@ -68,52 +63,52 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/title_activity_about"
+            android:label="@string/about"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DonateActivity"
-            android:label="@string/title_activity_donate"
+            android:label="@string/donate"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
+            android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".FlashlightTestActivity"
+            android:name=".tests.FlashlightTestActivity"
             android:label="@string/flashlight_test" />
         <activity
-            android:name=".DisplayTestActivity"
+            android:name=".tests.DisplayTestActivity"
             android:label="@string/display_test" />
         <activity
-            android:name=".DisplayTestFullScreen"
+            android:name=".tests.DisplayTestFullScreen"
             android:label="@string/display_test"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoudSpeakerTestActivity"
+            android:name=".tests.LoudSpeakerTestActivity"
             android:label="@string/loudspeaker_test" />
         <activity
-            android:name=".EarSpeakerTestActivity"
+            android:name=".tests.EarSpeakerTestActivity"
             android:label="@string/earspeaker_test" />
         <activity
-            android:name=".EarProximityTestActivity"
+            android:name=".tests.EarProximityTestActivity"
             android:label="@string/earproximity_test" />
         <activity
-            android:name=".LightSensorTestActivity"
+            android:name=".tests.LightSensorTestActivity"
             android:label="@string/lightsensor_test" />
         <activity
-            android:name=".VibrationTestActivity"
+            android:name=".tests.VibrationTestActivity"
             android:label="@string/vibration_test" />
         <activity
-            android:name=".WifiTestActivity"
+            android:name=".tests.WifiTestActivity"
             android:label="@string/wifi_test" />
         <activity
-            android:name=".BluetoothTestActivity"
+            android:name=".tests.BluetoothTestActivity"
             android:label="@string/bluetooth_test" />
         <activity
-            android:name=".VolumeUpTestActivity"
+            android:name=".tests.VolumeUpTestActivity"
             android:label="@string/volumeup_test" />
         <activity
-            android:name=".VolumeDownTestActivity"
+            android:name=".tests.VolumeDownTestActivity"
             android:label="@string/volumedown_test" />
 
         <service
