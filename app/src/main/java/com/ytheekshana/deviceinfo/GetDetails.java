@@ -40,12 +40,10 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.AttrRes;
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 public class GetDetails {
 
-    @ColorInt
     public static int getThemeColor(@NonNull final Context context, @AttrRes final int attributeColor) {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(attributeColor, value, true);
@@ -732,7 +730,7 @@ public class GetDetails {
         return Color.parseColor(colorThemeColor2.get(colorThemeColor.indexOf(getHex)));
     }
 
-    static int adjustAlpha(@ColorInt int color, float factor) {
+    static int adjustAlpha(int color, float factor) {
         int alpha = Math.round(Color.alpha(color) * factor);
         int red = Color.red(color);
         int green = Color.green(color);
@@ -1005,7 +1003,11 @@ public class GetDetails {
             finalTemp = val;
         }
         finalTemp = Math.abs(finalTemp);
-        return new DecimalFormat("##.#").format(finalTemp) + " \u2103";
+        if (MainActivity.isCelsius){
+            return new DecimalFormat("##.#").format(finalTemp) + " \u2103";
+        }else{
+            return new DecimalFormat("##.#").format(toFahrenheit(finalTemp)) + " \u2109";
+        }
     }
 
     public static ArrayList<ThermalInfo> loadThermal() {
@@ -1041,6 +1043,10 @@ public class GetDetails {
             locale = context.getResources().getConfiguration().locale;
         }
         return locale;
+    }
+
+    public static Double toFahrenheit(Double celsiusValue) {
+        return (celsiusValue * (9.0 / 5.0)) + 32.0;
     }
 
 }

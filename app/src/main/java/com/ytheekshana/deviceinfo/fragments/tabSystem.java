@@ -335,7 +335,6 @@ public class tabSystem extends Fragment {
                 }
             }, 1000);
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

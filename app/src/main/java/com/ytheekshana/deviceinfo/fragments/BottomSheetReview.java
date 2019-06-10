@@ -46,13 +46,16 @@ public class BottomSheetReview extends BottomSheetDialogFragment {
         gradientDrawable.setColor(themeColor);
 
         btnok.setOnClickListener(view1 -> {
-            dismiss();
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.ytheekshana.deviceinfo"));
-            intent.setPackage("com.android.vending");
-            startActivity(intent);
-            Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_activity_enter, R.anim.slide_activity_exit);
-
+            try {
+                dismiss();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.ytheekshana.deviceinfo"));
+                intent.setPackage("com.android.vending");
+                startActivity(intent);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_activity_enter, R.anim.slide_activity_exit);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         btnno.setOnClickListener(view12 -> dismiss());

@@ -34,7 +34,7 @@
             android:paddingTop="2dp"
             android:text="994MHz"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
     </RelativeLayout>
 

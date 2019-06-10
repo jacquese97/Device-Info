@@ -7,6 +7,12 @@ Device Info is a simple and powerful Android application which gives you the com
     <img src="screenshots/device_info3.jpg" />
 </p>
 
+<p>
+    <a href="https://play.google.com/store/apps/details?id=com.ytheekshana.deviceinfo" target="_blank">
+        <img style='width:200px;' src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
+    </a>
+</p>
+
 #### Prerequisites
 - Android Studio 3.4
 - JDK 1.8

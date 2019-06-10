@@ -4,6 +4,10 @@
         <item>Usuario</item>
         <item>Sistema</item>
     </string-array>
+    <string-array name="temp_entries">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+    </string-array>
     <string name="ABIs">ABIs Soportados</string>
     <string name="APILevel">Nivel de API</string>
     <string name="AndroidDeviceID">Android ID</string>
@@ -72,7 +76,6 @@
     <string name="adaptive">Adaptivo</string>
     <string name="already_purchased">Ya Comprado</string>
     <string name="android_version">Versión de Android</string>
-    <string name="app_backup">Copia de Seguridad de la Aplicación</string>
     <string name="app_cover_photo">Imagen de Portada</string>
     <string name="app_description">Device Info es una aplicación de Android simple y potente que le brinda información completa sobre su dispositivo móvil con interfaz de usuario avanzado.</string>
     <string name="app_info">Informacion de la Applicacion</string>
@@ -415,4 +418,6 @@
     <string name="wifi_test_start">Iniciando Wifi</string>
     <string name="wifi_test_status">Estado de prueba de Wi-Fi</string>
     <string name="installed">Instaladas</string>
+    <string name="general">General</string>
+    <string name="temperature_unit">Unidad de Temperatura</string>
 </resources>

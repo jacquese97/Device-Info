@@ -293,11 +293,19 @@ public class tabDashboard extends Fragment {
     private BroadcastReceiver batteryBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+
             batlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int batstatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             int voltage = intent.getIntExtra("voltage", 0);
             int temperature = (intent.getIntExtra("temperature", 0)) / 10;
-            String setBattery = getString(R.string.Voltage) + ": " + voltage + "mV,  " + getString(R.string.Temperature) + ": " + temperature + " \u2103";
+            String setBattery;
+            if(MainActivity.isCelsius){
+                setBattery = getString(R.string.Voltage) + ": " + voltage + "mV,  " + getString(R.string.Temperature) + ": " + temperature + " \u2103";
+            }else{
+                setBattery = getString(R.string.Voltage) + ": " + voltage + "mV,  " + getString(R.string.Temperature) + ": " + String.format(GetDetails.getLocale(context), "%.1f", GetDetails.toFahrenheit((double)temperature)) + " \u2109";
+            }
+
             txtBatteryStatus.setText(setBattery);
             String battery_percentage = batlevel + "%";
             txtBatteryPerce.setText(battery_percentage);

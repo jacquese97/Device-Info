@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -43,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
     protected void onCreate(Bundle savedInstanceState) {
         try {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
             int themeId = sharedPrefs.getInt("ThemeBar", R.style.AppTheme);
             themeColor = sharedPrefs.getInt("accent_color_dialog", Color.parseColor("#2196f3"));
             themeColorDark = GetDetails.getDarkColor(this, themeColor);
@@ -58,6 +60,11 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
 
             super.onCreate(savedInstanceState);
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            if (!sharedPrefs.contains("temperature_unit_pref")) {
+                editor.putString("temperature_unit_pref", "item_celsius");
+                editor.apply();
+                editor.commit();
+            }
             getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -69,6 +76,7 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
         SwitchPreference dark_theme_Pref;
         SharedPreferences sharedPrefs;
         SharedPreferences.Editor shareEdit;
+        ListPreference temperature_unit_pref;
         Preference app_version_pref, pref_rate_us, pref_donate, pref_extract_location, pref_export_data;
 
         @Override
@@ -83,6 +91,8 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                 theme_color = findPreference("accent_color_dialog");
                 dark_theme_Pref = findPreference("dark_theme_switch");
                 app_version_pref = findPreference("app_version_pref");
+
+                temperature_unit_pref = findPreference("temperature_unit_pref");
                 dark_theme_Pref.setOnPreferenceClickListener(preference -> {
 
                     if (dark_theme_Pref.isChecked()) {
@@ -109,6 +119,8 @@ public class SettingsActivity extends AppCompatActivity implements ColorDialog.O
                     dark_theme_Pref.setChecked(false);
                     dark_theme_Pref.setSummary(getString(R.string.dark_theme_disabled));
                 }
+
+
                 app_version_pref.setSummary(BuildConfig.VERSION_NAME);
                 pref_rate_us = findPreference("pref_rate_us");
                 pref_rate_us.setOnPreferenceClickListener(preference -> {

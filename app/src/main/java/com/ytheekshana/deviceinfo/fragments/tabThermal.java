@@ -64,7 +64,6 @@ public class tabThermal extends Fragment {
             recyclerThermal.setAdapter(thermalAdapter);
 
             CardView cardNoThermal = rootView.findViewById(R.id.cardNoThermal);
-
             if (thermalList.isEmpty()) {
                 cardNoThermal.setVisibility(View.VISIBLE);
             } else {

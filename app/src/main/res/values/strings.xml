@@ -3,6 +3,14 @@
         <item>User Apps</item>
         <item>System Apps</item>
     </string-array>
+    <string-array name="temp_entries">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+    </string-array>
+    <string-array name="temp_values">
+        <item>item_celsius</item>
+        <item>item_fahrenheit</item>
+    </string-array>
 
     <string name="systemStorage">System Storage</string>
     <string name="internalStorage">Internal Storage</string>
@@ -328,7 +336,7 @@
     <string name="feature_monochrome">Monochrome</string>
     <string name="feature_motion_tracking">Motion Tracking</string>
     <string name="feature_private_reprocessing">Private Reprocessing</string>
-    <string name="feature_raw">Raw</string>
+    <string name="feature_raw">RAW</string>
     <string name="feature_read_sensor_settings">Read Sensor Settings</string>
     <string name="feature_yuv_reprocessing">YUV Reprocessing</string>
     <string name="feature_center_only">Center Only</string>
@@ -409,7 +417,7 @@
     <string name="dark_theme">Dark Theme</string>
     <string name="select_an_accent_color">Select an Accent Color</string>
     <string name="accent_color">Accent Color</string>
-    <string name="app_backup">App Backup</string>
+    <string name="general">General</string>
     <string name="default_extract_path" translatable="false">/emulated/0/DeviceInfo</string>
     <string name="extract_location">Extract Location</string>
     <string name="export">Export</string>
@@ -461,4 +469,7 @@
     <string name="auto">Auto</string>
     <string name="disabled">Disabled</string>
     <string name="no_thermal_data">No Thermal Data</string>
+    <string name="temperature_unit">Temperature Unit</string>
+    <string name="celsius" translatable="false">Celsius</string>
+    <string name="fahrenheit" translatable="false">Fahrenheit</string>
 </resources>

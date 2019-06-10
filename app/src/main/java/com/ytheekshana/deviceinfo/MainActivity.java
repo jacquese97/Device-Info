@@ -35,7 +35,7 @@ import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
     public static int themeColor, themeColor2, themeColorDark, requestReviewCount;
-    public static boolean isDarkmode;
+    public static boolean isDarkmode, isCelsius;
     SharedPreferences sharedPrefs;
     SharedPreferences.Editor editor;
     ViewPager mViewPager;
@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         int themeId = sharedPrefs.getInt("ThemeNoBar", R.style.AppTheme_NoActionBar);
         requestReviewCount = sharedPrefs.getInt("requestReviewCount", 0);
         themeColor = sharedPrefs.getInt("accent_color_dialog", Color.parseColor("#2196f3"));
+        String temp_pref = sharedPrefs.getString("temperature_unit_pref", "item_celsius");
+        isCelsius = temp_pref.equals("item_celsius");
         themeColorDark = GetDetails.getDarkColor(context, themeColor);
         themeColor2 = GetDetails.getDarkColor2(context, themeColor);
         setTheme(themeId);

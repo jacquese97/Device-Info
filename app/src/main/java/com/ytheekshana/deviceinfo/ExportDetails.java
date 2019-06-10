@@ -71,6 +71,13 @@ class ExportDetails {
             int batteryPowerSource = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
             int batteryHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
             String batteryTechnology = Objects.requireNonNull(intent.getExtras()).getString(BatteryManager.EXTRA_TECHNOLOGY);
+            String battemp;
+            if (MainActivity.isCelsius) {
+                battemp = batteryTemperature + " \u2103";
+            } else {
+                battemp = String.format(GetDetails.getLocale(context), "%.1f", GetDetails.toFahrenheit((double) batteryTemperature)) + " \u2109";
+            }
+
 
             String brightnessLevel = (Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS) * 100) / 255 + "%";
             String brightnessMode = "";
@@ -103,7 +110,7 @@ class ExportDetails {
 
                     context.getString(R.string.system) + "\n" + seperator +
                     context.getString(R.string.android_version) + " : " + Build.VERSION.RELEASE + "\n" +
-                    context.getString(R.string.version_name) + " : " + GetDetails.GetOSName(Build.VERSION.SDK_INT,context) + "\n" +
+                    context.getString(R.string.version_name) + " : " + GetDetails.GetOSName(Build.VERSION.SDK_INT, context) + "\n" +
                     context.getString(R.string.released_date) + " : " + GetDetails.GetOSReleaseDate(context) + "\n" +
                     context.getString(R.string.CodeName) + " : " + GetDetails.GetOSNameAdvanced(context) + "\n" +
                     context.getString(R.string.APILevel) + " : " + Build.VERSION.SDK_INT + "\n" +
@@ -113,6 +120,7 @@ class ExportDetails {
                     context.getString(R.string.Baseband) + " : " + Build.getRadioVersion() + "\n" +
                     context.getString(R.string.java_vm) + " : " + SplashActivity.androidRuntime + "\n" +
                     context.getString(R.string.Kernel) + " : " + SplashActivity.kernelVersion + "\n" +
+                    context.getString(R.string.Language) + " : " + Locale.getDefault().getDisplayLanguage() + " (" + Locale.getDefault().toString() + ")" + "\n" +
                     context.getString(R.string.OpenGL) + " : " + SplashActivity.glVersion + "\n" +
                     context.getString(R.string.RootAccess) + " : " + (SplashActivity.rootedStatus ? context.getString(R.string.yes) : context.getString(R.string.no)) + "\n" +
                     context.getString(R.string.SELinux) + " : " + SplashActivity.selinuxMode + "\n\n\n" +
@@ -129,12 +137,12 @@ class ExportDetails {
                     context.getString(R.string.GPUVersion) + " : " + SplashActivity.gpuVersion + "\n\n\n" +
 
                     context.getString(R.string.battery) + "\n" + seperator +
-                    context.getString(R.string.Health) + " : " + GetDetails.getBatteryHealth(batteryHealth,context) + "\n" +
+                    context.getString(R.string.Health) + " : " + GetDetails.getBatteryHealth(batteryHealth, context) + "\n" +
                     context.getString(R.string.Level) + " : " + batteryLevel + "%" + "\n" +
-                    context.getString(R.string.Status) + " : " + GetDetails.getBatteryStatus(batteryStatus,context) + "\n" +
-                    context.getString(R.string.PowerSource) + " : " + GetDetails.getBatteryPowerSource(batteryPowerSource,context) + "\n" +
+                    context.getString(R.string.Status) + " : " + GetDetails.getBatteryStatus(batteryStatus, context) + "\n" +
+                    context.getString(R.string.PowerSource) + " : " + GetDetails.getBatteryPowerSource(batteryPowerSource, context) + "\n" +
                     context.getString(R.string.Technology) + " : " + batteryTechnology + "\n" +
-                    context.getString(R.string.Temperature) + " : " + batteryTemperature + " \u2103" + "\n" +
+                    context.getString(R.string.Temperature) + " : " + battemp + "\n" +
                     context.getString(R.string.Voltage) + " : " + batteryVoltage + " mV" + "\n" +
                     context.getString(R.string.Capacity) + " : " + SplashActivity.batteryCapacity + " mAh" + "\n\n\n" +
 
@@ -230,7 +238,7 @@ class ExportDetails {
             for (Sensor sensor : deviceSensors) {
                 sensorContent.append(sensor.getName()).append("\n").append(seperatorSmall)
                         .append(context.getString(R.string.vendor)).append(" : ").append(sensor.getVendor()).append("\n")
-                        .append(context.getString(R.string.type)).append(" : ").append(GetDetails.GetSensorType(sensor.getType(),context)).append("\n")
+                        .append(context.getString(R.string.type)).append(" : ").append(GetDetails.GetSensorType(sensor.getType(), context)).append("\n")
                         .append(context.getString(R.string.power)).append(" : ").append(sensor.getPower()).append("mA").append("\n\n");
             }
             content = content + sensorContent.toString();

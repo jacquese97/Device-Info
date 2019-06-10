@@ -4,6 +4,10 @@
         <item>Пользователь</item>
         <item>Система</item>
     </string-array>
+    <string-array name="temp_entries">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+    </string-array>
     <string name="ABIs">Поддерживаемые ABI</string>
     <string name="APILevel">Уровень API</string>
     <string name="AndroidDeviceID">Идентификатор Устройства Android</string>
@@ -74,7 +78,7 @@
     <string name="adaptive">Адаптивный</string>
     <string name="already_purchased">Уже Купили</string>
     <string name="android_version">Версия для Android</string>
-    <string name="app_backup">Резервное копирование приложений</string>
+    <string name="general">Генеральный</string>
     <string name="app_cover_photo">Фото На Обложке</string>
     <string name="app_description">Device Info - это простое и мощное приложение для Android, которое предоставляет полную информацию о вашем мобильном устройстве с расширенными пользовательскими интерфейсами</string>
     <string name="app_info">Информация о приложении</string>
@@ -415,4 +419,5 @@
     <string name="wifi_test_start">Начиная Wi-Fi</string>
     <string name="wifi_test_status">Состояние теста Wi-Fi</string>
     <string name="yes">да</string>
+    <string name="temperature_unit">Единица Измерения Температуры</string>
 </resources>

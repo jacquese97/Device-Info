@@ -215,8 +215,14 @@ public class tabBattery extends Fragment {
                 txtBatteryHealthdis.setText(GetDetails.getBatteryHealth(batteryHealth, context));
                 txtTechnologydis.setText(batteryTechnology);
 
-                String battemp = batteryTemperature + " \u2103";
+                String battemp;
                 String batvol = batteryVoltage + " mV";
+
+                if (MainActivity.isCelsius) {
+                    battemp = batteryTemperature + " \u2103";
+                } else {
+                    battemp = String.format(GetDetails.getLocale(context), "%.1f", GetDetails.toFahrenheit((double) batteryTemperature)) + " \u2109";
+                }
                 txtTemperaturedis.setText(battemp);
                 txtBatteryVoltagedis.setText(batvol);
 

@@ -115,7 +115,7 @@ public class tabApps extends Fragment implements SearchView.OnQueryTextListener 
                     final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                     recyclerInstalledApps.post(() -> {
                         recyclerInstalledApps.setLayoutManager(layoutManager);
-                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context, R.anim.recycler_layout_animation);
+                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context.getApplicationContext(), R.anim.recycler_layout_animation);
 
                         recyclerInstalledApps.setLayoutAnimation(controller);
                         recyclerInstalledApps.scheduleLayoutAnimation();

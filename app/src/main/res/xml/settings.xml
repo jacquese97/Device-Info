@@ -17,15 +17,22 @@
             app:colorChoices="@array/accent_colors"
             app:colorShape="circle" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/app_backup">
+    <PreferenceCategory android:title="@string/general">
+
+        <ListPreference
+            android:icon="@drawable/ic_temperature"
+            android:key="temperature_unit_pref"
+            android:title="@string/temperature_unit"
+            app:defaultValue="@string/celsius"
+            app:entries="@array/temp_entries"
+            app:entryValues="@array/temp_values"
+            app:useSimpleSummaryProvider="true" />
 
         <Preference
             android:icon="@drawable/ic_extract_location"
             android:key="pref_extract_location"
             android:summary="@string/default_extract_path"
             android:title="@string/extract_location" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Export">
 
         <Preference
             android:icon="@drawable/ic_export"

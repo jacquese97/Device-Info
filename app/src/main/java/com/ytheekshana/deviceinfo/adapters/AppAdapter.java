@@ -139,12 +139,13 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> impl
                 return true;
             });
             menu.add(context.getString(R.string.uninstall)).setOnMenuItemClickListener(item -> {
+                int itemPosition = holder.getAdapterPosition();
                 Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
                 intent.setData(Uri.parse("package:" + packageName));
                 context.startActivity(intent);
-                mDataSet.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-                notifyItemRangeChanged(holder.getAdapterPosition(), 1);
+                mDataSet.remove(itemPosition);
+                notifyItemRemoved(itemPosition);
+                notifyItemRangeChanged(itemPosition, 1);
                 return true;
             });
         });

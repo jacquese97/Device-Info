@@ -146,7 +146,7 @@ public class tabCamera extends Fragment {
         try {
             CameraCharacteristics camchar = cameraManager.getCameraCharacteristics(cameraId);
             list.clear();
-            list.add(new CameraInfo(getString(R.string.cameraNoteTitle), getString(R.string.cameraNote)));
+            list.add(new CameraInfo(context.getString(R.string.cameraNoteTitle), context.getString(R.string.cameraNote)));
             for (CameraCharacteristics.Key key : camchar.getKeys()) {
 
                 String featureValue = getCameraFeatureValue(key, camchar);
