@@ -9,7 +9,7 @@ Device Info is a simple and powerful Android application which gives you the com
 
 <p>
     <a href="https://play.google.com/store/apps/details?id=com.ytheekshana.deviceinfo" target="_blank">
-        <img style='width:200px;' src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
+        <img style='width:200px;' src="http://i67.tinypic.com/bjj0hh.png" />
     </a>
 </p>
 
