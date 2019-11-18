@@ -4,14 +4,10 @@ Device Info is a simple and powerful Android application which gives you the com
 <p align="center">
     <img src="screenshots/device_info1.jpg" />
     <img src="screenshots/device_info2.jpg" />
-    <img src="screenshots/device_info3.jpg" />
-</p>
-
-<p>
+    <img src="screenshots/device_info3.jpg" 
     <a href="https://play.google.com/store/apps/details?id=com.ytheekshana.deviceinfo" target="_blank">
         <img style='width:200px;' src="http://i67.tinypic.com/bjj0hh.png" />
-    </a>
-</p>
+   
 
 #### Prerequisites
 - Android Studio 3.4
